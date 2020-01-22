@@ -33,7 +33,7 @@
 import BarComfrim from "../../components/BarComfrim";
 import CardRequest from "../../components/CardRequest/CardRequest";
 import filterhistory from "../../components/filterhistory";
-import btnsearch from "../../components/btnsearch";
+import btnsearch from "../../components/BtnSearch";
 import Month from "../../components/Month";
 import Provider from '../../service/provider'
 const provider = new Provider()
