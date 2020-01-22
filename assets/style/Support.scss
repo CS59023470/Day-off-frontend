@@ -1,0 +1,73 @@
+//-- Flex
+.display_row{
+    display: flex;
+}
+
+.align_center{
+    display: flex;
+    align-items: center;
+}
+
+.content_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centent_left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.centent_right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.centent_between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+//-- Form Model
+.margin_bottom_head{
+    margin-bottom: 20px;
+}
+.margin_bottom_standard{
+    margin-bottom: 15px;
+}
+
+//-- Input
+.height_standard_input{
+    height: 35px;
+}
+
+//-- Button
+.model_btn{
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+}
+
+.model_btn:hover{
+    opacity: 0.8;
+}
+
+.model_btn:disabled,
+.model_btn[disabled]{
+    opacity: 0.8;
+}
+
+//-- Color
+.theme_background_color_blue{
+    background-color: #0f4c81;
+}
+
+//-- Font
+.font_color_white{
+    color: #ffffff;
+}
