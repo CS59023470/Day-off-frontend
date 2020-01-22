@@ -13,7 +13,8 @@
         :handleWindowResize="true"
         @eventClick="handleClick" 
     /> 
-    <PopupDetail v-if="popupDetail"
+    <PopupDetail
+        v-if="popupDetail"
         :datashow="propsToPopup"
     />
   </div>
@@ -48,12 +49,7 @@ export default {
     data(){
         return{
             api:provider,
-            propsToPopup:{
-                title:'',
-                start:'',
-                end: '',
-                
-            },
+            propsToPopup: null,
             calendarPlugins: [
                 dayGridPlugin,
                 timeGridPlugin,
@@ -73,12 +69,11 @@ export default {
     methods:{
         handleClick (event) {
             let array = event.event.id.split('_')
-            this.propsToPopup = this.events[Number(array[1])]
-            console.log("TEST EVENT = ",this.propsToPopup)
-            // this.propsToPopup = this.events
-            // console.log("array",array)
-            this.$store.commit('popup/showPopupDetail')
-
+             if(array[0] !== 'HD'){
+                this.propsToPopup = this.events[Number(array[1])]
+                console.log("TEST EVENT = ",this.propsToPopup)
+                this.$store.commit('popup/showPopupDetail')
+            }
         },
         eventCalendar (){
             let dataevent = provider.getEventCelendar()

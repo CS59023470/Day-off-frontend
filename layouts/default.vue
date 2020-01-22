@@ -3,7 +3,6 @@
         <div id="layout_navbar">
             <Navbar 
               @controMenu="controMenu"
-              @click="show"
             />
         </div>
         <div id="layout_content">

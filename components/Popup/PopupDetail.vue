@@ -91,7 +91,7 @@
 import moment from "moment";
 export default {
   // props: ["startDate","endDate","nameuser","typeuser","textDetail","startTime","endTime","type","nameApprove","email"],
-  //props:['datashow'],
+  props:['datashow'],
   methods: {
     clickBackground(){
        this.$store.commit('popup/closePopupDetail')
