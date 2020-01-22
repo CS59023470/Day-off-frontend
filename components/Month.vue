@@ -8,7 +8,6 @@
                     </div>
                 </div>
                 
-                
                 <div style= "height: auto">
                     <div class="BoxCard">
                         

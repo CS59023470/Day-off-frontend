@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 export const state = {
+    statusLoadData: true,
     loading: true,
     configDay: null,
     userdayleft: null,
@@ -9,23 +10,22 @@ export const state = {
 }
 
 export const mutations = {
+    setStatusLoadData (state, payload) {
+        state.statusLoadData = payload
+    },
     setloader (state, payload) {
         state.loading = payload
     },
     setConfigDay (state, payload){
-        //console.log("setConfigDay => ",payload)
         state.configDay = payload
     },
     setUserdayleft (state, payload) {
-        //console.log("setUserdayleft => ",payload)
         state.userdayleft = payload
     },
     setWeekend (state, payload) {
-        //console.log("setWeekend => ",payload)
         state.week_end = payload
     },
     setDayoff (state, payload) {
-        //console.log("setDayoff => ",payload)
         state.day_off = payload
     },
 }

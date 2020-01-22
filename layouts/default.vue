@@ -179,4 +179,19 @@ html {
   border-radius: 30px;
 }
 
+.fc-unthemed td.fc-today {
+  background-color: rgba(85, 172, 238, 0.2) !important;
+}
+
+.fc-day-grid-event .fc-time {
+  display: none;
+}
+
+.fc .fc-row .fc-content-skeleton table,
+.fc .fc-row .fc-content-skeleton td,
+.fc .fc-row .fc-mirror-skeleton td {
+  background: none;
+  border-color: transparent;
+  font-size: 12px;
+}
 </style>

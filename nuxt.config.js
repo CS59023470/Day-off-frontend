@@ -33,7 +33,6 @@ export default {
   */
   plugins: [
     '~plugins/firebase.js',
-    '~plugins/Vmodal.js',
     { src: '~/plugins/v-calendar', ssr: false },
     {src: '~/plugins/full-calendar', ssr: false}
   ],
