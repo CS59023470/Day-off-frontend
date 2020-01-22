@@ -24,8 +24,8 @@
                             <CardHistory />
                         </div> 
                     </div> 
+                </div>
             </div>
-        </div>
         </fieldset>
     </div>
 </template>

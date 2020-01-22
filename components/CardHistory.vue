@@ -134,10 +134,15 @@ export default {
       .more {
         display: flex;
         justify-content: center;
-        .material-icons {
-          background-color: transparent;
+        button {
+          background-color: white;
           border: none;
+          i{
+            background-color: transparent;
+            border: none;
+          }
         }
+        
       }
     }
     ////////////// Style Card Intern //////////////////
@@ -179,6 +184,14 @@ export default {
       .more {
         display: flex;
         justify-content: center;
+        button {
+          background-color: white;
+          border: none;
+          i{
+            background-color: transparent;
+            border: none;
+          }
+        }
       }
     }
   }

@@ -1,14 +1,14 @@
 <template>
     <div id="popup" class="confrim-wrapper">
-        <div class="background-popup"  ></div>
+        <div class="background-popup" ></div>
         <div class="layout-popup">
             <div class="content-card">
                 <div class="content-text">
                     <div class="text">Are you sure to Sign Out?</div>
                 </div>
                 <div class="content-button">
-                    <button class="cancel" @click="clickBackground">Cancel</button>
-                    <button class="logout" @click="onLogout">Sing out</button>
+                    <button class="cancel" @click="clickBackground" >Cancel</button>
+                    <button class="logout" @click="onLogout">Sign out</button>
                 </div>
             </div>
         </div>

@@ -1,7 +1,10 @@
 <template>
   <div id="layout_page">
         <div id="layout_navbar">
-            <Navbar @controMenu="controMenu"/>
+            <Navbar 
+              @controMenu="controMenu"
+              @click="show"
+            />
         </div>
         <div id="layout_content">
             <nuxt/>
@@ -9,25 +12,58 @@
               <Menu @close="closeMenu"/>
             </div>
         </div>
+        <Popuplogout v-if="popupLogout"/>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Navbar from "../components/Navbar";
 import Menu from "../components/Menu";
+import Popuplogout from "../components/Popup/Popuplogout"
 export default {
     components: {
         Navbar,
-        Menu
+        Menu,
+        Popuplogout
     },
+     computed:{
+        ...mapState({
+            popupLogout: state => state.popup.popup_logout,
+        }),
+      },
     mounted(){
-      let path = this.$route.name.split('-')      
-      this.$store.commit('pathDefult/setPath','/'+path[0]+'/')
-      let model = {
-        mainPath : path[0],
-        subPath : path[1]
+      let path = this.$route.name.split('-')
+      let userLogin = JSON.parse(localStorage.getItem('userprofile'))
+      if(userLogin.statusUser === 'super_admin'){
+        if(path[0] !== 'superadmin'){
+          this.checkStatusUserLogin()
+        }else{
+            this.updateStorePath(path)
+          }
+      }else if(userLogin.statusUser === 'admin'){
+        if(path[0] !== 'admin'){
+          this.checkStatusUserLogin()
+        }else{
+            this.updateStorePath(path)
+          }
+      }else if(userLogin.statusUser === 'employee'){
+        if(userLogin.statusWorking === 'internship'){
+          if(path[0] !== 'intern'){
+            this.checkStatusUserLogin()
+          }else{
+            this.updateStorePath(path)
+          }
+        }else{
+          if(path[0] !== 'employee'){
+            this.checkStatusUserLogin()
+          }else{
+            this.updateStorePath(path)
+          }
+        }
+      }else{
+        this.checkStatusUserLogin()
       }
-      this.$store.commit('menu/setStatusSelectByLoadURL',model)
     },
     data(){
       return{
@@ -36,19 +72,33 @@ export default {
       }
     },
     methods:{
-      controMenu(){
-            if(this.statusClickMenu === false){
-              this.statusClickMenu = true
-            }
-            if(this.statusShow === true){
-                this.statusShow = false
-            }else{
-                this.statusShow = true
-            }
-        },
-        closeMenu(event){
-          this.statusShow = false
+      checkStatusUserLogin(){
+        document.getElementById('layout_page').hidden = true
+        localStorage.setItem('userprofile',null)
+        alert("ไม่มีสิทธิเข้าถึง")
+        window.location.href = '/'
+      },
+      updateStorePath(path){
+        this.$store.commit('pathDefult/setPath','/'+path[0]+'/')
+        let model = {
+          mainPath : path[0],
+          subPath : path[1]
         }
+        this.$store.commit('menu/setStatusSelectByLoadURL',model)
+      },
+      controMenu(){
+          if(this.statusClickMenu === false){
+            this.statusClickMenu = true
+          }
+          if(this.statusShow === true){
+              this.statusShow = false
+          }else{
+              this.statusShow = true
+          }
+      },
+      closeMenu(event){
+        this.statusShow = false
+      }
     }
 }
 </script>

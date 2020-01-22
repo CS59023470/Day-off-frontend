@@ -10,17 +10,17 @@
                 <i class="material-icons">input</i>
             </button>
         </div>
-        <!-- <Popuplogout v-if="popupLogout"/> -->
+        
     </div>
 </template>
 
 <script>
-import Popuplogout from "../components/Popup/Popuplogout"
-import { mapState } from 'vuex'
+
+
 
 export default {    
     components:{
-        Popuplogout
+        
     },
     methods:{
         controMenu(){
@@ -30,13 +30,7 @@ export default {
            this.$store.commit('popup/showPopuplogout')
         }
     },
-      computed:{
-        ...mapState({
-            popupLogout: state => state.popup.popup_logout,
-            keyColor: state => state.calendar.keyColorCalendar,
-            events: state => state.calendar.list_event_all
-        }),
-      }
+     
 
 }
 </script>

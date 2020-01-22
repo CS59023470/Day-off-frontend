@@ -2,13 +2,6 @@
 <div class="form-request-wrapper">
     <div class="content_form">
         <div v-bind:class="{ customContent: statusShow, box_content: !statusShow }">
-          <div class="box-menu">
-          <BarComfrim
-            textmenuleft="พนักงาน"
-            textmenuright="ฝึกงาน"
-            @eventClick="eventClick"
-          />
-        </div>
       </div>
        <div class="search">
         <btnsearch />
