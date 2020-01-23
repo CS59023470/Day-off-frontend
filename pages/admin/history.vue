@@ -25,17 +25,26 @@
             @eventClick="eventClick"
         />
         <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
-             <Month 
-                :listMonth="data_prop_month"
-                :showmonth="typeLeave"
-                :year ="yearAtSelect"
-                :status="data_prop_month.statusUser"
-                page="history"
-            />
+            <div v-for="(loop, idx) in loopmount" :key="idx">
+                <Month
+                    :showmonth="loop"
+                    :year="yearAtSelect"
+                    :statusUser="data_prop_month.statusUser"
+                    :indexmonth="idx"
+                    page="history"
+                    @popupDetail="showPopupDetail"
+                />
+            </div>
         </div>
+        <PopupDetail
+            v-if="popupDetail"
+            :datashow="propsToPopup"
+        />
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+import PopupDetail from "../../components/Popup/PopupDetail"
 import CardHeaderInHistory from "../../components/CardHeaderInHistory";
 import BarComfrim from "../../components/BarComfrim";
 import Month from "../../components/Month";
@@ -46,6 +55,7 @@ export default {
         CardHeaderInHistory,
         Month,
         BarComfrim,
+        PopupDetail
     },
     data() {
         return{
@@ -62,6 +72,11 @@ export default {
                 sizeSick: 0,
                 sizeVacation: 0
             },
+
+
+            loopmount: [],
+            indexselect: null,
+            propsToPopup:null
         }
     },
     mounted(){
@@ -76,8 +91,8 @@ export default {
             let result = this.api.getHistoryLeaveByUserId(dataLogin.userId)
             result.then(re => {
                 this.dataHistory = re
-                console.log(re)
-                if(dataLogin.user.statusWorking === 'internship'){
+                //console.log("dataHistory",re)
+                if(dataLogin.statusWorking === 'internship'){
                     this.data_prop_month.statusUser = false
                 }else{
                     this.data_prop_month.statusUser = true
@@ -85,8 +100,9 @@ export default {
             })
         },
         selectDropdownYear(){
-            this.dataHistory.forEach(myHistory => {  
+            this.dataHistory.forEach((myHistory,i) => {  
                 if(this.yearAtSelect == myHistory.year) {
+                    this.indexselect = i
                     this.totalDataLaveShow.sizePersonal = myHistory.totalPersonalLeave
                     this.totalDataLaveShow.sizeSick = myHistory.totalSickLeave
                     this.totalDataLaveShow.sizeVacation = myHistory.totalVacation
@@ -95,18 +111,44 @@ export default {
             })
         },
         eventClick(event){
-            this.dataHistory.forEach(myHistory => { 
-                if (event === "personal"){
-                    this.typeLeave = myHistory.listLeaveFullYear.listPersonalLeave
-                }else if(event === "sick"){
-                    this.typeLeave = myHistory.listLeaveFullYear.listSickLeave
-                }else{
-                    this.typeLeave = myHistory.listLeaveFullYear.listVacationLeave
-                }
+            if (event === "personal"){
+                this.loopmount = this.dataHistory[this.indexselect].listLeaveFullYear.listPersonalLeave
+                //this.typeLeave = myHistory.listLeaveFullYear.listPersonalLeave
+            }else if(event === "sick"){
+                //this.typeLeave = myHistory.listLeaveFullYear.listSickLeave
+                 this.loopmount = this.dataHistory[this.indexselect].listLeaveFullYear.listSickLeave
+            }else{
+                //this.typeLeave = myHistory.listLeaveFullYear.listVacationLeave
+                 this.loopmount = this.dataHistory[this.indexselect].listLeaveFullYear.listVacationLeave
             }
-        )}
+        },
+        showPopupDetail(data){
+            let data_DB = this.loopmount[data.indexmonth].listLeave[data.indexcard]
+            let model = {
+                    userName: null,
+                    startDate: data_DB.startdate,
+                    startTime: data_DB.starttime,
+                    endDate: data_DB.enddate,
+                    endTime: data_DB.endtime,
+                    type:data_DB.type,
+                    detail: data_DB.detailleave,
+                    email: null,
+                    admin_approve: '',
+                    statusUser: this.data_prop_month.statusUser
+                }
+                if(data_DB.type === 'ลาป่วย'){
+                    model.admin_approve = 'System'
+                }else{
+                    model.admin_approve = data_DB.admin_approve.name
+                }
+            this.propsToPopup =model
+            this.$store.commit('popup/showPopupDetail')
+        }
     },
     computed:{
+         ...mapState({
+            popupDetail: state => state.popup.popup_detail
+        }),
         craeteListYear() {
             let listYear = []
             this.dataHistory.forEach(myHistory => {  
@@ -144,6 +186,7 @@ export default {
 
         }
         .HistoryOfMonth {
+            background-color: #f0f0f0;
            height: auto;
         }
     }

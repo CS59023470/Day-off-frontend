@@ -180,7 +180,7 @@ html {
 }
 
 .fc-unthemed td.fc-today {
-  background-color: rgba(85, 172, 238, 0.2) !important;
+  background-color: rgba(85, 172, 238, 0.2);
 }
 
 .fc-day-grid-event .fc-time {

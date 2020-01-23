@@ -1,51 +1,55 @@
 <template>
-   <div id="popup" class="confrim-wrapper">
-    <div class="background-popup"></div>
+   <div id="popup" class="confrim-wrapper content_center">
+    <div class="background-popup" @click="clickBackground"></div>
     <div class="layout-popup">
       <div class="typeuser">
-        <div class="user">
+        <div v-if="datashow.statusUser" class="content_center user box-employee">
           Employee
         </div>
+        <div v-else class="content_center user box-intern">
+          Intern
+        </div>
         <div class="content-icon">
-          <button  @click="clickBackground">
+          <button class="content_center"  @click="clickBackground">
              <i class="material-icons">close</i>
           </button>
         </div>
       </div>
-      <div class="content">
+      <div v-if="datashow.userName !== null" class="content">
         <div class="haedarname">Name</div>
-        <div class="subname">
-          <!-- {{datashow.title}} -->
+        <div :class="`subname ${classColor}`">
+          {{datashow.userName}}
         </div>      
       </div>
       <!-- วันเดียว -->
-      <div class="content-time ">
+      <div v-if="datashow.startDate == datashow.endDate" class="content-time">
         <div class="start">
           <div class="haedarname">
             Requested Data
           </div>
-          <div class="subname">
-            วันที่
+          <div :class="`subname ${classColor}`">
+            {{datashow.startDate}}
           </div>
         </div>
         <div class="time">
           <div class="haedarname">Time Period</div>
-          <div class="subname">ช่วงเวลา</div>
+          <div :class="`subname ${classColor}`">{{datashow.startTime}}</div>
         </div>
       </div>
       <!-- หลายวัน -->
-      <div class="content-time">
+      <div v-else>
+        <div class="content-time" >
         <div class="start">
           <div class="haedarname">
             Absent Since
           </div>
-          <div class="subname">
-            <!-- {{datashow.start}} -->
+          <div :class="`subname ${classColor}`">
+            {{datashow.startDate}}
           </div>
         </div>
         <div class="time">
           <div class="haedarname">Time Period</div>
-          <div class="subname">ช่วงเวลา</div>
+          <div :class="`subname ${classColor}`">{{datashow.startTime}}</div>
         </div>
       </div>
       <div class="content-time">
@@ -53,60 +57,62 @@
           <div class="haedarname">
             To
           </div>
-          <div class="subname">
-            วันที่
+          <div :class="`subname ${classColor}`">
+            {{datashow.endDate}}
           </div>
         </div>
         <div class="time">
           <div class="haedarname">Time Period</div>
-          <div class="subname">ช่วงเวลา</div>
+          <div :class="`subname ${classColor}`">{{datashow.endTime}}</div>
         </div>
       </div>
+      </div>
+      
       <div class="content">
         <div class="haedarname">
           Type of Leave
         </div>
-        <div class="subname">
-          type leave
+        <div :class="`subname ${classColor}`">
+          {{datashow.type}}
         </div>
       </div>
       <div class="content">
         <div class="haedarname">Description</div>
-        <div class="subname">ไปแอ่ว</div>
+        <div :class="`subname box-detail ${classColor}`">{{datashow.detail}}</div>
       </div>
-      <div class="content">
+      <div v-if="datashow.email !== null" class="content">
         <div class="haedarname">E-mail</div>
-        <div class="subname">kan23491@gmail.com</div>
+        <div :class="`subname ${classColor}`">{{datashow.email}}</div>
       </div>
       <!-- approval -->
-      <div class="content">
+      <div v-if="datashow.admin_approve !== null" class="content">
         <div class="haedarname">Approval</div>
-        <div class="subname">พี่มิ้น</div>
+        <div :class="`subname ${classColor}`">{{datashow.admin_approve}}</div>
       </div>
-
     </div>
   </div>
 </template>
 <script>
-import moment from "moment";
 export default {
-  // props: ["startDate","endDate","nameuser","typeuser","textDetail","startTime","endTime","type","nameApprove","email"],
   props:['datashow'],
+  data(){
+    return{
+      classColor: ''
+    }
+  },
+  mounted(){
+    if(this.$props.datashow.statusUser){
+      this.classColor = 'color_fulltime'
+    }else{
+      this.classColor = 'color_intern'
+    }
+  },
   methods: {
     clickBackground(){
        this.$store.commit('popup/closePopupDetail')
-    },
-    setFormatDate(date) {
-      return moment(date).format("L");
-    },
-    setFormatTime(time){
-      return moment(time).format('LTS');
     }
   },
-  mounted() {
-    // console.log(this.$props.datashow);
-  }
-};
+}
 </script>
 <style lang="scss" scoped>
   .confrim-wrapper{
@@ -115,9 +121,6 @@ export default {
   position: fixed;
   top: 0px;
   left: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   
   .background-popup{
     z-index: 500;
@@ -128,9 +131,8 @@ export default {
     top: 0px;
     left: 0px;
   }
-
   .layout-popup{
-    width:  auto;
+    width: 300px;
     min-height: 10%;
     max-height: fit-content;
     background-color: #fff;
@@ -142,25 +144,24 @@ export default {
       height: 100%;
       display: flex;
       justify-content: space-between;
+      margin-bottom: 10px;
       .user{
-        border-radius: 5px;
-        background-color:#0F4C81;
-        color: white;
-        padding: 5PX;
+        padding: 1px 20px;
+        border-radius: 10px;
       }
       .content-icon{
         button{
+          width: 30px;
+          height: 30px;
           border: 1px solid black;
           border-radius: 50px;
           background-color: #858585;
           border: none;
           padding: 3px;
-          
         }
         i{
-          font-size: 15px;
+          font-size: 24px;
           color: white;
-          margin: 3px;
         }
       }
     }
@@ -181,16 +182,36 @@ export default {
     .haedarname{
       font-size: 12px;
       color: #ABABAB;
-      padding: 5px;
     }
     .subname{
-      font-size: 20px;
-      color: #0F4C81;
+      font-size: 16px;
+    }
+    .box-detail{
+      height: fit-content;
+      max-height: 100px;
+      overflow: auto;
     }
    
   }
 }
-
+.color_fulltime{
+  color: #0F4C81;
+}
+.color_intern{
+  color: #000;
+}
+.box-employee{
+  background-color:#0F4C81;
+  color:#fff;
+}
+.box-intern{
+  background-color: transparent;
+  border: 1px solid #000;
+  color: #000;
+}
+/*
+  
+*/
 #popup{
     animation-name: animationPopup;
     animation-duration: 0.5s;

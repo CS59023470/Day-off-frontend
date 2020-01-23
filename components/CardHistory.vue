@@ -1,74 +1,57 @@
 <template>
   <div class="Wrap-Content">
-    <div class="Container"  v-for="(dataYear, idx) in DetalCard" :key="idx">
-
-
-      <div class="BoxcontentFulltime" v-if="status = true">
+    <div class="Container">
+      <div class="BoxcontentFulltime" v-if="status === true">
         <div class="HeadBox">
           <div class="UserType">
-            พนักงาน
+            Employee
           </div>
           <div class="LogoType"></div>
         </div>
-        <div class="Name">{{ dataYear.startdate }} - {{ dataYear.enddate }}</div>
+        <div class="Name">{{ detailCard.startdate }} - {{ detailCard.enddate }}</div>
         <div class="ScoreLeaves">
           <div class="WorkLeave">
-            {{ dataYear.detailleave }}
+            {{ detailCard.detailleave }}
           </div>
         </div>
         <div class="more">
-          <button @click="show">
+          <button @click="showCardDetail">
             <i class="material-icons">more_horiz</i>
           </button>
         </div>
       </div>
-      
-
-      <div class="BoxcontentIntern" v-else>
+      <div class="BoxcontentIntern" v-if="status === false">
         <div class="UserType">
-          ฝึกงาน
+          intern
         </div>
-        <div class="Name">{{ dataYear.startdate }} - {{ dataYear.enddate }}</div>
+        <div class="Name">{{ detailCard.startdate }} - {{ detailCard.enddate }}</div>
         <div class="ScoreLeaves">
           <div class="WorkLeave">
-            {{ dataYear.detailleave }}
+            {{ detailCard.detailleave }}
           </div>
         </div>
         <div class="more">
-          <button @click="show">
+          <button @click="showCardDetail">
             <i class="material-icons">more_horiz</i>
           </button>
         </div>
       </div>
     </div>
-    <PopupDetail
-      v-if="popupDetail"
-    />
+   
   </div>
 </template>
 
 <script>
-import PopupDetail from '../components/Popup/PopupDetail'
-import { mapState } from 'vuex'
 export default {
-  props:["DetalCard","status"],
-   components: {
-        PopupDetail,
-    },
-  data() {
-    return {
-    }
+  props:["detailCard","status","indexcard"],
+  mounted(){
+    console.log("DetialCard",this.$props.status)
   },
   methods:{
-      show(){
-        this.$store.commit('popup/showPopupDetail')
+      showCardDetail(){
+          this.$emit('eventShowDetail',this.$props.indexcard)
       }
   },
-   computed: {
-        ...mapState({
-          popupDetail: state => state.popup.popup_detail,
-        })
-    },
 }
 </script>
 
@@ -76,7 +59,7 @@ export default {
 .Wrap-Content {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: 325px;
   .Container {
     margin: 15px;
     width: 325px;
@@ -129,6 +112,10 @@ export default {
         justify-content: center;
         .WorkLeave {
           color: #0f4c81;
+          text-align: center;
+          width: 90%;
+          overflow: hidden;
+          white-space: nowrap;
         }
       }
       .more {
@@ -173,12 +160,16 @@ export default {
       }
       .ScoreLeaves {
         display: flex;
-        margin-left: 5%;
         width: 100%;
+        // margin-left: 5%;
         height: auto;
         justify-content: center;
         .WorkLeave {
           color: black;
+          text-align: center;
+          width: 90%;
+          overflow: hidden;
+          white-space: nowrap;
         }
       }
       .more {

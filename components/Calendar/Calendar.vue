@@ -13,10 +13,10 @@
         :handleWindowResize="true"
         @eventClick="handleClick" 
     /> 
-    <PopupDetail
+    <!-- <PopupDetail
         v-if="popupDetail"
         :datashow="propsToPopup"
-    />
+    /> -->
   </div>
 </template>
 <script>
@@ -26,7 +26,7 @@ require('@fullcalendar/daygrid/main.css')
 require('@fullcalendar/timegrid/main.css')
 
 import { mapState } from 'vuex'
-import PopupDetail from "../Popup/PopupDetail"
+//import PopupDetail from "../Popup/PopupDetail"
 import Fullcalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -43,13 +43,13 @@ export default {
     props:['contro'],
     components:{
         Fullcalendar,
-        PopupDetail,
+        //PopupDetail,
         LoadingPage
     },
     data(){
         return{
             api:provider,
-            propsToPopup: null,
+            //propsToPopup: null,
             calendarPlugins: [
                 dayGridPlugin,
                 timeGridPlugin,
@@ -70,9 +70,10 @@ export default {
         handleClick (event) {
             let array = event.event.id.split('_')
              if(array[0] !== 'HD'){
-                this.propsToPopup = this.events[Number(array[1])]
-                console.log("TEST EVENT = ",this.propsToPopup)
-                this.$store.commit('popup/showPopupDetail')
+                 this.$emit('showPopupDetail',this.events[Number(array[1])])
+                //this.propsToPopup = this.events[Number(array[1])]
+                //console.log("TEST EVENT = ",this.propsToPopup)
+                //this.$store.commit('popup/showPopupDetail')
             }
         },
         eventCalendar (){
@@ -95,7 +96,7 @@ export default {
     },
     computed:{
         ...mapState({
-            popupDetail: state => state.popup.popup_detail,
+            //popupDetail: state => state.popup.popup_detail,
             keyColor: state => state.calendar.keyColorCalendar,
             events: state => state.calendar.list_event_all
         }),

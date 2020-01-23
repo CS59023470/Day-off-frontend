@@ -31,7 +31,7 @@
                 {{datashow.detail}}
             </div>
             <div class="box-icon-popup content_center">
-                <button type="button">
+                <button type="button" @click="showCardDetail">
                     <i class="material-icons">more_horiz</i>
                 </button>
             </div>
@@ -73,6 +73,9 @@ export default {
             }
             this.$emit('clickBtnCard',model)
         },
+        showCardDetail(){
+            this.$emit('eventShowDetail',this.$props.indexData)
+        }
     }
 }
 </script>

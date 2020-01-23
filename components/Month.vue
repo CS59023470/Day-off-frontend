@@ -1,39 +1,41 @@
 <template>
     <div>
         <fieldset>
-            <div class="LineMonth" v-for="(dataYear, idx) in showmonth" :key="idx">
+            <div class="LineMonth">
                 <div style= "height: auto; width: 100%">
                     <div class="ColorLineMonth" style="position: absolute,height: 100px">
-                        <legend>{{dataYear.nameMonth}} {{year}}</legend>
+                        <legend>{{showmonth.nameMonth}} {{year}}</legend>
                     </div>
                 </div>
                 
-                <div style= "height: auto">
-                    <div class="BoxCard">
-                        
-                        <div style= "height: auto,widgt: 500px" v-if="page === 'history'">
+                <div style= "height: auto, display:flex">
+                    <div class="BoxCard" v-if="page === 'history'">
+                         <div class="Card"  v-for="(leave, idx) in showmonth.listLeave" :key="idx">
                             <CardHistory
-                            :DetalCard="dataYear.listLeave" 
-                            :status='status'/>
-                        </div> 
-                        <div @click="topathHistory" v-else>
+                            :detailCard="leave" 
+                            :status="statusUser"
+                            :indexcard="idx"
+                            @eventShowDetail="clickPopup"
+                            />
+                        </div>
+                    </div> 
+                    <div class="BoxCard" @click="topathHistory" v-else>
+                        <div  class="Card"  v-for="(leave, idx) in showmonth.listLeave" :key="idx">
                             <CardInAdminHistory />
                         </div>
-                        <div >
-                            <CardHistory />
-                        </div> 
-                    </div> 
+                    </div>
                 </div>
             </div>
         </fieldset>
     </div>
 </template>
 <script>
+
 import CardHistory from "../components/CardHistory";
 import CardInAdminHistory from "../components/CardInAdminHistory";
 import { mapState } from 'vuex'
 export default {
-    props:['listMonth','showmonth','year','page','status'],
+    props:["showmonth","year","page", "statusUser","indexmonth"],
     components: {
         CardHistory,
         CardInAdminHistory,
@@ -44,20 +46,29 @@ export default {
             path:'',
             month : [],
             nowDate : new Date(),
-
         }
     },
     mounted(){
-        console.log("TEST MONTH => ",this.$props.page)
+        console.log("test=> ",this.$props.statesUser)
         this.path = this.$route.name
     },
     methods:{
         topathHistory(){
             this.$router.push(this.pathDefult+'history')
+        },
+        clickPopup(indexcard){
+            let model ={
+                indexcard:indexcard,
+                indexmonth:this.$props.indexmonth
+            }
+             this.$emit('popupDetail',model)
         }
     },
     computed:{
-        ...mapState({pathDefult: state => state.pathDefult.path,}),
+        ...mapState({
+            pathDefult: state => state.pathDefult.path,
+            popupDetail: state => state.popup.popup_detail,
+        }),
         MonthNow(){
             return this.month[this.nowDate.getMonth()]
         },
@@ -74,6 +85,7 @@ export default {
         border-left: 0px;
         border-right: 0px;
         color:$colorlinemonth;
+        border: none;
         .LineMonth {
             width: 100%;
             height: auto;
@@ -100,13 +112,15 @@ export default {
 
     .BoxCard {
         padding: 20px 3% 20px 3%;
-        width: 100%;
         height: auto;
+        background-color:transparent;
+        width: fit-content;
         display: flex;
         flex-wrap: wrap;
-        background-color:transparent;
-        a {
-            text-decoration: none;
+        .Card {
+            height: auto; 
+            width: 325px; 
+            display:flex;
         }
     }
 </style>

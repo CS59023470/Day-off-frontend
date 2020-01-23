@@ -1,6 +1,6 @@
 <template>
 <div class="box-content" >
-    <div v-for="(Show, idx) in ListCard" :key="idx">
+    <div>
         <div class="container" v-if="Show.status === 'พนักงาน'" >
             <div class="boxcontentfulltime" >
                 <div class="headbox">

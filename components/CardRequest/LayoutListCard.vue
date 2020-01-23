@@ -28,6 +28,7 @@
                     :datashow="list.datashow"
                     :indexData="index"
                     @clickBtnCard="clickBtnCard"
+                    @eventShowDetail="clickShowDetail"
                 />
             </div>
         </div>
@@ -90,6 +91,9 @@ export default {
         }
     },
     methods:{
+        clickShowDetail(index){
+            this.$emit('showPopupDetail',this.$props.listCardRequest[Number(index)])
+        },
         clickBtnCard(data){
             this.propsConfirm.title_popup_confirm = data.title_popup_confirm
             this.propsConfirm.color_popup = data.status_select

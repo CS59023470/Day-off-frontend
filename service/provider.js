@@ -178,10 +178,10 @@ class Provider extends HttpRequest {
             }else{
                 switch(request.data.description){
                     case 'not_found' : 
-                        dataReturn.text = 'Can not approve because Admin or Super admin has been rejected!'
+                        dataReturn.text = 'Can not approve because other Admin or Super admin has been rejected!'
                         break;
                     case 'approved' : 
-                        dataReturn.text = 'Can not approve because Admin or Super admin has been approved!'
+                        dataReturn.text = 'Can not approve because other Admin or Super admin has been approved!'
                         break;
                     case 'system_error' : 
                         dataReturn.text = 'System error please try agian!'
@@ -213,7 +213,7 @@ class Provider extends HttpRequest {
                         dataReturn.text = 'Can not reject because Data not found!'
                         break;
                     case 'approved' : 
-                        dataReturn.text = 'Can not reject because Admin or Super admin has been approved!'
+                        dataReturn.text = 'Can not reject because other Admin or Super admin has been approved!'
                         break;
                     case 'system_error' : 
                         dataReturn.text = 'System error please try agian!'

@@ -28,8 +28,11 @@
         :nameuser="propsToPopup.nameuser"
       />
     </modal> -->
-   
-  </div>
+    <PopupDetail 
+        v-if="popupDetail" 
+        :nameuser="datashow"
+    />
+</div>
 </template>
 <script>
 
