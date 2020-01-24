@@ -3,16 +3,36 @@
         <div class="Box">
             <div class="StartDate">
                 <div class="TextStart"> ตั้งแต่ </div>
-                <input type="date" class="unstyled"/>
+                <input type="date" v-model="startdate" v-on:change="inputStartDate()" class="unstyled"/>
                 
             </div>
             <div class="EndDate">
                 <div class="TextEnd"> ถึง </div>
-                <input type="date" class="unstyled">
+                <input type="date" v-model="enddate" v-on:change="inputEndDate()" class="unstyled">
             </div>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      startdate: "",
+      enddate: ""
+    };
+  },
+  mounted() {},
+  methods: {
+    inputStartDate() {
+      this.$emit("startdate", this.startdate);
+    },
+    inputEndDate() {
+      this.$emit("enddate", this.enddate);
+    },
+  }
+};
+</script>
 
 <style lang="scss" scoped>
     .Box {

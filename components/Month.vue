@@ -3,8 +3,11 @@
         <fieldset>
             <div class="LineMonth">
                 <div style= "height: auto; width: 100%">
-                    <div class="ColorLineMonth" style="position: absolute,height: 100px">
+                    <div v-if="page === 'history'" class="ColorLineMonth" style="position: absolute,height: 100px">
                         <legend>{{showmonth.nameMonth}} {{year}}</legend>
+                    </div>
+                    <div v-else class="ColorLineMonth" style="position: absolute,height: 100px">
+                        <legend>{{datamonth}}</legend>
                     </div>
                 </div>
                 
@@ -19,9 +22,11 @@
                             />
                         </div>
                     </div> 
-                    <div class="BoxCard" @click="topathHistory" v-else>
-                        <div  class="Card"  v-for="(leave, idx) in showmonth.listLeave" :key="idx">
-                            <CardInAdminHistory />
+                    <div class="BoxCard" @click="topathHistory" v-if="page === 'searchhistory'">
+                        <div class="Card" v-for="(datacard, idx) in detailCard" :key="idx">
+                            <CardInAdminHistory 
+                            :listDataCard="datacard"
+                            />
                         </div>
                     </div>
                 </div>
@@ -35,7 +40,7 @@ import CardHistory from "../components/CardHistory";
 import CardInAdminHistory from "../components/CardInAdminHistory";
 import { mapState } from 'vuex'
 export default {
-    props:["showmonth","year","page", "statusUser","indexmonth"],
+    props:["showmonth","year","page", "statusUser","indexmonth","datamonth","cardSearch","detailCard"],
     components: {
         CardHistory,
         CardInAdminHistory,
@@ -49,7 +54,7 @@ export default {
         }
     },
     mounted(){
-        console.log("test=> ",this.$props.statesUser)
+        // console.log("test=> ", this.dataCard)
         this.path = this.$route.name
     },
     methods:{

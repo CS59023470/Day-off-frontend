@@ -20,6 +20,16 @@ class Provider extends HttpRequest {
     }
 
     //OK
+    //Query all user
+    async getAllUser() {
+        return await this.get('/queryUsers').then(request => {
+            return request.data
+        }).catch(err => {
+            return null
+        })
+    }
+
+    //OK
     //Add Leave Request 
     async addFormLeaveRequest(opj_form) {
         let dataReturn = {
@@ -29,15 +39,15 @@ class Provider extends HttpRequest {
         return await this.create('/addLeaveRequest',opj_form).then(request => {
             if(request.data === true){
                 dataReturn.status = true
-                dataReturn.text = 'ดำเนินการสำเร็จ'
+                dataReturn.text = 'Sent Request Successfully'
                 return dataReturn
             }else{
-                dataReturn.text = 'Server เกิดข้อผิดพลาด'
+                dataReturn.text = 'System error please try agian!'
                 return dataReturn
             }
         }).catch((err)=>{
             dataReturn.status = null
-            dataReturn.text = 'การเชื่อมต่อผิดพลาด'
+            dataReturn.text = 'Connection error'
             return dataReturn
         })
     }
@@ -131,7 +141,19 @@ class Provider extends HttpRequest {
     //Query Config Day
     async getConfigDay() {
         return await this.get('/configday').then(request => {
-            //console.log("YES => ",request.data);
+            // console.log("YES => ",request.data);
+            return request.data
+        }).catch((err)=>{
+            //console.log("No => ",err);
+            return null
+        })
+    }
+
+    
+    //historyall
+    async historyall(data) {
+        return await this.create('/historyall',data).then(request => {
+            // console.log("YES => ",request.data);
             return request.data
         }).catch((err)=>{
             //console.log("No => ",err);

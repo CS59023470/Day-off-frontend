@@ -59,7 +59,8 @@ export default {
   }
 
   .layout-popup{
-    width:  300px;
+    max-width: 30%;
+    width:  fit-content;
     min-height: 10%;
     max-height: fit-content;
     background-color: #fff;

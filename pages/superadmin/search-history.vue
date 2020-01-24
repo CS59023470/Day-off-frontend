@@ -15,7 +15,10 @@
         :listMonth="null"
         :showmonth="null"
         :year ="null"
-        page="search"/>
+        :datamonth ="search.textmonthnow"
+        :detailCard="showCard"
+        page="searchhistory"/>
+        
       </div>
 
     </div>
@@ -29,6 +32,7 @@ import filterhistory from "../../components/filterhistory";
 import btnsearch from "../../components/BtnSearch";
 import Month from "../../components/Month";
 import Provider from '../../service/provider'
+import moment from 'moment'
 const provider = new Provider()
 
 export default {    
@@ -43,12 +47,10 @@ export default {
         return{
             statusLoad : true,
             statusShow: false,
-            search: {
-                userid:'',
-                startdate:'2020-01-01',
-                enddate:'2020-01-20'
-            },
+            search: {},
             api : provider,
+            showCard : []
+            
             // statusLeave : 0,
             // listdata : {},
             // cardSelect : {},
@@ -57,10 +59,11 @@ export default {
         }
     },
     mounted(){
-        
-        //this.searchAuto()
+        this.createNowMonth()
+        this.searchAuto()
     },
     methods:{
+        moment,
         testBtn(event){
             if(this.statusShow === true){
                 this.statusShow = false
@@ -68,86 +71,18 @@ export default {
                 this.statusShow = true
             }
         },
-        createTypeUser(status){
-            switch(status){
-                case 'Full Time' : return true
-                case 'Intern' : return false
-                default: return null
-            }
-        },
-        eventClick(event){
-            this.listdata = []
-            if(event === 'PersonalLeave'){
-                this.statusLeave = 0
-                let result = this.api.getAllPersonalLeave()
-                result.then(data => {
-                    this.listdata = data;
-                    this.statusLoad = false;
-                })
-            }else{
-                this.statusLeave = 1
-                let result = this.api.getAllSickLeave()
-                result.then(data => {
-                    this.listdata = data;
-                    this.statusLoad = false;
-                })
-            }
-        },
-        eventStatusAllow(opj_event){
-
-            this.cardSelect = opj_event
-
-            if(opj_event.status === true){
-                this.$modal.toggle('comfrim')
-            }else{
-                this.$modal.toggle('notcomfrim')
-            }
-
-        },
-        popdetial(index){
-            this.detailCard = this.listdata[index]
-            this.$modal.show('detailintrun')
-            //this.$modal.hide('detailintrun')
-        },
-        statusConfirm(status){
-            if(status === true){
-                /*let result = this.api.updatePersonalLeave(this.cardSelect)
-                result.then(re => {
-                    if(re.status === true){
-                         alert(re.text)
-                         window.location.reload()
-                    }else if(re.status === false){
-                         alert(re.text)
-                    }else{
-                        alert(re.text)
-                    }
-                })*/
-            }else{
-                this.$modal.hide('comfrim')
-            }
-        },
-        statusReject(status){
-            if(status === true){
-                /*let result = this.api.removePersonalLeave(this.cardSelect)
-                result.then(re => {
-                    if(re.status === true){
-                         alert(re.text)
-                         window.location.reload()
-                    }else if(re.status === false){
-                         alert(re.text)
-                    }else{
-                         alert(re.text)
-                    }
-                })*/
-            }else{
-                this.$modal.hide('notcomfrim')
-            }
-        },
         searchAuto(){
-            let result = this.api.getSearchHistory(this.search)    
+            let result = this.api.historyall(this.search)
              result.then(re => {
-                 
-                 console.log(re)
+                 this.showCard = re.map(data => {
+                     let modal = {
+                         id:data.id,
+                         name:data.name,
+                         statusUser:data.typeUser
+                     }
+                     return modal
+                 })
+                 console.log('31256487 ==',this.showCard)
                     // if(re.status === true){
                     //      alert(re.text)
                     // }else if(re.status === false){
@@ -156,7 +91,36 @@ export default {
                     //      alert(re.text)
                     // }
              })
-        }
+        },
+        createNowMonth(){
+            let nowDate = new Date()
+            let indexMonth = nowDate.getMonth()
+            let year = nowDate.getFullYear()
+            let fullDayOfMonth = this.getDaysInMonth(indexMonth,year)
+            
+            let startDate = new Date()     //-- nowDate => 2020-01-24
+            startDate.setDate(1)     //-- nowDate => 2020-01-01
+            let endDate = new Date()
+            endDate.setDate(fullDayOfMonth)
+            let textmonthnow = new Date()
+            textmonthnow.setDate(fullDayOfMonth)
+            this.search = {
+                userid:'',
+                startdate: moment(startDate).format('YYYY-MM-DD'),
+                enddate: moment(endDate).format('YYYY-MM-DD'),
+                textmonthnow: moment(textmonthnow).format('MMMM YYYY'),
+            }
+            console.log(this.search)
+        },
+        getDaysInMonth(month, year) {
+            let date = new Date(year, month, 1);
+            let days = [];
+            while (date.getMonth() === month) {
+                days.push(new Date(date));
+                date.setDate(date.getDate() + 1);
+            }
+            return days.length;
+        },
     }
     
 }

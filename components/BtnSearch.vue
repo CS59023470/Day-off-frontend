@@ -3,10 +3,10 @@
   <div class="size">
     <div class="full">
       <div class="txt-input">
-        <input type="text" placeholder="ค้นหาชื่อ">
+        <input type="text" v-model="name" placeholder="ค้นหาชื่อ">
       </div>
       <div class="btn-icon">
-        <button><i class="material-icons">search </i></button>
+        <button><i class="material-icons" v-on:click="input()">search </i></button>
       </div>
     </div>
   </div>
@@ -15,7 +15,14 @@
 
 <script>
 export default {
-  
+  data() {
+    return { name: "" };
+  },
+  methods: {
+    input() {
+      this.$emit("name", this.name);
+    }
+  }
 }
 </script>
 

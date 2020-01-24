@@ -18,6 +18,14 @@
         :text="textFinish"
         @eventClick="clickFinish"
     />
+    <PopupFail
+        v-if="popupFail"
+        :text="propsFailContent.text"
+        @eventClick="closeFail"
+    />
+    <PopupLoader 
+        v-if="popupLoader"
+    />
 </div>
 </template>
 <script>
@@ -26,6 +34,8 @@ import FormRequest from "../../components/FormRequest"
 import LoadingPage from "../../components/LoadingPage"
 import PopupConfirm from "../../components/Popup/PopupConfirm"
 import PopupFinish from "../../components/Popup/PopupFinish"
+import PopupFail from "../../components/Popup/PopupFail"
+import PopupLoader from "../../components/Popup/PopupLoader"
 import Provider from '../../service/provider'
 const provider = new Provider()
 export default {
@@ -33,15 +43,20 @@ export default {
         FormRequest,
         LoadingPage,
         PopupConfirm,
-        PopupFinish
+        PopupFinish,
+        PopupFail,
+        PopupLoader
     },
     data(){
         return {
             api : provider,
             dataForm: null,
             textFinish: '',
+            propsFailContent: {
+                text: ''
+            },
             propsConfirm: {
-                title_popup_confirm: 'ยืนยันการลา',
+                title_popup_confirm: 'Are you sure to send the request?',
                 color_popup: 'APPROVE'
             }
         }
@@ -88,12 +103,19 @@ export default {
         clickConfirm(status){
             this.$store.commit('popup/closePopupConfirm')
             if(status === true){
-                this.$store.commit('formRequest/setloader', true)
+                this.$store.commit('popup/showPopupLoader')
                 let result = this.api.addFormLeaveRequest(this.dataForm) 
                 result.then(re => {
-                    this.textFinish = re.text
-                    this.$store.commit('formRequest/setloader', false)
-                    this.$store.commit('popup/showPopupFinish')
+                    if(re.status){
+                        this.textFinish = re.text
+                        this.$store.commit('popup/closePopupLoader')
+                        this.$store.commit('popup/showPopupFinish')
+                    }else{
+                        this.$store.commit('popup/closePopupLoader')
+                        this.propsFailContent.text = re.text
+                        this.$store.commit('popup/showPopupFail')
+                        window.location.reload()
+                    }
                 })
             }
         },
@@ -107,7 +129,9 @@ export default {
             pathDefult: state => state.pathDefult.path,
             statusload: state => state.formRequest.loading,
             popupConfirm: state => state.popup.popup_confirm,
-            popupFinish: state => state.popup.popup_finish
+            popupFinish: state => state.popup.popup_finish,
+            popupFail: state => state.popup.popup_fail,
+            popupLoader: state => state.popup.popup_loader,
         })
     },
     /*asyncData(context) {
@@ -159,7 +183,6 @@ export default {
         .content_form{
             background-color: #fff;
             width: 45%;
-            min-height: 100%;
             height: fit-content;
             border-radius: 10px;
             padding: 20px;
