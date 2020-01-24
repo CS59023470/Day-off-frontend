@@ -170,3 +170,29 @@ export default {
 </script>
 
 <style lang="scss">
+.form-request-wrapper{
+    width: 100%;
+    height: 100%;
+    max-height: fit-content;
+    
+    .layout_form{
+        width: 100%;
+        height: 100%;
+        padding: 20px 0px;
+
+        .content_form{
+            background-color: #fff;
+            width: 45%;
+            height: fit-content;
+            border-radius: 10px;
+            padding: 20px;
+        }
+    }
+
+    .layout_loadder{
+        background-color: #fff;
+        width: 100%;
+        height: 100%;
+    }
+}
+</style>
