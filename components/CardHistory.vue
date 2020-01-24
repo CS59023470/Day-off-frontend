@@ -45,7 +45,7 @@
 export default {
   props:["detailCard","status","indexcard"],
   mounted(){
-    console.log("DetialCard",this.$props.status)
+    //console.log("DetialCard",this.$props.status)
   },
   methods:{
       showCardDetail(){

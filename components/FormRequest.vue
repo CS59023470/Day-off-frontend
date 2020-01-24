@@ -1118,6 +1118,7 @@ export default {
         disabledStartDate(){
             document.getElementById("layout_start_date").style.opacity = this.opacity_disabled_global
             document.getElementById("timeStart").disabled = true
+            this.disabledDetail()
         },
         enabledStartDate(){
             document.getElementById("layout_start_date").style.opacity = this.opacity_enabled_global
@@ -1136,6 +1137,7 @@ export default {
             }else{
                 document.getElementById("layout_end_date").hidden = true
             }
+            this.disabledDetail()
         },
         enabledEndDate(){
             if(this.dataForm.typeday == '1'){
