@@ -16,6 +16,7 @@
     <PopupFinish 
         v-if="popupFinish"
         :text="textFinish"
+        :status="propsConfirm.color_popup"
         @eventClick="clickFinish"
     />
     <PopupFail

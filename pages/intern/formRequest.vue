@@ -16,6 +16,7 @@
     <PopupFinish 
         v-if="popupFinish"
         :text="textFinish"
+        :status="propsConfirm.color_popup"
         @eventClick="clickFinish"
     />
     <PopupFail
@@ -52,6 +53,7 @@ export default {
             api : provider,
             dataForm: null,
             textFinish: '',
+            statusFinish: '',
             propsFailContent: {
                 text: ''
             },

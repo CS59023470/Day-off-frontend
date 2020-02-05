@@ -71,15 +71,18 @@
                     mode="range"
                     :disabled-dates="excludeDates" 
                     v-model="picker.date" 
-                    is-inline 
+                    is-inline
+                    locale="en"
                     :attributes="attributes"
                     @input="selectDate()"
+                    
                 >
                 </v-date-picker>
                 <v-date-picker
                     v-else
                     :disabled-dates="excludeDates" 
                     is-inline 
+                    locale="en"
                     :attributes="attributes"
                     v-model="picker.date"
                     @input="selectDate()"

@@ -99,6 +99,7 @@ export default {
             console.log(this.propsToPopup)
         },
         createModelToPopupDetail(type,data){
+            console.log(data.data_Leave.type)
             if(type === 'card'){
                 let model = {
                     userName: data.datashow.name,
@@ -131,7 +132,7 @@ export default {
                 }else{
                     model.statusUser = false
                 }
-                if(data.data_Leave.type === 'SickLeave'){
+                if(data.data_Leave.type === 'Sick Leave'){
                     model.admin_approve = 'System'
                 }else{
                     model.admin_approve = data.data_Leave.admin_approve.name

@@ -1,12 +1,12 @@
 <template>
   <div class="Box-Home">
+    <div v-if="dataHistory !== null">
     <div class="Heads">
       <div class="Heads-Content">
         <CardHeaderInHistory
           :sizePersonal="totalDataLaveShow.sizePersonal"
           :sizeSick="totalDataLaveShow.sizeSick"
           :sizeVacation="totalDataLaveShow.sizeVacation"
-          :yearAtSelect="yearAtSelect"
         />
         <div v-if="dataHistory !== null" class="Select-Year">
           <select
@@ -53,11 +53,16 @@
     </div>
     
     <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
+    </div>
+    <div v-else class="layout_loading">
+        <LoadingPage/>
+    </div>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import PopupDetail from "../../components/Popup/PopupDetail";
+import LoadingPage from "../../components/LoadingPage"
 import CardHeaderInHistory from "../../components/CardHeaderInHistory";
 import BarComfrim from "../../components/BarComfrim";
 import Month from "../../components/Month";
@@ -68,6 +73,7 @@ export default {
     CardHeaderInHistory,
     Month,
     BarComfrim,
+    LoadingPage,
     PopupDetail
   },
   data() {
@@ -108,7 +114,7 @@ export default {
         } else {
           this.data_prop_month.statusUser = true;
         }
-        this.yearAtSelect = re[0].year;
+        this.yearAtSelect = new Date().getFullYear();
         this.selectDropdownYear();
       });
     },
@@ -122,6 +128,9 @@ export default {
           this.data_prop_month.data = myHistory;
         }
       });
+      this.loopmount = this.dataHistory[
+          this.indexselect
+        ].listLeaveFullYear.listPersonalLeave;
     },
     eventClick(event) {
       if (event === "personal") {
@@ -155,7 +164,7 @@ export default {
         admin_approve: "",
         statusUser: this.data_prop_month.statusUser
       };
-      if (data_DB.type === "SickLeave") {
+      if (data_DB.type === "Sick Leave") {
         model.admin_approve = "System";
       } else {
         model.admin_approve = data_DB.admin_approve.name;
@@ -166,7 +175,8 @@ export default {
   },
   computed: {
     ...mapState({
-      popupDetail: state => state.popup.popup_detail
+      popupDetail: state => state.popup.popup_detail,
+      statusload: state => state.formRequest.loading
     }),
     craeteListYear() {
       let listYear = [];
@@ -213,4 +223,10 @@ export default {
     margin-top: 100px;
     color: #858585;
 }
+.layout_loading{
+        background-color: #fff;
+        margin-top: 23%;
+        width: 100%;
+        height: 100%;
+    }
 </style>
