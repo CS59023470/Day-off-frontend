@@ -1,9 +1,13 @@
 <template>
   <div id="layout_page">
-        <div id="layout_navbar">
-            <Navbar 
+        <div id="layout_navbar" >
+            <Navbar v-if="icon === false"
               @controMenu="controMenu"
             />
+             <NavberBack 
+             @clickback="backTopath"
+             v-if="icon === true"
+             />
         </div>
         <div id="layout_content">
             <nuxt/>
@@ -17,6 +21,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import NavberBack from "../components/NavberBack"
 import Navbar from "../components/Navbar";
 import Menu from "../components/Menu";
 import Popuplogout from "../components/Popup/Popuplogout"
@@ -24,11 +29,14 @@ export default {
     components: {
         Navbar,
         Menu,
-        Popuplogout
+        Popuplogout,
+        NavberBack
     },
      computed:{
         ...mapState({
             popupLogout: state => state.popup.popup_logout,
+            icon: state => state.navbarBack.iconBack,
+            pathDefult: state => state.pathDefult.path,
         }),
       },
     mounted(){
@@ -97,6 +105,10 @@ export default {
       },
       closeMenu(event){
         this.statusShow = false
+      },
+      backTopath(){
+        this.$router.push(this.pathDefult+'search-history')
+        this.$store.commit('navbarBack/showNavbarManu')
       }
     }
 }
@@ -193,5 +205,8 @@ html {
   background: none;
   border-color: transparent;
   font-size: 12px;
+}
+.fc-event{
+  cursor: pointer;
 }
 </style>

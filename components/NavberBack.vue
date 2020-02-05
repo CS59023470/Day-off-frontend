@@ -1,8 +1,8 @@
 <template>
      <div class="box-nav">
         <div class="icon" >
-            <button class="btn_navber" type="button" @click="controMenu"> 
-                <i class="material-icons">reorder</i>
+            <button class="btn_navber" type="button" @click="backToSearch"> 
+                <i class="material-icons">arrow_back</i>
             </button>
         </div>
         <div class="out">
@@ -25,15 +25,10 @@ export default {
         clicklogout() {
            this.$store.commit('popup/showPopuplogout')
         },
-        toPathSelect(){
-
+        backToSearch(){
+            this.$emit('clickback')
         }
     },
-     computed:{
-        ...mapState({
-            popupLogout: state => state.popup.popup_logout,
-        }),
-      },
 
 }
 </script>

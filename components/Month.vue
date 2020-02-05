@@ -7,7 +7,7 @@
                         <legend>{{showmonth.nameMonth}} {{year}}</legend>
                     </div>
                     <div v-else class="ColorLineMonth" style="position: absolute,height: 100px">
-                        <legend>{{datamonth}}</legend>
+                        <legend>{{datamonth.name}} {{year}}</legend>
                     </div>
                 </div>
                 
@@ -22,11 +22,13 @@
                             />
                         </div>
                     </div> 
-                    <div class="BoxCard" @click="topathHistory" v-if="page === 'searchhistory'">
-                        <div class="Card" v-for="(datacard, idx) in detailCard" :key="idx">
+                    <div class="BoxCard"  v-if="page === 'searchhistory'">
+                        <div class="Card" v-for="(datacard, idx) in datamonth.data" :key="idx">
                             <CardInAdminHistory 
-                            :listDataCard="datacard"
-                            />
+                                :dataUser="datacard.user"
+                                :indexCard="idx"
+                                @cardadmin="topathHistory"
+                            /> 
                         </div>
                     </div>
                 </div>
@@ -40,7 +42,7 @@ import CardHistory from "../components/CardHistory";
 import CardInAdminHistory from "../components/CardInAdminHistory";
 import { mapState } from 'vuex'
 export default {
-    props:["showmonth","year","page", "statusUser","indexmonth","datamonth","cardSearch","detailCard"],
+    props:["showmonth","year","page", "statusUser","indexmonth","indexyear","datamonth","cardSearch","detailCard"],
     components: {
         CardHistory,
         CardInAdminHistory,
@@ -54,12 +56,14 @@ export default {
         }
     },
     mounted(){
-        // console.log("test=> ", this.dataCard)
+        console.log("test=> ", this.$props.year)
         this.path = this.$route.name
     },
     methods:{
-        topathHistory(){
-            this.$router.push(this.pathDefult+'history')
+        topathHistory(user){
+        //    this.$router.push(this.pathDefult+'history-select')
+            this.$emit('clickcard',user)
+            console.log("card",user)
         },
         clickPopup(indexcard){
             let model ={
@@ -79,7 +83,7 @@ export default {
         },
         YearNow(){
             return this.nowDate.getFullYear()
-        }
+        },
     },    
 }
 </script>
@@ -91,6 +95,7 @@ export default {
         border-right: 0px;
         color:$colorlinemonth;
         border: none;
+        background-color: #f0f0f0;
         .LineMonth {
             width: 100%;
             height: auto;
@@ -107,7 +112,7 @@ export default {
                 color: $colorlinemonth;
                 text-align: center;     
                 height: 50px;
-                width: 250px;
+                width: fit-content;
                 font-size: 30px;
                 margin-left: 3%; 
             }

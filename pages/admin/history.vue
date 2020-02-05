@@ -6,6 +6,7 @@
           :sizePersonal="totalDataLaveShow.sizePersonal"
           :sizeSick="totalDataLaveShow.sizeSick"
           :sizeVacation="totalDataLaveShow.sizeVacation"
+          :yearAtSelect="yearAtSelect"
         />
         <div v-if="dataHistory !== null" class="Select-Year">
           <select
@@ -92,7 +93,7 @@ export default {
   },
   mounted() {
     this.queryMyLeave();
-
+    
     // console.log('123456789', this.data_prop_month.data);
   },
 
@@ -111,7 +112,9 @@ export default {
         this.selectDropdownYear();
       });
     },
+    
     selectDropdownYear() {
+      this.loopmount=[];
       this.dataHistory.forEach((myHistory, i) => {
         if (this.yearAtSelect == myHistory.year) {
           this.indexselect = i;
@@ -121,12 +124,16 @@ export default {
           this.data_prop_month.data = myHistory;
         }
       });
+      this.loopmount = this.dataHistory[
+          this.indexselect
+        ].listLeaveFullYear.listPersonalLeave;
     },
     eventClick(event) {
       if (event === "personal") {
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listPersonalLeave;
+        // console.log( this.dataHistory)
         //this.typeLeave = myHistory.listLeaveFullYear.listPersonalLeave
       } else if (event === "sick") {
         //this.typeLeave = myHistory.listLeaveFullYear.listSickLeave
@@ -154,7 +161,7 @@ export default {
         admin_approve: "",
         statusUser: this.data_prop_month.statusUser
       };
-      if (data_DB.type === "ลาป่วย") {
+      if (data_DB.type === "SickLeave") {
         model.admin_approve = "System";
       } else {
         model.admin_approve = data_DB.admin_approve.name;

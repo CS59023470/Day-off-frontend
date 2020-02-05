@@ -43,6 +43,7 @@
         <PopupFinish 
             v-if="popupFinish"
             :text="propsFinish.text"
+            :status="status_select"
             @eventClick="closeFinish"
         />
         <PopupFail

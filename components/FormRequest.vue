@@ -1,7 +1,7 @@
 <template>
     <div id="layout_con_form">
         <div class="content_row content_center margin_bottom_head">
-            <label class="title-text">แบบฟอร์มการลา</label>
+            <label class="title-text">Leave Request Form</label>
         </div>
         <div class="content_row margin_bottom_standard">
             <div class="content_center box_dropdown_leave">
@@ -22,20 +22,20 @@
             </div>
             <div v-if="dataForm.type !== 'none' && dataForm.type === 'SL'" class="content_center">
                 <div v-if="day_left_show > 0">
-                    <label class="day-stack">คุณเหลือวันลาอีก {{day_left_show}} วัน</label>
+                    <label class="day-stack">You have {{day_left_show}} days left</label>
                 </div>
                 <div v-else>
-                    <label class="day-stack-out">วันลาของคุณหมดแล้ว</label>
+                    <label class="day-stack-out">You don't have day enough to leave</label>
                 </div>
             </div>
             <div v-if="dataForm.type !== 'none' && dataForm.type !== 'SL'" class="content_center">
                 <div v-if="day_left_show > 0">
-                    <label class="day-stack">คุณเหลือวันลาอีก {{day_left_show}} วัน</label>
-                    <label class="special-scatk">วันหยุดชดเชย {{user_day_left.specialholiday}} วัน</label>
+                    <label class="day-stack">You have  {{day_left_show}} days left</label>
+                    <label class="special-scatk">You have  {{user_day_left.specialholiday}} compensation days</label>
                 </div>
                 <div v-else>
-                    <label class="day-stack-out">วันลาของคุณหมดแล้ว</label>
-                    <label class="special-scatk">วันหยุดชดเชย {{user_day_left.specialholiday}} วัน</label>
+                    <label class="day-stack-out">You don't have day enough to leave</label>
+                    <label class="special-scatk">You have  {{user_day_left.specialholiday}} compensation days</label>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     v-model="dataForm.typeday"
                     @change="selectRadio"
                 >
-                <label id="text_radio_0"> ลา 1 วัน</label>
+                <label id="text_radio_0"> Single Leave</label>
             </div>
             <div class="box-radio content_center">
                 <input 
@@ -59,7 +59,7 @@
                     v-model="dataForm.typeday"
                     @change="selectRadio"
                 > 
-                <label id="text_radio_1"> ลาหลายวัน</label>
+                <label id="text_radio_1"> Extended Leave</label>
             </div>
         </div>
 
@@ -92,9 +92,9 @@
                 <div id="layout_start_date" class="boxtext1 margin_bottom_standard">
                     <div class="BoxSelectLeave">
                         <div class="Box-Start">
-                            วันที่ลา : 
-                            <label v-if="date_start_show === null">ไม่ทราบ</label>
-                            <label v-else>{{moment(new Date(date_start_show)).format('DD-MMM-YYYY')}}</label>
+                            Requested Date : 
+                            <label v-if="date_start_show === null">MM/DD/YYYY</label>
+                            <label v-else>{{moment(new Date(date_start_show)).format('DD MMMM YYYY')}}</label>
                         </div>
                         <select 
                             id="timeStart"
@@ -117,16 +117,16 @@
                 <div id="layout_end_date" class="boxtext1 margin_bottom_standard">
                     <div class="BoxSelectLeave">
                         <div class="Box-Start">
-                            วันสิ้นสุด : 
-                            <label v-if="date_end_show === null">ไม่ทราบ</label>
-                            <label v-else>{{moment(new Date(date_end_show)).format('DD-MMM-YYYY')}}</label>
+                            To : 
+                            <label v-if="date_end_show === null">MM/DD/YYYY</label>
+                            <label v-else>{{moment(new Date(date_end_show)).format('DD MMMM YYYY')}}</label>
                         </div>
                         <select 
                             id="timeEnd"
                             name="timeEnd" 
                             class="height_standard_input" 
                             v-model="dataForm.endtime" 
-                             @change="selectDropdownTimeEnd"
+                            @change="selectDropdownTimeEnd"
                         >
                             <option 
                                 v-for="(time, index) in list_time_end" 
@@ -150,7 +150,7 @@
             </div>
         </div>
         <div id="layout_detail" class="content_row margin_bottom_standard">
-            <div class="Head-Detail">รายละเอียดการลา:</div>
+            <div class="Head-Detail">Description :</div>
             <textarea 
                 id="form_detail"
                 class="color_placeholder" 
@@ -167,7 +167,7 @@
                 type="button"
                 @click="onSave"
             >
-                แจ้งลา
+                Send
             </button>
         </div>
     </div>
@@ -180,16 +180,16 @@ export default {
     data(){
         return{
             list_leave: [
-                { text: 'เลือกการลา',value: 'none' },
-                { text: 'ลากิจ',value: 'PL' },
-                { text: 'ลาป่วย',value: 'SL' },
-                { text: 'ลาพักร้อน',value: 'VL' }
+                { text: 'Type Of Leave',value: 'none' },
+                { text: 'Personal Leave',value: 'PL' },
+                { text: 'Sick Leave',value: 'SL' },
+                { text: 'Vacation Leave',value: 'VL' }
             ],
             list_time: [
-                { text: 'ช่วงเวลา',value: 'none' },
-                { text: 'ช่วงเช้า',value: 'morning' },
-                { text: 'ช่วงบ่าย',value: 'afternoon' },
-                { text: 'เต็มวัน',value: 'allday' }
+                { text: 'Time Period',value: 'none' },
+                { text: 'Morning (09:00-12:00',value: 'morning' },
+                { text: 'Afternoon (13:00-18:00)',value: 'afternoon' },
+                { text: 'All-Day',value: 'allday' }
             ],
             list_time_start: [],
             list_time_end: [],
@@ -389,7 +389,7 @@ export default {
                                 this.selectDropdownTimeEnd()
                             }else{
                                 if(!this.checkStartDateForSickLeave()){
-                                    alert('การลาป่วยควรเริ่มต้มด้วยวันปัจุบัน ระบบจะเลือกโดยอัตโนมัติ')
+                                    alert('Sick leave should start this day, System be select automatic')
                                     if(this.day_left_show % 1 != 0){
                                         this.max_day_leave = this.day_left_show + 0.5
                                     }else{
@@ -524,13 +524,13 @@ export default {
                 if(statusShow){
                     this.check_validation = {
                         status: true,
-                        text_validation : `คุณใช้ ${this.dataForm.totalDay} วันในการลาครั้งนี้`,
+                        text_validation : `You spent ${this.dataForm.totalDay} days on this leave.`,
                         classShow : 'validation_success'
                     }
                 }else{
                     this.check_validation = {
                         status: true,
-                        text_validation : `คุณลาได้ถึงวันที่ ${this.dateEndTextValidation} เท่านั้น`,
+                        text_validation : `You can only leave until ${this.dateEndTextValidation}`,
                         classShow : 'validation_fail'
                     }
                 }
@@ -559,7 +559,7 @@ export default {
                 let dateEnd = new Date(end)
                 let list_day_off = this.day_off
                 if(start === end){
-                    alert('ระบบไม่อนุญาติให้วันเริ่มต้นและสิ้นสุดเป็นวันเดียวกัน')
+                    alert('The start date and end date should not the same day')
                     result = false
                 }else{
                     let statusCheck = true
@@ -567,7 +567,7 @@ export default {
                         if(start === moment(list_day_off[i].startdate).format('YYYY-MM-DD') ||
                             end === moment(list_day_off[i].startdate).format('YYYY-MM-DD'))
                         {
-                            alert('ระบบไม่อนุญาติให้วันเริ่มต้นหรือสิ้นสุดเป็นวันหยุด')
+                            alert('The start date and end date should not a day off')
                             result = false
                             statusCheck = false
                             break;
@@ -577,7 +577,7 @@ export default {
                     if(statusCheck){
                         for(let j = 0 ; j < this.listWeekend.length ; j++){
                             if(this.listWeekend[j] === (dateStart.getDay()+1) || this.listWeekend[j] === (dateEnd.getDay()+1)){
-                                alert('ระบบไม่อนุญาติให้วันเริ่มต้นหรือสิ้นสุดเป็นวันหยุด')
+                                alert('The start date and end date should not a day off')
                                 result = false
                                 break;
                             }
@@ -709,7 +709,7 @@ export default {
                 let picker_date_string = moment(date_input_start).format('YYYY-MM-DD')
                 let picker_date_type = new Date(picker_date_string)
                 picker_date_type.setDate(picker_date_type.getDate() + i)
-                let date_filter = moment(picker_date_type).format('YYYY-MM-DD')
+                let date_filter = moment(picker_date_type).format('DD MMMM YYYY')
                 let result = list_df.filter(df => {
                     return df === date_filter
                 })
@@ -1335,6 +1335,7 @@ export default {
 //----------------------------------------------------
 .validation_fail{
     color: red;
+    width: 80%;
 }
 .validation_success{
     color: #2D810F;

@@ -1,26 +1,26 @@
 <template>
 <div class="box-content" >
     <div>
-        <div class="container-intern"  v-if="listDataCard.statusUser === 'internship'">
+        <div class="container-intern" v-if="dataUser.statusWorking === 'internship'" @click="clickcrad">
            <div class="boxcontentIntern" >
                 <div class="usertype">
-                    {{ listDataCard.statusUser }}
+                    Intern
                 </div>
                 <div class="Name">
-                    {{ listDataCard.name }}
+                    {{ dataUser.name }}
                 </div>
             </div> 
         </div>
-        <div class="container" v-else>
+        <div class="container" v-else @click="clickcrad()">
             <div class="boxcontentfulltime" >
                 <div class="headbox">
                     <div class="usertype" >
-                        {{ listDataCard.statusUser }}
+                        Employee
                     </div>
                     <div class="logotype"></div>
                 </div>
                 <div class="name"> 
-                    {{ listDataCard.name }}
+                    {{ dataUser.name }}
                 </div>
             </div>
         </div>
@@ -28,22 +28,17 @@
 </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
-    props:["listDataCard"],
-    data(){
-        return{
-            ListCard: [
-                {
-                status: "ฝึกงาน",
-                name: "กัญญารัตน์"
-                },
-                  {
-                status: "พนักงาน",
-                name: "พี่มิ้น"
-                },
-            ]
+    props:["dataUser","indexCard"],
+    mounted(){
+        // console.log("userid",this.$props.data)
+    },
+    methods:{
+        clickcrad(){
+            this.$emit('cardadmin',this.$props.dataUser)
         }
-    }
+    },
 }
 </script>
 

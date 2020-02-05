@@ -8,7 +8,7 @@
             </div>
             <div class="EndDate">
                 <div class="TextEnd"> ถึง </div>
-                <input type="date" v-model="enddate" v-on:change="inputEndDate()" class="unstyled">
+                <input type="date" v-model="enddate" :min="startdate" v-on:change="inputEndDate()" class="unstyled">
             </div>
         </div>
     </div>
@@ -22,7 +22,10 @@ export default {
       enddate: ""
     };
   },
-  mounted() {},
+  mounted() {
+    this.inputStartDate();
+    this.inputEndDate();
+    },
   methods: {
     inputStartDate() {
       this.$emit("startdate", this.startdate);

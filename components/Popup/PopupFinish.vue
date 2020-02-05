@@ -1,14 +1,28 @@
 <template>
   <div id="popup" class="confrim-wrapper">
-    <div class="background-popup" @click="returnEvent"></div>
+    <div class="background-popup" ></div>
     <div class="layout-popup">
-        <div class="content-icon-popup content_center">
+      <div class="contant-icon">
+        <button class="icon-close" @click="returnEvent">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+        <div class="content-icon-popup content_center" v-if="status === 'APPROVE'">
             <div class="icon-popup content_center">
-                <i class="material-icons">done</i>
+                <img src="~/assets/approved.png" >
             </div>
-        </div>
-        <div class="content-title content_center">
+            <div class="content-title content_center">
             {{text}}
+          </div>
+        </div>
+
+          <div class="content-icon-popup content_center" v-if="status === 'REJECT'">
+            <div class="icon-popup content_center">
+                <img src="~/assets/cencel.png" >
+            </div>
+            <div class="content-reject content_center">
+            {{text}}
+          </div>
         </div>
     </div>
   </div>
@@ -16,7 +30,7 @@
 
 <script>
 export default {
-  props: ['text'],
+  props: ['text','status'],
   methods: {
     returnEvent(event) {
       this.$emit("eventClick", false);
@@ -53,30 +67,48 @@ export default {
     background-color: #fff;
     z-index: 1000;
     border-radius: 15px;
-    padding: 20px;
+    padding: 10px 10px 20px 20px;
     align-items: center;
 
     .content-icon-popup{
         width: 100%;
         height: fit-content;
-        
         .icon-popup{
-            width: fit-content;
-            height: fit-content;
-            color: #fff;
-            background-color: #2D810F;
-            border-radius: 50%;
-            padding: 2px;
-
-            .material-icons{
-                font-size: 25px;
-            }
+          width: 40px;
+          margin-right: 15px;
         }
     }
-
+    .contant-icon{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+        .icon-close{
+       
+          border: 1px solid;
+          width: auto;
+          padding: inherit;
+          height: auto;
+          background-color: #858585;
+          color: #fff;
+          border-radius: 50%;
+          i{
+            font-size: 15px;
+            padding: 5px;
+          }
+        }
+    }
     .content-title{
-        padding-top: 15px;
+        // padding-left: 20px;
+         font-weight:600;
         text-align: center;
+        color:#2D810F ;
+    }
+
+    .content-reject{
+        // padding-left: 20px;
+         font-weight:600;
+        text-align: center;
+        color:#D91616 ;
     }
   }
 }

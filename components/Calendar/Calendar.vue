@@ -80,6 +80,7 @@ export default {
             let dataevent = provider.getEventCelendar()
             dataevent.then(re=>{
                 let events = []
+                
                 events = re.map(data => {
                     let modal = {
                         id: data.id,
@@ -125,6 +126,7 @@ export default {
     }
 }
 </script>
+
 <style lang="scss" scoped>
     .calendar-wrapper{
         width: 100%;

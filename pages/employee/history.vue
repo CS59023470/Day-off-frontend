@@ -6,6 +6,7 @@
           :sizePersonal="totalDataLaveShow.sizePersonal"
           :sizeSick="totalDataLaveShow.sizeSick"
           :sizeVacation="totalDataLaveShow.sizeVacation"
+          :yearAtSelect="yearAtSelect"
         />
         <div v-if="dataHistory !== null" class="Select-Year">
           <select
@@ -36,7 +37,7 @@
     <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
       <div class="not-found" v-if="loopmount.length === 0">
         Data not found
-    </div>
+      </div>
       <div v-else>
         <div v-for="(loop, idx) in loopmount" :key="idx">
           <Month
@@ -50,7 +51,7 @@
         </div>
       </div>
     </div>
-    
+
     <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
   </div>
 </template>
@@ -154,7 +155,7 @@ export default {
         admin_approve: "",
         statusUser: this.data_prop_month.statusUser
       };
-      if (data_DB.type === "ลาป่วย") {
+      if (data_DB.type === "SickLeave") {
         model.admin_approve = "System";
       } else {
         model.admin_approve = data_DB.admin_approve.name;
@@ -206,10 +207,10 @@ export default {
     height: auto;
   }
 }
-.not-found{
-    display: flex;
-    justify-content: center;
-    margin-top: 100px;
-    color: #858585;
+.not-found {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  color: #858585;
 }
 </style>

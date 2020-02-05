@@ -6,7 +6,8 @@
           :sizePersonal="totalDataLaveShow.sizePersonal"
           :sizeSick="totalDataLaveShow.sizeSick"
           :sizeVacation="totalDataLaveShow.sizeVacation"
-          :yearAtSelect="yearAtSelect"
+          :dataInHeader = "linkpage"
+          page="history-select"
         />
         <div v-if="dataHistory !== null" class="Select-Year">
           <select
@@ -43,7 +44,7 @@
           <Month
             :showmonth="loop"
             :year="yearAtSelect"
-            :statusUser="data_prop_month.statusUser"
+            :statusUser="linkpage.statusWorking"
             :indexmonth="idx"
             page="history"
             @popupDetail="showPopupDetail"
@@ -94,21 +95,21 @@ export default {
   mounted() {
     this.queryMyLeave();
 
-    // console.log('123456789', this.data_prop_month.data);
+    console.log('123456789', this.linkpage);
   },
 
   methods: {
     queryMyLeave() {
-      let dataLogin = JSON.parse(localStorage.getItem("userprofile"));
-      let result = this.api.getHistoryLeaveByUserId(dataLogin.userId);
+      let result = this.api.getHistoryLeaveByUserId(this.linkpage.userId);
       result.then(re => {
         this.dataHistory = re;
-        if (dataLogin.statusWorking === "internship") {
+        console.log('re =>', re)
+        if (this.linkpage.statusWorking === "internship") {
           this.data_prop_month.statusUser = false;
         } else {
           this.data_prop_month.statusUser = true;
         }
-        this.yearAtSelect = re[0].year;
+        // this.yearAtSelect = re[0].year;
         this.selectDropdownYear();
       });
     },
@@ -166,7 +167,8 @@ export default {
   },
   computed: {
     ...mapState({
-      popupDetail: state => state.popup.popup_detail
+      popupDetail: state => state.popup.popup_detail,
+      linkpage: state => state.leaveHistory.cardAdmin,
     }),
     craeteListYear() {
       let listYear = [];

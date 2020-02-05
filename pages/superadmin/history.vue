@@ -154,7 +154,7 @@ export default {
         admin_approve: "",
         statusUser: this.data_prop_month.statusUser
       };
-      if (data_DB.type === "ลาป่วย") {
+      if (data_DB.type === "SickLeave") {
         model.admin_approve = "System";
       } else {
         model.admin_approve = data_DB.admin_approve.name;

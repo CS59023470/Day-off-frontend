@@ -3,7 +3,13 @@
   <div class="size">
     <div class="full">
       <div class="txt-input">
-        <input type="text" v-model="name" placeholder="ค้นหาชื่อ">
+        <input type="text" v-model="name" placeholder="ค้นหาชื่อ" list="nameUser" @keyup="createListName">
+        <datalist id="nameUser" v-if="statusGroup">
+          <option v-for="(name , idx) in listNameUser" :key="idx">{{name.name}}</option>
+        </datalist>
+        <datalist id="nameUser" v-else>
+          <option v-for="(name , idx) in listname" :key="idx">{{name.name}}</option>
+        </datalist>
       </div>
       <div class="btn-icon">
         <button><i class="material-icons" v-on:click="input()">search </i></button>
@@ -14,15 +20,46 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
-    return { name: "" };
+    return { 
+      name: "",
+      listname: [],
+      statusGroup: true,
+      userSelected: null
+    }
+  },
+  mounted(){
   },
   methods: {
+    createListName() {
+      this.statusGroup = false
+      this.listname = []
+      this.listNameUser.forEach(element => {
+        if(element.name.includes(this.name)){
+          this.listname.push(element)
+        }
+      });
+    },
     input() {
-      this.$emit("name", this.name);
+      let user = this.listNameUser.filter(data => {
+        return data.name === this.name
+      })
+      if(this.name){
+        this.$emit('returnUserId', user[0].userId);
+      }else {
+        this.$emit('returnUserId', "");
+      }
+      
     }
-  }
+  },
+  computed: {
+
+    ...mapState({
+        listNameUser: state => state.leaveHistory.listAllUser
+    })
+  },
 }
 </script>
 

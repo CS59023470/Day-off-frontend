@@ -149,7 +149,17 @@ class Provider extends HttpRequest {
         })
     }
 
-    
+    //queryUsers
+    async getqueryUsers() {
+        return await this.get('/queryUsers').then(request => {
+            // console.log("YES => ",request.data);
+            return request.data
+        }).catch((err)=>{
+            //console.log("No => ",err);
+            return null
+        })
+    }
+
     //historyall
     async historyall(data) {
         return await this.create('/historyall',data).then(request => {

@@ -88,7 +88,7 @@ export default {
                 }else{
                     model.statusUser = false
                 }
-                if(data.data_Leave.type === 'ลาป่วย'){
+                if(data.data_Leave.type === 'SickLeave'){
                     model.admin_approve = 'System'
                 }else{
                     model.admin_approve = data.data_Leave.admin_approve.name

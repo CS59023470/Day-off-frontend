@@ -1,42 +1,36 @@
 <template>
   <div class="box-group-menu">
-    <div class="box-menu-btn">
+    <div class="box-menu-btn" style=":hover :active color: red;">
+      
       <div class="menu-left">
         <button type="button" @click="returnEvent('personal')">
-          <div style="display: flex; margin-top: 10px;">
-            <span style="cursor: pointer;">{{ textmenuleft }}</span>
-            <span class="scoring">{{ sizePersonal }}</span>
+          <div class="tap-bar" :class="{ customActive: positionMenu === 'personal' }">
+            <span>{{ textmenuleft }}</span>
+            <span class="scoring" :style="[ positionMenu === 'personal' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizePersonal }}</span>
           </div>
         </button>
-        <div
-         
-          v-bind:class="{ menuSelected: positionMenu === 'personal' }"
-        ></div>
+        <div v-bind:class="{ menuSelected: positionMenu === 'personal' }"></div>
       </div>
+
       <div class="menu-middle">
         <button type="button" @click="returnEvent('sick')">
-          <div style="display: flex; margin-top: 10px;">
-            <span style="cursor: pointer;">{{ textmenumiddle }}</span>
-            <span class="scoring">{{ sizeSick }}</span>
+          <div class="tap-bar" :class="{ customActive: positionMenu === 'sick' }">
+            <span>{{ textmenumiddle }}</span>
+            <span class="scoring" :style="[ positionMenu === 'sick' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeSick }}</span>
           </div>
         </button>
-        <div
-        
-          v-bind:class="{ menuSelected: positionMenu === 'sick' }"
-        ></div>
+        <div v-bind:class="{ menuSelected: positionMenu === 'sick' }"></div>
       </div>
+
       <div class="menu-right">
         <button type="button" @click="returnEvent('vacation')">
-          <div style="display: flex; margin-top: 10px;">
-            <span style="cursor: pointer;">{{ textmenuright }}</span>
-            <span class="scoring">{{ sizeVacation }}</span>
+          <div class="tap-bar" :class="{ customActive: positionMenu === 'vacation' }">
+            <span>{{ textmenuright }}</span>
+            <span class="scoring" :style="[ positionMenu === 'vacation' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeVacation }}</span>
           </div>
         </button>
 
-        <div
-         
-          v-bind:class="{ menuSelected: positionMenu === 'vacation' }"
-        ></div>
+        <div v-bind:class="{ menuSelected: positionMenu === 'vacation' }"></div>
       </div>
     </div>
     <div
@@ -118,7 +112,17 @@ $heightLineActive: 10%;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
+      .tap-bar {
+        font-size: 15px;
+        display: flex;
+        margin-top: 10px;
+        cursor: pointer;
+        color: #858585;
+      }
+      .tap-bar:hover {
+        color: #0f4c81;
+        font-size: 16px;
+      }
       button {
         height: 100%;
         width: fit-content;
@@ -146,6 +150,10 @@ $heightLineActive: 10%;
       border-top-left-radius: 5px;
     }
   }
+}
+
+.customActive {
+  -webkit-text-fill-color: #0f4c81;
 }
 
 .menuSelected {
@@ -197,7 +205,9 @@ $heightLineActive: 10%;
   min-width: 20px;
   height: 20px;
   font-size: 12px;
-  background-color: #0f4c81;
+  // background-color: #0f4c81;
+  background-color: #858585;
+  -webkit-text-fill-color: #fff;
   border-radius: 50px;
   margin-left: 5px;
   display: flex;
@@ -205,5 +215,4 @@ $heightLineActive: 10%;
   align-items: center;
   color: #fff;
 }
-
 </style>

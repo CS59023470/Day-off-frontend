@@ -2,21 +2,25 @@
   <div id="popup" class="confrim-wrapper">
     <div class="background-popup" @click="returnEvent"></div>
     <div class="layout-popup">
-        <div class="content-icon-popup content_center">
-            <div class="icon-popup content_center">
-                <i class="material-icons">error</i>
-            </div>
+      <div class="close-popup">
+       <i class="material-icons">close</i>
+      </div>
+
+      <div class="content-title content_center">
+        <div class="success-ap"> 
+          <img src="~/assets/approved.png" >
         </div>
-        <div class="content-title content_center">
-            {{text}}
+        <div class="text-ap">
+        {{ text }}
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['text'],
+  props: ["text"],
   methods: {
     returnEvent(event) {
       this.$emit("eventClick", false);
@@ -53,25 +57,30 @@ export default {
     background-color: #fff;
     z-index: 1000;
     border-radius: 15px;
-    padding: 20px;
+    padding: 10px 10px 20px 20px;
     align-items: center;
 
-    .content-icon-popup{
-        width: 100%;
-        height: fit-content;
-
-        .icon-popup{
-            color: #e63a34;
-
-            .material-icons{
-                font-size: 35px;
-            }
-        }
+    .close-popup {
+      display: flex;
+      justify-content: flex-end;
+      
+      .material-icons{
+        background-color: #858585;
+        border-radius: 50%;
+        color: white;
+      }
     }
-
-    .content-title{
-        padding-top: 15px;
-        text-align: center;
+    .content-title {
+      padding-top: 15px;
+      text-align: center;
+      color: #2D810F;
+      .success-ap{
+       width: 40px;
+       margin-right: 15px;
+      }
+      .text-ap{
+        margin-bottom: 10px;
+      }
     }
   }
 }

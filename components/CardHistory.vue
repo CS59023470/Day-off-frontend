@@ -1,7 +1,7 @@
 <template>
   <div class="Wrap-Content">
     <div class="Container">
-      <div class="BoxcontentFulltime" v-if="status === true">
+      <div class="BoxcontentFulltime" v-if="status === true || status === 'full_time' || status === 'part_time'">
         <div class="HeadBox">
           <div class="UserType">
             Employee
@@ -20,9 +20,9 @@
           </button>
         </div>
       </div>
-      <div class="BoxcontentIntern" v-if="status === false">
+      <div class="BoxcontentIntern" v-if="status === false || status === 'internship'">
         <div class="UserType">
-          intern
+          internship
         </div>
         <div class="Name">{{ detailCard.startdate }} - {{ detailCard.enddate }}</div>
         <div class="ScoreLeaves">

@@ -13,7 +13,7 @@
         </div>
         <div class="box-content-show">
             <div
-                class="box-name-user content_center"
+                class="box-name-user content_center" style="font-weight: 550; font-size: 20px;"
                 v-bind:class="{color_fulltime: statusUser, color_intern: !statusUser}"
             >
                 {{datashow.name}}
@@ -130,6 +130,8 @@ $color_green : #2d810f;
             white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis; 
+            display: flex;
+            justify-content: flex-start;
         }
 
         .box-icon-popup{

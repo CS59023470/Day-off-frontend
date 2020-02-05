@@ -1,25 +1,25 @@
 export const state = {
     manuSuperAdmin: [
-        { text: 'หน้าแรก' , path: 'home' , icon: 'house' , status: false},
-        { text: 'แจ้งลางาน' , path: 'formRequest' , icon: 'send', status: false},
-        { text: 'ค้นหาประวัติการลา' , path: 'search-history' , icon: 'search',status: false},
-        { text: 'ประวัติการลา' , path: 'history' , icon: 'history',status: false},
+        { text: 'Home' , path: 'home' , icon: 'house' , status: false},
+        { text: 'Leave Request Form' , path: 'formRequest' , icon: 'send', status: false},
+        { text: 'Company Leave History' , path: 'search-history' , icon: 'search',status: false},
+        { text: 'My Leave History' , path: 'history' , icon: 'history',status: false},
     ],
     manuAdmin: [
-        { text: 'หน้าแรก' , path: 'home' , icon: 'house' , status: false},
-        { text: 'แจ้งลางาน' , path: 'formRequest' , icon: 'send', status: false},
-        { text: 'ค้นหาประวัติการลา' , path: 'search-history' , icon: 'search',status: false},
-        { text: 'ประวัติการลาของฉัน' , path: 'history' , icon: 'history',status: false},
+        { text: 'Home' , path: 'home' , icon: 'house' , status: false},
+        { text: 'Leave Request Form' , path: 'formRequest' , icon: 'send', status: false},
+        { text: 'Company Leave History' , path: 'search-history' , icon: 'search',status: false},
+        { text: 'My Leave History' , path: 'history' , icon: 'history',status: false},
     ],
     manuEmployee: [
-        { text: 'หน้าแรก' , path: 'home' , icon: 'house' , status: false},
-        { text: 'แจ้งลางาน' , path: 'formRequest' , icon: 'send', status: false},
-        { text: 'ประวัติการลา' , path: 'history' , icon: 'history',status: false},
+        { text: 'Home' , path: 'home' , icon: 'house' , status: false},
+        { text: 'Leave Request Form' , path: 'formRequest' , icon: 'send', status: false},
+        { text: 'My Leave History' , path: 'history' , icon: 'history',status: false},
     ],
     manuIntern: [
-        { text: 'หน้าแรก' , path: 'home' , icon: 'house' , status: false},
-        { text: 'แจ้งลางาน' , path: 'formRequest' , icon: 'send', status: false},
-        { text: 'ประวัติการลา' , path: 'history' , icon: 'history',status: false},
+        { text: 'Home' , path: 'home' , icon: 'house' , status: false},
+        { text: 'Leave Request Form' , path: 'formRequest' , icon: 'send', status: false},
+        { text: 'My Leave History' , path: 'history' , icon: 'history',status: false},
     ],
 }
 
