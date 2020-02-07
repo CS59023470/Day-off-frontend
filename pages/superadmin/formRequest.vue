@@ -63,6 +63,7 @@ export default {
         }
     },
     mounted(){
+        this.$store.commit('menu/setStatusSelectByLoadURL',{mainPath : 'superadmin',subPath : 'formRequest'})
         if(this.loadData){
             this.loadDataForm()
         }
@@ -134,39 +135,7 @@ export default {
             popupFail: state => state.popup.popup_fail,
             popupLoader: state => state.popup.popup_loader,
         })
-    },
-    /*asyncData(context) {
-        
-        context.store.commit('formRequest/setloader', true)
-        let user = JSON.parse(localStorage.getItem('userprofile'))
-        let result_check_holiday = provider.checkSpecialholiday(user.userId)
-
-        result_check_holiday.then((re_holiday) => {
-
-            let result_user = provider.getUserFormRequest(user.userId)
-            let result_weekend = provider.getAllWeekendCompany()
-            let result_dayoff = provider.getAllDayoffCompany()
-            let result_configday = provider.getConfigDay()
-
-            result_user.then((re_user) => {
-                context.store.commit('formRequest/setUserdayleft', re_user[0])
-
-                result_weekend.then((re_weekend) => {
-                    context.store.commit('formRequest/setWeekend', re_weekend)
-
-                    result_dayoff.then((re_dayoff) => {
-                        context.store.commit('formRequest/setDayoff', re_dayoff)
-                        
-                        result_configday.then((re_config) => {
-                            context.store.commit('formRequest/setConfigDay', re_config[0])
-                            context.store.commit('formRequest/setloader', false)
-                        })
-                    })
-                })
-            })
-        })
-        return {status:true}
-    }*/
+    }
 }
 </script>
 

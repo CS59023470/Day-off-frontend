@@ -1,68 +1,69 @@
 <template>
   <div class="Box-Home">
     <div v-if="dataHistory !== null">
-    <div class="Heads">
-      <div class="Heads-Content">
-        <CardHeaderInHistory
-          :sizePersonal="totalDataLaveShow.sizePersonal"
-          :sizeSick="totalDataLaveShow.sizeSick"
-          :sizeVacation="totalDataLaveShow.sizeVacation"
-        />
-        <div v-if="dataHistory !== null" class="Select-Year">
-          <select
-            name="selectYear"
-            @change="selectDropdownYear"
-            v-model="yearAtSelect"
-          >
-            <option
-              :value="year"
-              v-for="(year, idx) in craeteListYear"
-              :key="idx"
-              >{{ year }}</option
-            >
-          </select>
-        </div>
-      </div>
-    </div>
-    <BarComfrim
-      v-if="yearAtSelect !== null"
-      textmenuleft="Personal Leave"
-      textmenumiddle="Sick Leave"
-      textmenuright="Vacation Leave"
-      :sizePersonal="totalDataLaveShow.sizePersonal"
-      :sizeSick="totalDataLaveShow.sizeSick"
-      :sizeVacation="totalDataLaveShow.sizeVacation"
-      @eventClick="eventClick"
-    />
-    <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
-      <div class="not-found" v-if="loopmount.length === 0">
-        Data not found
-    </div>
-      <div v-else>
-        <div v-for="(loop, idx) in loopmount" :key="idx">
-          <Month
-            :showmonth="loop"
-            :year="yearAtSelect"
-            :statusUser="data_prop_month.statusUser"
-            :indexmonth="idx"
-            page="history"
-            @popupDetail="showPopupDetail"
+      <div class="Heads">
+        <div class="Heads-Content">
+          <CardHeaderInHistory
+            :sizePersonal="totalDataLaveShow.sizePersonal"
+            :sizeSick="totalDataLaveShow.sizeSick"
+            :sizeVacation="totalDataLaveShow.sizeVacation"
+            :yearAtSelect="yearAtSelect"
           />
+          <div v-if="dataHistory !== null" class="Select-Year">
+            <select
+              name="selectYear"
+              @change="selectDropdownYear"
+              v-model="yearAtSelect"
+            >
+              <option
+                :value="year"
+                v-for="(year, idx) in craeteListYear"
+                :key="idx"
+                >{{ year }}</option
+              >
+            </select>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
+      <BarComfrim
+        v-if="yearAtSelect !== null"
+        textmenuleft="Personal Leave"
+        textmenumiddle="Sick Leave"
+        textmenuright="Vacation Leave"
+        :sizePersonal="totalDataLaveShow.sizePersonal"
+        :sizeSick="totalDataLaveShow.sizeSick"
+        :sizeVacation="totalDataLaveShow.sizeVacation"
+        @eventClick="eventClick"
+      />
+      <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
+        <div class="not-found" v-if="loopmount.length === 0">
+          Data not found
+        </div>
+        <div v-else>
+          <div v-for="(loop, idx) in loopmount" :key="idx">
+            <Month
+              :showmonth="loop"
+              :year="yearAtSelect"
+              :statusUser="data_prop_month.statusUser"
+              :indexmonth="idx"
+              page="history"
+              @popupDetail="showPopupDetail"
+            />
+          </div>
+        </div>
+      </div>
+
+      <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
     </div>
     <div v-else class="layout_loading">
-        <LoadingPage/>
+      <LoadingPage />
     </div>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import PopupDetail from "../../components/Popup/PopupDetail";
-import LoadingPage from "../../components/LoadingPage"
+import LoadingPage from "../../components/LoadingPage";
 import CardHeaderInHistory from "../../components/CardHeaderInHistory";
 import BarComfrim from "../../components/BarComfrim";
 import Month from "../../components/Month";
@@ -91,10 +92,10 @@ export default {
         sizeSick: 0,
         sizeVacation: 0
       },
-
       loopmount: [],
       indexselect: null,
-      propsToPopup: null
+      propsToPopup: null,
+      tapbar: ""
     };
   },
   mounted() {
@@ -128,26 +129,39 @@ export default {
           this.data_prop_month.data = myHistory;
         }
       });
-       this.loopmount = this.dataHistory[
+      if (this.tapbar === "personal") {
+        this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listPersonalLeave;
+      } else if (this.tapbar === "sick") {
+        this.loopmount = this.dataHistory[
+          this.indexselect
+        ].listLeaveFullYear.listSickLeave;
+      } else if (this.tapbar === "vacation") {
+        this.loopmount = this.dataHistory[
+          this.indexselect
+        ].listLeaveFullYear.listVacationLeave;
+      }
     },
     eventClick(event) {
       if (event === "personal") {
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listPersonalLeave;
+        this.tapbar = "personal";
         //this.typeLeave = myHistory.listLeaveFullYear.listPersonalLeave
       } else if (event === "sick") {
         //this.typeLeave = myHistory.listLeaveFullYear.listSickLeave
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listSickLeave;
+        this.tapbar = "sick";
       } else {
         //this.typeLeave = myHistory.listLeaveFullYear.listVacationLeave
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listVacationLeave;
+        this.tapbar = "vacation";
       }
     },
     showPopupDetail(data) {
@@ -217,16 +231,16 @@ export default {
     height: auto;
   }
 }
-.not-found{
-    display: flex;
-    justify-content: center;
-    margin-top: 100px;
-    color: #858585;
+.not-found {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  color: #858585;
 }
-.layout_loading{
-        background-color: #fff;
-        margin-top: 23%;
-        width: 100%;
-        height: 100%;
-    }
+.layout_loading {
+  background-color: #fff;
+  margin-top: 23%;
+  width: 100%;
+  height: 100%;
+}
 </style>

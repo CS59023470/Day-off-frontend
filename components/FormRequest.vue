@@ -190,7 +190,7 @@ export default {
             ],
             list_time: [
                 { text: 'Time Period',value: 'none' },
-                { text: 'Morning (09:00-12:00',value: 'morning' },
+                { text: 'Morning (09:00-12:00)',value: 'morning' },
                 { text: 'Afternoon (13:00-18:00)',value: 'afternoon' },
                 { text: 'All-Day',value: 'allday' }
             ],
@@ -240,7 +240,7 @@ export default {
     },
     mounted(){
         this.disabledForm()
-        this.list_leave = this.checkNowDateHoliday()
+        //this.list_leave = this.checkNowDateHoliday()
     },
     methods:{
         moment,
@@ -266,7 +266,11 @@ export default {
                 }
             }
 
-            if(result){
+            if(!result){
+                this.disabledRadio_0()
+            }
+
+            /*if(result){
                 return this.list_leave
             }else{
                 let newList = []
@@ -276,7 +280,7 @@ export default {
                     }
                 })
                 return newList
-            }
+            }*/
         },
         //----------------------------------
         selectTypeLeave(){
@@ -295,6 +299,7 @@ export default {
                         this.enabledRadio_0()
                         this.enabledRadio_1()
                     }
+                    this.checkNowDateHoliday()
                 }else{
                     let sum_day_left = this.day_left_show + this.user_day_left.specialholiday
                     if(sum_day_left > 0 && sum_day_left < 1){
@@ -334,7 +339,7 @@ export default {
             if(this.dataForm.typeday == '0'){
                 this.picker = { date : new Date() }
             }else{
-                if(this.day_left_show === 1){
+/*                if(this.day_left_show === 1){
                     let dateStart = new Date()
                     let string_enddate = this.createDateEndCheck(2,dateStart)
                     let dateEnd = new Date(string_enddate)
@@ -369,6 +374,7 @@ export default {
                     this.picker = model
                     this.selectDate()
                 }
+*/
             }
         },
         selectDate(){
@@ -380,7 +386,29 @@ export default {
                     this.selectDropdownTimeStart()
                 }else{
                     if(this.checkDateInput()){
-                        if(this.dataForm.type === 'SL'){
+                        if(this.checkTotalDay()){
+                            this.date_start_show = moment(this.picker.date.start).format('YYYY-MM-DD')
+                            this.date_end_show = moment(this.picker.date.end).format('YYYY-MM-DD')
+                            if(this.sizeDayPicker === this.max_day_leave){
+                                this.createDropdownTimeStart()
+                                this.enabledStartDate()
+                                this.selectDropdownTimeStart()
+                            }else{
+                                this.createDropdownTimeStart()
+                                this.enabledStartDate()
+                                this.selectDropdownTimeStart()
+                            }
+                        }else{
+                            this.date_start_show = null
+                            this.date_end_show = null
+                            this.dataForm.starttime = 'none'
+                            this.dataForm.endtime = 'none'
+                            this.list_time_start = []
+                            this.list_time_end = []
+                            this.disabledStartDate()
+                            this.disabledEndDate()
+                        }
+                    /*    if(this.dataForm.type === 'SL'){
                             if(this.day_left_show === 1){
                                 this.date_start_show = moment(this.picker.date.start).format('YYYY-MM-DD')
                                 this.date_end_show = moment(this.picker.date.end).format('YYYY-MM-DD')
@@ -456,7 +484,7 @@ export default {
                                 this.disabledStartDate()
                                 this.disabledEndDate()
                             }
-                        }
+                        }*/
                     }else{
                         this.date_start_show = null
                         this.date_end_show = null
@@ -490,6 +518,9 @@ export default {
             }else{
                 if(this.day_left_show === 1){
                     this.dataForm.totalDay = 0.5
+                    this.createDropdownTimeEnd()
+                    this.enabledEndDate()
+                    this.selectDropdownTimeEnd()
                 }else{
                     if(this.sizeDayPicker === this.max_day_leave){
                         this.createDropdownTimeEnd()
@@ -595,7 +626,7 @@ export default {
             }
             return result
         },
-        checkStartDateForSickLeave(){
+/*        checkStartDateForSickLeave(){
             let nowdate = moment(new Date()).format('YYYY-MM-DD')
             let startDate = moment(this.picker.date.start).format('YYYY-MM-DD')
             if(nowdate !== startDate){
@@ -604,6 +635,7 @@ export default {
                 return true
             }
         },
+*/
         checkTotalDay(){
             let total_day = 0
             let max_day = 0
@@ -813,19 +845,28 @@ export default {
                         }else{
                             //มีแก้ไข ควรเช็คเวลาจริงด้วย
                             let nowDate = new Date()
-                            if(nowDate.getHours() < 12){
+                            if(moment(this.picker.date.start).format('YYYY-MM-DD') === moment(nowDate).format('YYYY-MM-DD')){
+                                if(nowDate.getHours() < 12){
+                                    this.list_time.forEach(time => {
+                                        if(time.value === 'afternoon' || time.value === 'allday'){
+                                            this.list_time_start.push(time)
+                                        }
+                                    })
+                                }else{
+                                    this.list_time.forEach(time => {
+                                        if(time.value === 'afternoon'){
+                                            this.list_time_start.push(time)
+                                        }
+                                    })
+                                }
+                            }else{
                                 this.list_time.forEach(time => {
                                     if(time.value === 'afternoon' || time.value === 'allday'){
                                         this.list_time_start.push(time)
                                     }
                                 })
-                            }else{
-                                this.list_time.forEach(time => {
-                                    if(time.value === 'afternoon'){
-                                        this.list_time_start.push(time)
-                                    }
-                                })
                             }
+                            
                         }
                     }else{
                         if(this.sizeDayPicker === this.max_day_leave){
@@ -1154,10 +1195,14 @@ export default {
         disabledDetail(){
            document.getElementById("layout_detail").style.opacity = this.opacity_disabled_global
            document.getElementById("form_detail").disabled = true
+           this.disabledSubmit()
         },
         enabledDetail(){
             document.getElementById("layout_detail").style.opacity = this.opacity_enabled_global
             document.getElementById("form_detail").disabled = false
+            if(this.dataForm.detailleave !== ''){
+                this.enabledSubmit()
+            }
         },
 
         //Contro Button Submit

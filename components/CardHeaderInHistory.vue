@@ -84,16 +84,14 @@ export default {
     ...mapState({ pathDefult: state => state.pathDefult.path })
   },
   mounted() {
-    // this.path = this.$route.name
     let dataLogin = JSON.parse(localStorage.getItem("userprofile"));
     this.dataUser.name = dataLogin.name;
     this.dataUser.email = dataLogin.email;
     this.dataUser.position = dataLogin.position;
     this.dataUser.statusUser = dataLogin.statusUser;
     this.dataUser.statusWorking = dataLogin.statusWorking;
-    console.log("aaaaaa =>", dataLogin);
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

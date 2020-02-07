@@ -85,6 +85,12 @@ export const mutations = {
                 break;
             default: break;
         }
+    },
+    setNoneSelect(state){
+        state.manuSuperAdmin.forEach( (st) => { st.status = false })
+        state.manuAdmin.forEach( (st) => { st.status = false })
+        state.manuEmployee.forEach( (st) => { st.status = false })
+        state.manuIntern.forEach( (st) => { st.status = false })
     }
 }
 

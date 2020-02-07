@@ -1,61 +1,68 @@
 <template>
   <div class="Box-Home">
-    <div v-if="dataHistory !== null">
-    <div class="Heads">
-      <div class="Heads-Content">
-        <CardHeaderInHistory
-          :sizePersonal="totalDataLaveShow.sizePersonal"
-          :sizeSick="totalDataLaveShow.sizeSick"
-          :sizeVacation="totalDataLaveShow.sizeVacation"
-        />
-        <div v-if="dataHistory !== null" class="Select-Year">
-          <select
-            name="selectYear"
-            @change="selectDropdownYear"
-            v-model="yearAtSelect"
-          >
-            <option
-              :value="year"
-              v-for="(year, idx) in craeteListYear"
-              :key="idx"
-              >{{ year }}</option
-            >
-          </select>
-        </div>
-      </div>
-    </div>
-    <BarComfrim
-      v-if="yearAtSelect !== null"
-      textmenuleft="Personal Leave"
-      textmenumiddle="Sick Leave"
-      textmenuright="Vacation Leave"
-      :sizePersonal="totalDataLaveShow.sizePersonal"
-      :sizeSick="totalDataLaveShow.sizeSick"
-      :sizeVacation="totalDataLaveShow.sizeVacation"
-      @eventClick="eventClick"
-    />
-    <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
-      <div class="not-found" v-if="loopmount.length === 0">
-        Data not found
-    </div>
-      <div v-else>
-        <div v-for="(loop, idx) in loopmount" :key="idx">
-          <Month
-            :showmonth="loop"
-            :year="yearAtSelect"
-            :statusUser="data_prop_month.statusUser"
-            :indexmonth="idx"
-            page="history"
-            @popupDetail="showPopupDetail"
-          />
-        </div>
-      </div>
-    </div>
-    
-    <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
-    </div>
-    <div v-else class="layout_loading">
+    <div v-if="dataHistory === null" class="layout_loading">
         <LoadingPage/>
+    </div>
+    <div v-else-if="dataHistory === 'Not_Data'" class="layout_loading content_center">
+        <div class="box_not_found">
+            <div class="icon_not_found content_center">
+                <i class="material-icons">cloud_off</i>
+            </div>
+            <div class="text_not_found content_center">You do not have leave history</div>
+        </div>
+    </div>
+    <div v-else>
+      <div class="Heads">
+        <div class="Heads-Content">
+          <CardHeaderInHistory
+            :sizePersonal="totalDataLaveShow.sizePersonal"
+            :sizeSick="totalDataLaveShow.sizeSick"
+            :sizeVacation="totalDataLaveShow.sizeVacation"
+          />
+          <div class="Select-Year">
+            <select
+              name="selectYear"
+              @change="selectDropdownYear"
+              v-model="yearAtSelect"
+            >
+              <option
+                :value="year"
+                v-for="(year, idx) in craeteListYear"
+                :key="idx"
+                >{{ year }}</option
+              >
+            </select>
+          </div>
+        </div>
+      </div>
+      <BarComfrim
+        v-if="yearAtSelect !== null"
+        textmenuleft="Personal Leave"
+        textmenumiddle="Sick Leave"
+        textmenuright="Vacation Leave"
+        :sizePersonal="totalDataLaveShow.sizePersonal"
+        :sizeSick="totalDataLaveShow.sizeSick"
+        :sizeVacation="totalDataLaveShow.sizeVacation"
+        @eventClick="eventClick"
+      />
+      <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
+        <div class="not-found" v-if="loopmount.length === 0">
+          Data not found
+        </div>
+        <div v-else>
+          <div v-for="(loop, idx) in loopmount" :key="idx">
+            <Month
+              :showmonth="loop"
+              :year="yearAtSelect"
+              :statusUser="data_prop_month.statusUser"
+              :indexmonth="idx"
+              page="history"
+              @popupDetail="showPopupDetail"
+            />
+          </div>
+        </div>
+      </div>
+      <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
     </div>
   </div>
 </template>
@@ -98,9 +105,8 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit('menu/setStatusSelectByLoadURL',{mainPath : 'superadmin',subPath : 'history'})
     this.queryMyLeave();
-
-    // console.log('123456789', this.data_prop_month.data);
   },
 
   methods: {
@@ -108,15 +114,19 @@ export default {
       let dataLogin = JSON.parse(localStorage.getItem("userprofile"));
       let result = this.api.getHistoryLeaveByUserId(dataLogin.userId);
       result.then(re => {
-        this.dataHistory = re;
-        if (dataLogin.statusWorking === "internship") {
-          this.data_prop_month.statusUser = false;
-        } else {
-          this.data_prop_month.statusUser = true;
+        if(re.length > 0){
+          this.dataHistory = re;
+          if (dataLogin.statusWorking === "internship") {
+            this.data_prop_month.statusUser = false;
+          } else {
+            this.data_prop_month.statusUser = true;
+          }
+          this.yearAtSelect = new Date().getFullYear();
+          this.selectDropdownYear();
+        }else{
+          this.dataHistory = 'Not_Data'
         }
-        this.yearAtSelect = new Date().getFullYear();
-        this.selectDropdownYear();
-      });
+      })
     },
     selectDropdownYear() {
       this.dataHistory.forEach((myHistory, i) => {
@@ -127,10 +137,8 @@ export default {
           this.totalDataLaveShow.sizeVacation = myHistory.totalVacation;
           this.data_prop_month.data = myHistory;
         }
-      });
-      this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listPersonalLeave;
+      })
+      this.loopmount = this.dataHistory[this.indexselect].listLeaveFullYear.listPersonalLeave;
     },
     eventClick(event) {
       if (event === "personal") {
@@ -191,7 +199,7 @@ export default {
 <style lang="scss">
 .Box-Home {
   width: 100%;
-  height: auto;
+  height: 100%;
   .Heads {
     width: 100%;
     height: auto;
@@ -224,9 +232,23 @@ export default {
     color: #858585;
 }
 .layout_loading{
-        background-color: #fff;
-        margin-top: 23%;
-        width: 100%;
-        height: 100%;
-    }
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+}
+
+.box_not_found{
+            width: 100%;
+            .icon_not_found{
+                color: rgba(0,0,0,0.1);
+                .material-icons{
+                    font-size: 60px;
+                }
+            }
+
+            .text_not_found{
+                color: rgba(0,0,0,0.2);
+            }
+
+        }
 </style>

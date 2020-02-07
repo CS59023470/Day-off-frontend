@@ -11,9 +11,13 @@
         </div>
         <div id="layout_content">
             <nuxt/>
-            <div v-if="statusClickMenu === true" class="my-menu" v-bind:class="{show: statusShow, hid: !statusShow}">
-              <Menu @close="closeMenu"/>
+            <div>
+              <div v-if="statusClickMenu" class="my-menu" v-bind:class="{show: statusShow, hid: !statusShow}">
+                <Menu @close="closeMenu"/>
+              </div>
+              <div v-if="statusClickMenu && statusShow" class="background-menu" @click="closeMenu"></div>
             </div>
+            
         </div>
         <Popuplogout v-if="popupLogout"/>
     </div>
@@ -146,6 +150,15 @@ html {
     height: $heightContent;
     position: fixed;
     top: $heightNav;
+}
+
+.background-menu{
+  width: 100% - $widthMenu;
+  position: fixed;
+  top: $heightNav;
+  right: 0px;
+  height: $heightContent;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .show{

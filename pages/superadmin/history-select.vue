@@ -100,9 +100,8 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit('menu/setNoneSelect')
     this.queryMyLeave();
-
-    // console.log('123456789', this.linkpage);
   },
 
   methods: {

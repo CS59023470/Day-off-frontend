@@ -7,6 +7,7 @@
           :sizePersonal="totalDataLaveShow.sizePersonal"
           :sizeSick="totalDataLaveShow.sizeSick"
           :sizeVacation="totalDataLaveShow.sizeVacation"
+          :yearAtSelect="yearAtSelect"
         />
         <div v-if="dataHistory !== null" class="Select-Year">
           <select
@@ -94,7 +95,8 @@ export default {
 
       loopmount: [],
       indexselect: null,
-      propsToPopup: null
+      propsToPopup: null,
+      tapbar: ""
     };
   },
   mounted() {
@@ -128,26 +130,39 @@ export default {
           this.data_prop_month.data = myHistory;
         }
       });
-      this.loopmount = this.dataHistory[
+      if (this.tapbar === "personal") {
+        this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listPersonalLeave;
+      } else if (this.tapbar === "sick") {
+        this.loopmount = this.dataHistory[
+          this.indexselect
+        ].listLeaveFullYear.listSickLeave;
+      } else if (this.tapbar === "vacation") {
+        this.loopmount = this.dataHistory[
+          this.indexselect
+        ].listLeaveFullYear.listVacationLeave;
+      }
     },
     eventClick(event) {
       if (event === "personal") {
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listPersonalLeave;
+        this.tapbar = "personal";
         //this.typeLeave = myHistory.listLeaveFullYear.listPersonalLeave
       } else if (event === "sick") {
         //this.typeLeave = myHistory.listLeaveFullYear.listSickLeave
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listSickLeave;
+        this.tapbar = "sick";
       } else {
         //this.typeLeave = myHistory.listLeaveFullYear.listVacationLeave
         this.loopmount = this.dataHistory[
           this.indexselect
         ].listLeaveFullYear.listVacationLeave;
+        this.tapbar = "vacation";
       }
     },
     showPopupDetail(data) {

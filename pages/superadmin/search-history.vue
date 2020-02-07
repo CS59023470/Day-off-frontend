@@ -65,6 +65,7 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit('menu/setStatusSelectByLoadURL',{mainPath : 'superadmin',subPath : 'search-history'})
     this.createNowMonth();
     this.allnameuser();
   },

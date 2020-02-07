@@ -98,6 +98,7 @@ $color_green : #2d810f;
 
     .box-type-name{
         height: 12%;
+        margin-bottom: 10px;
         .type-user{
             min-width: 30%;
             max-width: fit-content;

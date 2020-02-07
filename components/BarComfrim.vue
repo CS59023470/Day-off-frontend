@@ -4,41 +4,41 @@
       
       <div class="menu-left">
         <button type="button" @click="returnEvent('personal')">
-          <div class="tap-bar" :class="{ customActive: positionMenu === 'personal' }">
+          <div class="tap-bar" :class="{ customActive: filterpositionMenu === 'personal' }">
             <span>{{ textmenuleft }}</span>
-            <span class="scoring" :style="[ positionMenu === 'personal' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizePersonal }}</span>
+            <span class="scoring" :style="[ filterpositionMenu === 'personal' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizePersonal }}</span>
           </div>
         </button>
-        <div v-bind:class="{ menuSelected: positionMenu === 'personal' }"></div>
+        <div v-bind:class="{ menuSelected: filterpositionMenu === 'personal' }"></div>
       </div>
 
       <div class="menu-middle">
         <button type="button" @click="returnEvent('sick')">
-          <div class="tap-bar" :class="{ customActive: positionMenu === 'sick' }">
+          <div class="tap-bar" :class="{ customActive: filterpositionMenu === 'sick' }">
             <span>{{ textmenumiddle }}</span>
-            <span class="scoring" :style="[ positionMenu === 'sick' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeSick }}</span>
+            <span class="scoring" :style="[ filterpositionMenu === 'sick' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeSick }}</span>
           </div>
         </button>
-        <div v-bind:class="{ menuSelected: positionMenu === 'sick' }"></div>
+        <div v-bind:class="{ menuSelected: filterpositionMenu === 'sick' }"></div>
       </div>
 
       <div class="menu-right">
         <button type="button" @click="returnEvent('vacation')">
-          <div class="tap-bar" :class="{ customActive: positionMenu === 'vacation' }">
+          <div class="tap-bar" :class="{ customActive: filterpositionMenu === 'vacation' }">
             <span>{{ textmenuright }}</span>
-            <span class="scoring" :style="[ positionMenu === 'vacation' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeVacation }}</span>
+            <span class="scoring" :style="[ filterpositionMenu === 'vacation' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeVacation }}</span>
           </div>
         </button>
 
-        <div v-bind:class="{ menuSelected: positionMenu === 'vacation' }"></div>
+        <div v-bind:class="{ menuSelected: filterpositionMenu === 'vacation' }"></div>
       </div>
     </div>
     <div
       class="box-line-active"
       v-bind:class="{
-        positionpersonal: positionMenu === 'personal',
-        positionsick: positionMenu === 'sick',
-        positionvacation: positionMenu === 'vacation'
+        positionpersonal: filterpositionMenu === 'personal',
+        positionsick: filterpositionMenu === 'sick',
+        positionvacation: filterpositionMenu === 'vacation'
       }"
     >
       <div class="line-status-active"></div>
@@ -65,6 +65,11 @@ export default {
   mounted() {
     this.path = this.$route.name;
     this.returnEvent("personal");
+  },
+  computed: {
+    filterpositionMenu() {
+      return this.positionMenu
+    }
   },
   methods: {
     returnEvent(event) {

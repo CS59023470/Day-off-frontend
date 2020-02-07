@@ -52,6 +52,7 @@ export default {
         }
     },
     mounted(){
+        this.$store.commit('menu/setStatusSelectByLoadURL',{mainPath : 'superadmin',subPath : 'home'})
         this.controCalendar.height = document.getElementById("box-calendar").offsetHeight
         this.querydatacard()
     },
