@@ -59,6 +59,7 @@ export default {
             padding: 5% 5% 5% 0;
             width: 100%;
             height: auto;
+            cursor: pointer;
             .usertype {
                 color: black;
                 background: white;
@@ -95,6 +96,7 @@ export default {
             padding: 5% 5% 5% 0;
             width: 100%;
             height: auto;
+            cursor: pointer;
             .headbox {
                 display: flex;
                 justify-content: space-between;
