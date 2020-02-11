@@ -184,7 +184,7 @@ export default {
                         }
                         .menu-text{
                             width: 75%;
-                            height: 100%;    
+                            height: 100%;
                             
                             .btnMenu{
                                 background: transparent;
@@ -196,6 +196,7 @@ export default {
                                 justify-content: flex-start;
                                 align-items: center;
                                 font-size: 15px;
+                                font-family: roboto;
                             }
                         }
                     }

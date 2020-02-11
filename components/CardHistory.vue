@@ -85,6 +85,7 @@ export default {
           height: auto;
           width: auto;
           font-size: 15px;
+          font-family: roboto;
         }
         .LogoType {
           background-image: url("~assets/image1.png");
@@ -103,6 +104,7 @@ export default {
         font-weight: 500;
         padding: 10px 0;
         color: #0f4c81;
+        font-family: roboto;
       }
       .ScoreLeaves {
         display: flex;
@@ -116,6 +118,7 @@ export default {
           width: 90%;
           overflow: hidden;
           white-space: nowrap;
+          font-family: roboto;
         }
       }
       .more {

@@ -6,7 +6,7 @@
                     <i class="material-icons">list_alt</i>
                 </div>
                 <div class="title-card-text centent_left">
-                    <label>Leave Request</label>
+                    <label style="font-family: roboto;">Leave Request</label>
                 </div>
             </div>
         </div>
@@ -184,6 +184,7 @@ $heightListCard: $heightFull - $heightTitleCard;
             .title-card-text{
                 height: 100%;
                 width: 75%;
+                font-family: roboto;
 
                 label{
                     font-size: 18px;
@@ -212,6 +213,7 @@ $heightListCard: $heightFull - $heightTitleCard;
 
             .text_not_found{
                 color: rgba(0,0,0,0.2);
+                font-family: roboto;
             }
 
         }

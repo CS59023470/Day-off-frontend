@@ -97,10 +97,8 @@ export default {
         showPopupDetailCard(data){
             this.propsToPopup = this.createModelToPopupDetail('card',data)
             this.$store.commit('popup/showPopupDetail')
-            console.log(this.propsToPopup)
         },
         createModelToPopupDetail(type,data){
-            console.log(data.data_Leave.type)
             if(type === 'card'){
                 let model = {
                     userName: data.datashow.name,

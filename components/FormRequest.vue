@@ -49,7 +49,7 @@
                     v-model="dataForm.typeday"
                     @change="selectRadio"
                 >
-                <label id="text_radio_0"> Single Leave</label>
+                <label style="font-family: roboto;" id="text_radio_0"> Single Leave</label>
             </div>
             <div class="box-radio content_center">
                 <input 
@@ -59,7 +59,7 @@
                     v-model="dataForm.typeday"
                     @change="selectRadio"
                 > 
-                <label id="text_radio_1"> Extended Leave</label>
+                <label style="font-family: roboto;" id="text_radio_1"> Extended Leave</label>
             </div>
         </div>
 
@@ -1295,6 +1295,7 @@ export default {
     font-size: 20px;
     font-weight: 500;
     text-align: center;
+    font-family: roboto;
 }
 
 .dropdown-leave{
@@ -1302,6 +1303,7 @@ export default {
     border-radius: 5px;
     text-align-last: center;
     text-align: center;
+    font-family: roboto;
 }
   .day-stack{
     text-align: center;

@@ -69,8 +69,8 @@ export default {
     max-height: fit-content;
     background-color: #fff;
     z-index: 1000;
-    border-radius: 15px;
-    padding: 10px 10px 20px 20px;
+    border-radius: 20px;
+    padding: 10px 10px 25px 35px;
     align-items: center;
 
     .content-icon-popup {
@@ -93,9 +93,11 @@ export default {
         background-color: #858585;
         color: #fff;
         border-radius: 50%;
+        display: flex;
+        justify-content: center;
         i {
           font-size: 15px;
-          padding: 5px;
+          padding: 2px;
         }
       }
     }
@@ -103,13 +105,16 @@ export default {
       font-weight: 600;
       text-align: center;
       color: #2d810f;
-      margin: 10px 20px 10px 5px;
+      margin: 10px 40px 10px 10px;
+      font-family: roboto;
     }
 
     .content-reject {
       font-weight: 600;
       text-align: center;
       color: #d91616;
+      font-family: roboto;
+      margin: 10px 40px 10px 10px;
     }
   }
 }

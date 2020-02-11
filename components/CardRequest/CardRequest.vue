@@ -108,6 +108,7 @@ $color_green : #2d810f;
             padding: 0px 20px 0px 15px;
             font-size: 14px;
             font-weight: 400;
+            font-family: roboto;
         }
 
         .icon-company{
@@ -133,6 +134,7 @@ $color_green : #2d810f;
             text-overflow: ellipsis; 
             display: flex;
             justify-content: flex-start;
+            font-family: roboto;
         }
 
         .box-icon-popup{

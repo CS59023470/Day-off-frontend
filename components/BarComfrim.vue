@@ -5,7 +5,7 @@
       <div class="menu-left">
         <button type="button" @click="returnEvent('personal')">
           <div class="tap-bar" :class="{ customActive: filterpositionMenu === 'personal' }">
-            <span>{{ textmenuleft }}</span>
+            <span style="font-family: roboto;">{{ textmenuleft }}</span>
             <span class="scoring" :style="[ filterpositionMenu === 'personal' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizePersonal }}</span>
           </div>
         </button>
@@ -15,7 +15,7 @@
       <div class="menu-middle">
         <button type="button" @click="returnEvent('sick')">
           <div class="tap-bar" :class="{ customActive: filterpositionMenu === 'sick' }">
-            <span>{{ textmenumiddle }}</span>
+            <span style="font-family: roboto;">{{ textmenumiddle }}</span>
             <span class="scoring" :style="[ filterpositionMenu === 'sick' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeSick }}</span>
           </div>
         </button>
@@ -25,7 +25,7 @@
       <div class="menu-right">
         <button type="button" @click="returnEvent('vacation')">
           <div class="tap-bar" :class="{ customActive: filterpositionMenu === 'vacation' }">
-            <span>{{ textmenuright }}</span>
+            <span style="font-family: roboto;">{{ textmenuright }}</span>
             <span class="scoring" :style="[ filterpositionMenu === 'vacation' ? { background: '#0f4c81' } : { background: '#858585' } ]">{{ sizeVacation }}</span>
           </div>
         </button>
@@ -169,6 +169,7 @@ $heightLineActive: 10%;
   width: 120px !important;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  margin-top: 2px;
 }
 
 .position1 {

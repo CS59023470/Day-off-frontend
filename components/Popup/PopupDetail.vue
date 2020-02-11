@@ -185,6 +185,8 @@ export default {
     }
     .subname{
       font-size: 16px;
+      font-family: roboto;
+      margin: 5px 0px 3px 0px;
     }
     .box-detail{
       height: fit-content;

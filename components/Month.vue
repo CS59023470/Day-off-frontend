@@ -46,7 +46,6 @@ export default {
     components: {
         CardHistory,
         CardInAdminHistory,
-
     },
     data() {
         return{
@@ -55,15 +54,12 @@ export default {
             nowDate : new Date(),
         }
     },
-    mounted(){
-        console.log("test=> ", this.$props.year)
+    mounted(){ 
         this.path = this.$route.name
     },
     methods:{
         topathHistory(user){
-        //    this.$router.push(this.pathDefult+'history-select')
             this.$emit('clickcard',user)
-            console.log("card",user)
         },
         clickPopup(indexcard){
             let model ={

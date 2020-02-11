@@ -66,18 +66,23 @@ export default {
     background-color: #fff;
     z-index: 1000;
     border-radius: 15px;
-    padding: 20px;
+    padding: 25px 20px 25px 20px;
 
     .title-popup, .btn-group-popup{
         display: flex;
         align-content: center;
         justify-content: center;
+        font-family: roboto;
+        // font-size: 20px;
+        // line-height: 23px;
     }
 
     .title-popup{
-        font-size: 22px;
+        font-size: 16px;
         font-weight: 500;
         margin-bottom: 25px;
+        font-weight: bold;
+
       }
 
       .btn-group-popup{
@@ -91,6 +96,8 @@ export default {
             width: 60%;
             height: 30px;
             border-radius: 5px;
+            font-size: 12px;
+            font-family: roboto;
           }
 
           .btn-close{
@@ -105,6 +112,7 @@ export default {
             outline: none;
             background-color: #2D810F;
             color: #fff;
+            font-size: 12px;
           }
 
           .btn-reject{

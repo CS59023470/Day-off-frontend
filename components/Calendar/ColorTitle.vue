@@ -33,4 +33,7 @@ export default {
     margin-right: 5px;
     margin-left: 20px;
 }
+.textcolor{
+    font-family: roboto;
+}
 </style>

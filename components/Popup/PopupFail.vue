@@ -68,6 +68,12 @@ export default {
         background-color: #858585;
         border-radius: 50%;
         color: white;
+        display: flex;
+        justify-content: center;
+         i {
+          font-size: 15px;
+          padding: 2px;
+        }
       }
     }
     .content-title {

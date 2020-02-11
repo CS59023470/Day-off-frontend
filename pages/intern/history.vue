@@ -1,62 +1,79 @@
 <template>
-  <div class="Box-Home">
-    <div v-if="dataHistory !== null">
-    <div class="Heads">
-      <div class="Heads-Content">
-        <CardHeaderInHistory
-          :sizePersonal="totalDataLaveShow.sizePersonal"
-          :sizeSick="totalDataLaveShow.sizeSick"
-          :sizeVacation="totalDataLaveShow.sizeVacation"
-          :yearAtSelect="yearAtSelect"
-        />
-        <div v-if="dataHistory !== null" class="Select-Year">
-          <select
-            name="selectYear"
-            @change="selectDropdownYear"
-            v-model="yearAtSelect"
-          >
-            <option
-              :value="year"
-              v-for="(year, idx) in craeteListYear"
-              :key="idx"
-              >{{ year }}</option
-            >
-          </select>
+  <div class="layout_history_wrapper">
+    <div v-if="dataHistory === null" class="layout_loading_history">
+        <LoadingPage/>
+    </div>
+    <div v-else-if="dataHistory === 'Not_Data'" class="layout_loading_history content_center">
+        <div class="box_not_found">
+            <div class="icon_not_found content_center">
+                <i class="material-icons">cloud_off</i>
+            </div>
+            <div class="text_not_found content_center">You do not have leave history</div>
         </div>
-      </div>
     </div>
-    <BarComfrim
-      v-if="yearAtSelect !== null"
-      textmenuleft="Personal Leave"
-      textmenumiddle="Sick Leave"
-      textmenuright="Vacation Leave"
-      :sizePersonal="totalDataLaveShow.sizePersonal"
-      :sizeSick="totalDataLaveShow.sizeSick"
-      :sizeVacation="totalDataLaveShow.sizeVacation"
-      @eventClick="eventClick"
-    />
-    <div v-if="data_prop_month.data !== null" class="HistoryOfMonth">
-      <div class="not-found" v-if="loopmount.length === 0">
-        Data not found
-    </div>
-      <div v-else>
-        <div v-for="(loop, idx) in loopmount" :key="idx">
-          <Month
-            :showmonth="loop"
-            :year="yearAtSelect"
-            :statusUser="data_prop_month.statusUser"
-            :indexmonth="idx"
-            page="history"
-            @popupDetail="showPopupDetail"
+    <div v-else class="layout_full_content">
+      <div class="layout_header_history">
+        <div class="layout_user_profile content_center">
+          <ProfileUser
+            :year="yearSelect"
+            :status="data_prop_profile_user.status"
+            :user="data_prop_profile_user.dataUser"
+            :total="data_prop_profile_user.totalLeave"        
           />
         </div>
+        <div class="layout_filter_data">
+          <div class="filter_year">
+            <FilterYear
+              :list_year="data_prop_year"
+              :sizeYear="data_prop_year.length"
+              @returnYear="setYearSelect"
+            />
+          </div>
+          <div class="filter_type_leave">
+            <MenuLeave
+              :sizePersonal="totalDataLaveShow.sizePersonal"
+              :sizeSick="totalDataLaveShow.sizeSick"
+              :sizeVacation="totalDataLaveShow.sizeVacation"
+              @returnTypeLeave="setTypeSelect"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-    
-    <PopupDetail v-if="popupDetail" :datashow="propsToPopup" />
-    </div>
-    <div v-else class="layout_loading">
-        <LoadingPage/>
+      <div class="layout_content_card">
+        <div
+          v-if="data_prop_month.data === null || data_prop_month.data.length === 0"
+          class="content_card_not_found content_center"
+        >
+          <div class="box_not_found">
+            <div class="icon_not_found content_center">
+                <i class="material-icons">cloud_off</i>
+            </div>
+            <div :class="`text_not_found_${statusSelectType} content_center`">
+              You do not have&nbsp;
+              <label>{{data_notfound_by_type.type}}</label>
+              &nbsp;history in&nbsp;
+              <label>{{data_notfound_by_type.year}}</label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div v-for="(loop, idx) in getListLeaveShow" :key="idx">
+            <Month
+              :showmonth="loop"
+              :year="yearSelect"
+              :statusUser="data_prop_month.statusUser"
+              :indexmonth="idx"
+              page="history"
+              @popupDetail="showPopupDetail"
+            />
+          </div>
+        </div>
+      </div>
+
+      <PopupDetail
+        v-if="popupDetail"
+        :datashow="propsToPopup"
+      />
     </div>
   </div>
 </template>
@@ -66,8 +83,13 @@ import PopupDetail from "../../components/Popup/PopupDetail";
 import LoadingPage from "../../components/LoadingPage"
 import CardHeaderInHistory from "../../components/CardHeaderInHistory";
 import BarComfrim from "../../components/BarComfrim";
-import Month from "../../components/Month";
+
 import Provider from "../../service/provider";
+
+import Month from "../../components/Month";
+import ProfileUser from "../../components/History/ProfileUser";
+import FilterYear from "../../components/History/FilterYear";
+import MenuLeave from "../../components/History/MenuLeave";
 const provider = new Provider();
 export default {
   components: {
@@ -75,34 +97,48 @@ export default {
     Month,
     BarComfrim,
     LoadingPage,
-    PopupDetail
+    PopupDetail,
+    ProfileUser,
+    FilterYear,
+    MenuLeave
   },
   data() {
     return {
-      dataHistory: null,
-      typeLeave: null,
-      data_prop_month: {
-        data: null,
-        statusUser: null
-      },
       api: provider,
-      yearAtSelect: null,
+      data_prop_year: null,
+      data_prop_profile_user: {
+        status: null,
+        totalLeave: null,
+        dataUser: {
+          name: null,
+          email: null,
+          img: null
+        }
+      },
       totalDataLaveShow: {
         sizePersonal: 0,
         sizeSick: 0,
         sizeVacation: 0
       },
+      yearSelect: null,
+      typeSelect: null,
+      statusSelectType: null,
+      data_prop_month: {
+        data: null,
+        statusUser: null
+      },
+      data_notfound_by_type: {
+        type: '',
+        year: ''
+      },
 
-      loopmount: [],
-      indexselect: null,
+      dataHistory: null,
       propsToPopup: null,
-      tapbar: ""
     };
   },
   mounted() {
+    this.$store.commit('menu/setStatusSelectByLoadURL',{mainPath : 'superadmin',subPath : 'history'})
     this.queryMyLeave();
-
-    // console.log('123456789', this.data_prop_month.data);
   },
 
   methods: {
@@ -110,64 +146,103 @@ export default {
       let dataLogin = JSON.parse(localStorage.getItem("userprofile"));
       let result = this.api.getHistoryLeaveByUserId(dataLogin.userId);
       result.then(re => {
-        this.dataHistory = re;
-        if (dataLogin.statusWorking === "internship") {
-          this.data_prop_month.statusUser = false;
-        } else {
-          this.data_prop_month.statusUser = true;
+        if(re.length > 0){
+          this.dataHistory = re;
+          this.setListYearToComponent(re)
+        }else{
+          this.dataHistory = 'Not_Data'
         }
-        this.yearAtSelect = new Date().getFullYear();
-        this.selectDropdownYear();
-      });
+      })
     },
-    selectDropdownYear() {
-      this.loopmount=[];
+
+    setListYearToComponent(list){
+      let list_not_sort = []
+      list.forEach(list_year => {
+        list_not_sort.push(list_year.year)
+      })
+      this.data_prop_year = list_not_sort.sort(function(a, b){return a-b});
+    },
+
+    setYearSelect(year){
+      this.yearSelect = year
+      this.calCountLeave()
+    },
+
+    calCountLeave(){
       this.dataHistory.forEach((myHistory, i) => {
-        if (this.yearAtSelect == myHistory.year) {
-          this.indexselect = i;
-          this.totalDataLaveShow.sizePersonal = myHistory.totalPersonalLeave;
-          this.totalDataLaveShow.sizeSick = myHistory.totalSickLeave;
-          this.totalDataLaveShow.sizeVacation = myHistory.totalVacation;
-          this.data_prop_month.data = myHistory;
+        if (this.yearSelect == myHistory.year) {
+            this.totalDataLaveShow.sizePersonal = myHistory.totalPersonalLeave;
+            this.totalDataLaveShow.sizeSick = myHistory.totalSickLeave;
+            this.totalDataLaveShow.sizeVacation = myHistory.totalVacation;
         }
-      });
-      if (this.tapbar === "personal") {
-        this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listPersonalLeave;
-      } else if (this.tapbar === "sick") {
-        this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listSickLeave;
-      } else if (this.tapbar === "vacation") {
-        this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listVacationLeave;
+      })
+
+      if(this.statusSelectType !== null){
+        this.setTypeSelect(this.statusSelectType)
       }
     },
-    eventClick(event) {
-      if (event === "personal") {
-        this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listPersonalLeave;
-        this.tapbar = "personal";
-        //this.typeLeave = myHistory.listLeaveFullYear.listPersonalLeave
-      } else if (event === "sick") {
-        //this.typeLeave = myHistory.listLeaveFullYear.listSickLeave
-        this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listSickLeave;
-        this.tapbar = "sick";
-      } else {
-        //this.typeLeave = myHistory.listLeaveFullYear.listVacationLeave
-        this.loopmount = this.dataHistory[
-          this.indexselect
-        ].listLeaveFullYear.listVacationLeave;
-        this.tapbar = "vacation";
+
+    setTypeSelect(type){
+      this.statusSelectType = type
+      this.setDataUserToComponent()
+    },
+
+    setDataUserToComponent(){
+      let dataLogin = JSON.parse(localStorage.getItem("userprofile"));
+      this.data_prop_profile_user.status = dataLogin.statusWorking
+      let data = {
+          name: dataLogin.name,
+          email: dataLogin.email,
+          img: dataLogin.img,
+      }
+      this.data_prop_profile_user.dataUser = data
+      this.data_prop_profile_user.totalLeave = this.totalDataLaveShow.sizePersonal + this.totalDataLaveShow.sizeSick + this.totalDataLaveShow.sizeVacation 
+      this.createDataLeaveSelect()    
+    },
+
+    createDataLeaveSelect(){
+      let data_show = null
+      this.dataHistory.forEach((history, i) => {
+        if(this.yearSelect == history.year) {
+          switch(this.statusSelectType){
+            case 'personal_leave':
+                this.data_prop_month.data = history.listLeaveFullYear.listPersonalLeave
+                break;
+            case 'sick_leave':
+                this.data_prop_month.data = history.listLeaveFullYear.listSickLeave
+                break;
+            case 'vacation_leave':
+                this.data_prop_month.data = history.listLeaveFullYear.listVacationLeave
+                break;
+            default: break;
+          }
+          this.data_prop_month.statusUser = this.data_prop_profile_user.status
+          if(this.data_prop_month.data.length === 0){
+            this.setDataNotfoundByType()
+          }
+        }
+      })
+    },
+    setDataNotfoundByType(){
+      this.data_notfound_by_type.year = this.yearSelect
+      switch(this.statusSelectType){
+          case 'personal_leave':
+              this.data_notfound_by_type.type = 'Personal leave'
+              break;
+          case 'sick_leave':
+              this.data_notfound_by_type.type = 'Sick leave'
+              break;
+          case 'vacation_leave':
+              this.data_notfound_by_type.type = 'Vacation leave'
+              break;
+          default: break;
       }
     },
+
+
+
     showPopupDetail(data) {
-      let data_DB = this.loopmount[data.indexmonth].listLeave[data.indexcard];
+      let data_DB = this.data_prop_month.data[data.indexmonth].listLeave[data.indexcard]
       let model = {
         userName: null,
         startDate: data_DB.startdate,
@@ -192,57 +267,107 @@ export default {
   computed: {
     ...mapState({
       popupDetail: state => state.popup.popup_detail,
-      statusload: state => state.formRequest.loading
     }),
-    craeteListYear() {
-      let listYear = [];
-      this.dataHistory.forEach(myHistory => {
-        listYear.push(myHistory.year);
-      });
-      return listYear;
+    getListLeaveShow(){
+      return this.data_prop_month.data
     }
   }
 };
 </script>
 <style lang="scss">
-.Box-Home {
-  width: 100%;
-  height: auto;
-  .Heads {
+.layout_history_wrapper{
     width: 100%;
-    height: auto;
-    .Heads-Content {
-      display: flex;
-      justify-content: space-between;
-      .Select-Year {
-        width: 100px;
-        padding: 25px 20px;
-        height: auto;
-        justify-content: flex-end;
-        display: flex;
-        align-items: flex-end;
-        select {
-          border: solid black 1px;
-          color: gray;
-        }
-      }
-    }
-  }
-  .HistoryOfMonth {
-    background-color: #f0f0f0;
-    height: auto;
-  }
-}
-.not-found{
-    display: flex;
-    justify-content: center;
-    margin-top: 100px;
-    color: #858585;
-}
-.layout_loading{
-        background-color: #fff;
-        margin-top: 23%;
+    height: 100%;
+
+    .layout_full_content{
         width: 100%;
         height: 100%;
+        .layout_header_history{
+            width: 100%;
+            height: 18%;
+            padding: 10px 0px;
+            display: flex;
+            background-color: #fff;
+            .layout_user_profile{
+                width: 35%;
+                height: 100%;
+                border-right: 2px solid rgba(15, 76, 129, 0.3); 
+            }
+            .layout_filter_data{
+                width: 65%;
+                height: 100%;
+                border-left: 2px solid rgba(15, 76, 129, 0.3); 
+
+                .filter_year{
+                  width: 100%;
+                  height: 50%;
+                  padding: 5px 35%;
+                }
+                .filter_type_leave{
+                  width: 100%;
+                  height: 50%;
+                  padding-top: 5px;
+                }
+            }
+        }
+        .layout_content_card{
+            height: 82%;
+            background-color: #f0f0f0;
+            overflow: auto;
+            .content_card_not_found{
+                width: 100%;
+                height: 100%;
+                .box_not_found{
+                    width: 100%;
+                    .icon_not_found{
+                        color: rgba(0,0,0,0.1);
+                        .material-icons{
+                            font-size: 60px;
+                        }
+                    }
+
+                    .text_not_found_personal_leave{
+                        color: rgba(0,0,0,0.2);
+                        label{
+                          color: rgba(15, 76, 129,0.5)
+                        }
+                    }
+
+                    .text_not_found_sick_leave{
+                        color: rgba(0,0,0,0.2);
+                        label{
+                          color: rgba(184, 76, 76,0.5);
+                        }
+                    }
+
+                    .text_not_found_vacation_leave{
+                        color: rgba(0,0,0,0.2);
+                        label{
+                          color: rgba(249, 113, 17, 0.5);
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    .layout_loading_history{
+        background-color: #fff;
+        width: 100%;
+        height: 100%;
+        .box_not_found{
+            width: 100%;
+            .icon_not_found{
+              color: rgba(0,0,0,0.1);
+              .material-icons{
+                font-size: 60px;
+              }
+            }
+
+            .text_not_found{
+              color: rgba(0,0,0,0.2);
+            }
+        }
+    }
+}
 </style>

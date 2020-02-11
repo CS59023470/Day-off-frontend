@@ -68,7 +68,7 @@ export default {
     background-color: #fff;
     z-index: 100;
     border-radius: 15px;
-    padding: 20px;
+    padding: 10px 5px 20px 5px;
 
     .content-card{
         width: 100%;
@@ -79,6 +79,7 @@ export default {
             .text{
                 font-size: 16px;
                 font-weight: 600;
+                font-family: roboto;
             }
         }
         .content-button{
@@ -91,7 +92,8 @@ export default {
                 border: none;  
                 font-size: 16px;
                 color: #5F5F5F;
-                padding:10px
+                padding:10px;
+                font-family: roboto;
             }
             .logout{
                 border: 1px solid black;
@@ -100,7 +102,8 @@ export default {
                 background-color: #0F4C81;
                 color: #fff;
                 font-size: 16px;
-                padding: 10px;
+                padding: 0px 15px 0px 15px;
+                font-family: roboto;
             }
         }
     }

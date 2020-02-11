@@ -1,6 +1,6 @@
 <template>
   <div class="form-request-wrapper">
-    <div class="content_form">
+    <div v-if="showCard.length > 0" class="content_form">
       <div v-bind:class="{ customContent: statusShow, box_content: !statusShow }"></div>
       <div class="search">
         <btnsearch @returnUserId="searchName" />
@@ -23,16 +23,20 @@
               page="searchhistory"
               @clickcard="cardAdmin"
             />
-            </div>
+          </div>
         </div>
       </div>
       <div class="No_Data" v-else>Data not found</div>
+    </div>
+    <div class="page_loading" v-else>
+      <LoadingPage/>
     </div>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import BarComfrim from "../../components/BarComfrim";
+import LoadingPage from "../../components/LoadingPage"
 import CardRequest from "../../components/CardRequest/CardRequest";
 import filterhistory from "../../components/filterhistory";
 import btnsearch from "../../components/BtnSearch";
@@ -47,6 +51,7 @@ export default {
     BarComfrim,
     filterhistory,
     btnsearch,
+    LoadingPage,
     Month,
   },
   data() {
@@ -192,5 +197,10 @@ export default {
   text-align: center;
   margin-top: 50px;
   font-size: 20px;
+}
+.page_loading{
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
 }
 </style>
