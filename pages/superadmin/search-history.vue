@@ -1,30 +1,29 @@
 <template>
   <div class="form-request-wrapper">
-    <div v-if="showCard.length > 0" class="content_form">
-      <div v-bind:class="{ customContent: statusShow, box_content: !statusShow }"></div>
-      <div class="search">
-        <btnsearch @returnUserId="searchName" />
-      </div>
-      <div>
-        <filterhistory @startdate="getStartDate" @enddate="getEndDate" />
-      </div>
-      <div v-if="showCard.length > 0">
-        <div v-for="(year,indexyear) in showCard" :key="indexyear">
-          <div v-for="(month,indexmonth) in showCard[indexyear].list_month" :key="indexmonth">
-            <Month
-              :year="year.year"
-              :datamonth="month"
-              :indexmonth="indexmonth"
-              :indexyear="indexyear"
-              page="searchhistory"
-              @clickcard="eventClickCard"
-            />
+    <div v-if="!statusLoad" class="content_form">
+          <div class="search">
+              <btnsearch @returnUserId="searchName" />
           </div>
-        </div>
-      </div>
-      <div class="No_Data" v-else>Data not found</div>
+          <div>
+              <filterhistory @startdate="getStartDate" @enddate="getEndDate" />
+          </div>
+          <div v-if="showCard.length > 0">
+            <div v-for="(year,indexyear) in showCard" :key="indexyear">
+              <div v-for="(month,indexmonth) in showCard[indexyear].list_month" :key="indexmonth">
+                <Month
+                  :year="year.year"
+                  :datamonth="month"
+                  :indexmonth="indexmonth"
+                  :indexyear="indexyear"
+                  page="searchhistory"
+                  @clickcard="eventClickCard"
+                />
+              </div>
+            </div>
+          </div>
+          <div v-else class="No_Data">Data not found</div>
     </div>
-    <div class="page_loading" v-else>
+    <div v-if="statusLoad" class="page_loading">
       <LoadingPage/>
     </div>
   </div>
@@ -91,9 +90,11 @@ export default {
     },
 
     searchAuto() {
+      this.statusLoad = true
       let result = this.api.historyall(this.search)
       result.then(re => {
         this.$store.commit('leaveHistory/setHistoryAllBySearch', re)
+        this.statusLoad = false
       })
     },
 

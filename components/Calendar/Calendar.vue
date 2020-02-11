@@ -71,9 +71,6 @@ export default {
             let array = event.event.id.split('_')
              if(array[0] !== 'HD'){
                  this.$emit('showPopupDetail',this.events[Number(array[1])])
-                //this.propsToPopup = this.events[Number(array[1])]
-                //console.log("TEST EVENT = ",this.propsToPopup)
-                //this.$store.commit('popup/showPopupDetail')
             }
         },
         eventCalendar (){

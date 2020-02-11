@@ -123,7 +123,7 @@ $color_green : #2d810f;
     }
 
     .box-content-show{
-        height: 68%;
+        height: 65%;
         padding: 0px 10px;
 
         .box-name-user, .box-date, .box-detail{
@@ -151,7 +151,7 @@ $color_green : #2d810f;
     }
 
     .box-btn{
-        height: 20%;
+        height: 18%;
 
         .box-btn-confirm, .box-btn-cancel{
             height: 100%;

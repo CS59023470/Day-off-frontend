@@ -91,22 +91,17 @@ export default {
     },
     methods:{
        handleClick (events) {    
-           this.$store.commit('popup/showPopupDetail')
-        // console.log("TEST Cilck=> ",event)
-        this.propsToPopup.startDate = events.event.start
-        // this.propsToPopup.endDate = event.event.end
-        this.propsToPopup.nameuser = events.event.title
-        // this.propsToPopup.textDetail = events.event.textDetail
-        console.log("TEST DATA => ", this.propsToPopup)
+            this.$store.commit('popup/showPopupDetail')
+            this.propsToPopup.startDate = events.event.start
+            this.propsToPopup.nameuser = events.event.title
        },
 
         eventCalendar(){
             let dataevent = provider.getEventCelendar()
             dataevent.then(re=>{
-                console.log(re)
                 this.events = re.map(data => {
                     let modal = {
-                        id:data.id,  //ลาป่วย
+                        id:data.id,
                         title:data.title,
                         start:data.startdate,
                         end:data.enddate,
@@ -151,7 +146,6 @@ export default {
     },
 
     mounted(){
-        // console.log("dateevent",this.events)
         this.eventCalendar()
     }
 

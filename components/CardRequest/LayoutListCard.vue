@@ -220,6 +220,7 @@ $heightListCard: $heightFull - $heightTitleCard;
 
         .list_card{
             width: 100%;
+            min-height: fit-content;
             height: 200px;
             margin-bottom: 20px;
         }

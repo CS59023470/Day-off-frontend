@@ -31,9 +31,6 @@
 import { mapState } from 'vuex'
 export default {
     props:["dataUser","indexCard"],
-    mounted(){
-        // console.log("userid",this.$props.data)
-    },
     methods:{
         clickcrad(){
             this.$emit('cardadmin',this.$props.dataUser)

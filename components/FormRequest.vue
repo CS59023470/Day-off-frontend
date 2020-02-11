@@ -1175,7 +1175,6 @@ export default {
             }
         },
         disabledEndDate(){
-            //console.log("this.dataForm.typeday = ",this.dataForm.typeday)
             if(this.dataForm.typeday == '1'){
                 document.getElementById("layout_end_date").hidden = false
                 document.getElementById("layout_end_date").style.opacity = this.opacity_disabled_global

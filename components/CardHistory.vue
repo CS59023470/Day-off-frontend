@@ -44,9 +44,6 @@
 <script>
 export default {
   props:["detailCard","status","indexcard"],
-  mounted(){
-    //console.log("DetialCard",this.$props.status)
-  },
   methods:{
       showCardDetail(){
           this.$emit('eventShowDetail',this.$props.indexcard)

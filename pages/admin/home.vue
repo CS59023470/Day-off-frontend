@@ -97,7 +97,6 @@ export default {
         showPopupDetailCard(data){
             this.propsToPopup = this.createModelToPopupDetail('card',data)
             this.$store.commit('popup/showPopupDetail')
-            console.log(this.propsToPopup)
         },
         createModelToPopupDetail(type,data){
             if(type === 'card'){
