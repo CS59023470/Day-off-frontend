@@ -1,7 +1,7 @@
 export const state = {
     history_search: [],
     listAllUser: [],
-    cardAdmin: ''
+    userId_select: ''
 }
 
 export const mutations = {
@@ -11,8 +11,8 @@ export const mutations = {
     setSearchListName (state, payload) {
         state.listAllUser = payload
     },
-    setCardAdmin (state,payload) {
-        state.cardAdmin = payload
+    setUserIdBySelect (state,payload) {
+        state.userId_select = payload
     }
 }
 

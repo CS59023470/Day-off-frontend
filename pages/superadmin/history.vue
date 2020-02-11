@@ -78,24 +78,18 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import PopupDetail from "../../components/Popup/PopupDetail";
+import { mapState } from "vuex"
+import PopupDetail from "../../components/Popup/PopupDetail"
 import LoadingPage from "../../components/LoadingPage"
-import CardHeaderInHistory from "../../components/CardHeaderInHistory";
-import BarComfrim from "../../components/BarComfrim";
-
-import Provider from "../../service/provider";
-
-import Month from "../../components/Month";
-import ProfileUser from "../../components/History/ProfileUser";
-import FilterYear from "../../components/History/FilterYear";
-import MenuLeave from "../../components/History/MenuLeave";
+import Month from "../../components/Month"
+import ProfileUser from "../../components/History/ProfileUser"
+import FilterYear from "../../components/History/FilterYear"
+import MenuLeave from "../../components/History/MenuLeave"
+import Provider from "../../service/provider"
 const provider = new Provider();
 export default {
   components: {
-    CardHeaderInHistory,
     Month,
-    BarComfrim,
     LoadingPage,
     PopupDetail,
     ProfileUser,

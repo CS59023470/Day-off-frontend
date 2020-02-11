@@ -22,10 +22,6 @@ export default {
       enddate: ""
     };
   },
-  mounted() {
-    this.inputStartDate();
-    this.inputEndDate();
-    },
   methods: {
     inputStartDate() {
       this.$emit("startdate", this.startdate);

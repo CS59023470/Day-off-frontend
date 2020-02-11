@@ -146,6 +146,7 @@
                     <div class="BoxSelectLeave">
                         <div :class="`Box-Start content_center ${check_validation.classShow}`">
                            {{check_validation.text_validation}}
+                           {{check_validation.textDate}}
                         </div>
                     </div>
                 </div>
@@ -566,6 +567,7 @@ export default {
                         status: true,
                         text_validation : `You can only leave until ${this.dateEndTextValidation}`,
                         classShow : 'validation_fail'
+
                     }
                 }
             }else{
@@ -1385,12 +1387,15 @@ export default {
 //----------------------------------------------------
 .validation_fail{
     color: red;
-    width: 80%;
+    width: 75%;
 }
 .validation_success{
     color: #2D810F;
 }
 .set_opacity{
     opacity: 0.5;
+}
+.textfail{
+    border: 1px solid #D91616;
 }
 </style>
