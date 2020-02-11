@@ -2,7 +2,7 @@ import axios from 'axios'
 
 class HttpRequest {
     constructor () {
-      this.baseURL = 'https://day-off-backend.herokuapp';
+      this.baseURL = 'https://day-off-backend.herokuapp.com';
       this.axiosInstance = axios.create({
         baseURL: this.baseURL,
         timeout: 120000,
