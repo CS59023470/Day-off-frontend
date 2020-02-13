@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="layout_data_leave">
-                {{total}} All Leave in {{year}}
+                {{total}} Leave requests in {{year}}
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
         </div>
         <div class="content_row margin_bottom_standard">
             <div class="content_center box_dropdown_leave">
-                <select 
+                <select
                     name="typeLeave" 
                     class="dropdown-leave content_center height_standard_input" 
                     v-model="dataForm.type"
@@ -94,7 +94,7 @@
 
                 <div id="layout_start_date" class="boxtext1 margin_bottom_standard">
                     <div class="BoxSelectLeave">
-                        <div class="Box-Start">
+                        <div class="Box-Start" style="font-family: roboto;">
                             Requested Date : 
                             <label v-if="date_start_show === null">MM/DD/YYYY</label>
                             <label v-else>{{moment(new Date(date_start_show)).format('DD MMMM YYYY')}}</label>
@@ -323,6 +323,7 @@ export default {
                 }else{
                     this.enabledCalendar(this.configday.day,null)
                 }
+                this.setDisabledByuser()
                 this.setDisabledWeekEnd()
                 this.setDisabledDayOff()
                 this.setDotsandPopovers()
@@ -339,43 +340,6 @@ export default {
         autoSetDateSickLeave(){
             if(this.dataForm.typeday == '0'){
                 this.picker = { date : new Date() }
-            }else{
-/*                if(this.day_left_show === 1){
-                    let dateStart = new Date()
-                    let string_enddate = this.createDateEndCheck(2,dateStart)
-                    let dateEnd = new Date(string_enddate)
-
-                    let model = {
-                        date: {
-                            start: dateStart,
-                            end: dateEnd
-                        }
-                    }
-                    this.picker = model
-                    let st_string = moment(dateStart).format('YYYY-MM-DD')
-                    let ed_string = moment(dateEnd).format('YYYY-MM-DD')
-                    let bt = this.calculateBetweenDateInput(st_string,ed_string)
-                    this.enabledCalendar(-1,bt)
-                }else {
-                    if(this.day_left_show % 1 != 0){
-                        this.max_day_leave = this.day_left_show + 0.5
-                    }else{
-                        this.max_day_leave = this.day_left_show + 1
-                    }
-
-                    let nowDate = new Date()
-                    let string_enddate = this.createDateEndCheck(this.max_day_leave,nowDate)
-                    let endDate = new Date(string_enddate)
-                    let model = {
-                        date: {
-                            start: nowDate,
-                            end: endDate
-                        }
-                    }
-                    this.picker = model
-                    this.selectDate()
-                }
-*/
             }
         },
         selectDate(){
@@ -409,83 +373,6 @@ export default {
                             this.disabledStartDate()
                             this.disabledEndDate()
                         }
-                    /*    if(this.dataForm.type === 'SL'){
-                            if(this.day_left_show === 1){
-                                this.date_start_show = moment(this.picker.date.start).format('YYYY-MM-DD')
-                                this.date_end_show = moment(this.picker.date.end).format('YYYY-MM-DD')
-                                this.createDropdownTimeStart()
-                                this.createDropdownTimeEnd()
-                                this.enabledStartDate()
-                                this.enabledEndDate()
-                                this.selectDropdownTimeStart()
-                                this.selectDropdownTimeEnd()
-                            }else{
-                                if(!this.checkStartDateForSickLeave()){
-                                    alert('Sick leave should start this day, System be select automatic')
-                                    if(this.day_left_show % 1 != 0){
-                                        this.max_day_leave = this.day_left_show + 0.5
-                                    }else{
-                                        this.max_day_leave = this.day_left_show + 1
-                                    }
-                                    let nowDate = new Date()
-                                    let string_enddate = this.createDateEndCheck(this.max_day_leave,nowDate)
-                                    let endDate = new Date(string_enddate)
-                                    this.picker.date.start = nowDate
-                                    this.picker.date.end = endDate
-
-                                    this.selectDate()
-                                }else{
-                                    if(this.checkTotalDay()){
-
-                                        this.date_start_show = moment(this.picker.date.start).format('YYYY-MM-DD')
-                                        this.date_end_show = moment(this.picker.date.end).format('YYYY-MM-DD')
-
-                                        if(this.sizeDayPicker === this.max_day_leave){
-                                            this.createDropdownTimeStart()
-                                            this.enabledStartDate()
-                                            this.selectDropdownTimeStart()
-                                        }else{
-                                            this.createDropdownTimeStart()
-                                            this.enabledStartDate()
-                                            this.selectDropdownTimeStart()
-                                        }
-                                    }else{
-                                        this.date_start_show = null
-                                        this.date_end_show = null
-                                        this.dataForm.starttime = 'none'
-                                        this.dataForm.endtime = 'none'
-                                        this.list_time_start = []
-                                        this.list_time_end = []
-                                        this.disabledStartDate()
-                                        this.disabledEndDate()
-                                    }
-                                }
-                            }
-                        }else{
-                            if(this.checkTotalDay()){
-                                //ลาหลายวันประเภท อื่นๆ
-                                this.date_start_show = moment(this.picker.date.start).format('YYYY-MM-DD')
-                                this.date_end_show = moment(this.picker.date.end).format('YYYY-MM-DD')
-                                if(this.sizeDayPicker === this.max_day_leave){
-                                    this.createDropdownTimeStart()
-                                    this.enabledStartDate()
-                                    this.selectDropdownTimeStart()
-                                }else{
-                                    this.createDropdownTimeStart()
-                                    this.enabledStartDate()
-                                    this.selectDropdownTimeStart()
-                                }
-                            }else{
-                                this.date_start_show = null
-                                this.date_end_show = null
-                                this.dataForm.starttime = 'none'
-                                this.dataForm.endtime = 'none'
-                                this.list_time_start = []
-                                this.list_time_end = []
-                                this.disabledStartDate()
-                                this.disabledEndDate()
-                            }
-                        }*/
                     }else{
                         this.date_start_show = null
                         this.date_end_show = null
@@ -594,6 +481,7 @@ export default {
                 let dateStart = new Date(start)
                 let dateEnd = new Date(end)
                 let list_day_off = this.day_off
+                let list_leaveuser = this.date_check
                 if(start === end){
                     alert('The start date and end date should not the same day')
                     result = false
@@ -619,6 +507,18 @@ export default {
                             }
                         }
                     }
+                    if(statusCheck){
+                        for(let l = 0 ; l < list_leaveuser.length ; l++){
+                            if(start === moment(list_leaveuser[l].startdate).format('YYYY-MM-DD') ||
+                                end === moment(list_leaveuser[l].startdate).format('YYYY-MM-DD'))
+                            {
+                                alert('Cannot Select, You have a leave request on this day')
+                                result = false
+                                statusCheck = false
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -628,16 +528,7 @@ export default {
             }
             return result
         },
-/*        checkStartDateForSickLeave(){
-            let nowdate = moment(new Date()).format('YYYY-MM-DD')
-            let startDate = moment(this.picker.date.start).format('YYYY-MM-DD')
-            if(nowdate !== startDate){
-                return false
-            }else{
-                return true
-            }
-        },
-*/
+        
         checkTotalDay(){
             let total_day = 0
             let max_day = 0
@@ -1087,6 +978,16 @@ export default {
         },
 
         // ----- Contro Calendar ------------------------------------------------------------------------------------------------------->
+        setDisabledByuser(){
+            console.log(this.date_check)
+            this.date_check.forEach(result => {
+                let data = {
+                    start: new Date(result.startdate),
+                    end: new Date(result.enddate),
+                }
+                this.calendar.attributes[0].dates.push(data)
+            })   
+        },
         setDisabledWeekEnd(){
             let data = {
                 start: new Date(),
@@ -1112,6 +1013,14 @@ export default {
                     description: result.description
                 }
                 this.calendar.attributes[1].dates.push(data_day_off)
+            })   
+            this.date_check.forEach(result => {
+                let leaveuser = {
+                    start: new Date(result.startdate),
+                    end: new Date(result.enddate),
+                    description: "(You) "+result.description
+                }
+                this.calendar.attributes[1].dates.push(leaveuser)
             })   
         },
 
@@ -1250,9 +1159,12 @@ export default {
 
     },
     computed: {
-        ...mapState({statusload: state => state.formRequest.loading}),
-        ...mapState({configday: state => state.formRequest.configDay}),
-        ...mapState({user_day_left: state => state.formRequest.userdayleft}),
+        ...mapState({
+            statusload: state => state.formRequest.loading,
+            configday: state => state.formRequest.configDay,
+            user_day_left: state => state.formRequest.userdayleft,
+            date_check: state => state.formRequest.date_check
+        }),
 
         ...mapGetters({ listWeekend: 'formRequest/getWeekendModel' }),
         ...mapGetters({ day_off: 'formRequest/getDayoffCompany' }),

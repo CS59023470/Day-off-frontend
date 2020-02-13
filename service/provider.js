@@ -258,6 +258,18 @@ class Provider extends HttpRequest {
             return dataReturn
         })
     }
+
+    //Check Day By Id For Calendar
+    async checkDaybyid(userId) {
+        let model = {userid : ''+userId}
+        return await this.create('/querydaybyid',model).then(request => {
+            //console.log("RESULT => ", request.data[0])
+            return request.data
+        }).catch((err)=>{
+            //console.log("ERROR => ",err)
+            return null
+        })
+    }
 }
 
 export default Provider

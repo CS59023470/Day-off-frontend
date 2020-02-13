@@ -1,14 +1,22 @@
 <template>
   <div class="Wrap-Content">
     <div class="Container">
-      <div class="BoxcontentFulltime" v-if="status === true || status === 'full_time' || status === 'part_time'">
+      <div
+        class="BoxcontentFulltime"
+        v-if="
+          status === true || status === 'full_time' || status === 'part_time'
+        "
+      >
         <div class="HeadBox">
           <div class="UserType">
             Employee
           </div>
           <div class="LogoType"></div>
         </div>
-        <div class="Name">{{ detailCard.startdate }} - {{ detailCard.enddate }}</div>
+        <div class="Name">
+          {{ moment(new Date(detailCard.startdate)).format("DD MMM YYYY") }} -
+          {{ moment(new Date(detailCard.enddate)).format("DD MMM YYYY") }}
+        </div>
         <div class="ScoreLeaves">
           <div class="WorkLeave">
             {{ detailCard.detailleave }}
@@ -20,11 +28,17 @@
           </button>
         </div>
       </div>
-      <div class="BoxcontentIntern" v-if="status === false || status === 'internship'">
+      <div
+        class="BoxcontentIntern"
+        v-if="status === false || status === 'internship'"
+      >
         <div class="UserType">
           internship
         </div>
-        <div class="Name">{{ detailCard.startdate }} - {{ detailCard.enddate }}</div>
+        <div class="Name">
+          {{ moment(new Date(detailCard.startdate)).format("DD MMM YYYY") }} -
+          {{ moment(new Date(detailCard.enddate)).format("DD MMM YYYY") }}
+        </div>
         <div class="ScoreLeaves">
           <div class="WorkLeave">
             {{ detailCard.detailleave }}
@@ -37,19 +51,20 @@
         </div>
       </div>
     </div>
-   
   </div>
 </template>
 
 <script>
+import moment from "moment";
 export default {
-  props:["detailCard","status","indexcard"],
-  methods:{
-      showCardDetail(){
-          this.$emit('eventShowDetail',this.$props.indexcard)
-      }
-  },
-}
+  props: ["detailCard", "status", "indexcard"],
+  methods: {
+    moment,
+    showCardDetail() {
+      this.$emit("eventShowDetail", this.$props.indexcard);
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -124,12 +139,11 @@ export default {
         button {
           background-color: white;
           border: none;
-          i{
+          i {
             background-color: transparent;
             border: none;
           }
         }
-        
       }
     }
     ////////////// Style Card Intern //////////////////
@@ -178,7 +192,7 @@ export default {
         button {
           background-color: white;
           border: none;
-          i{
+          i {
             background-color: transparent;
             border: none;
           }

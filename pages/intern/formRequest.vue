@@ -78,20 +78,25 @@ export default {
                 let result_weekend = provider.getAllWeekendCompany()
                 let result_dayoff = provider.getAllDayoffCompany()
                 let result_configday = provider.getConfigDay()
+                let result_checkdate = provider.checkDaybyid(user.userId)
+                
+                result_checkdate.then((re_date) => {
+                    this.$store.commit('formRequest/setCheckdate', re_date)
 
-                result_user.then((re_user) => {
-                    this.$store.commit('formRequest/setUserdayleft', re_user[0])
+                    result_user.then((re_user) => {
+                        this.$store.commit('formRequest/setUserdayleft', re_user[0])
 
-                    result_weekend.then((re_weekend) => {
-                        this.$store.commit('formRequest/setWeekend', re_weekend)
+                        result_weekend.then((re_weekend) => {
+                            this.$store.commit('formRequest/setWeekend', re_weekend)
 
-                        result_dayoff.then((re_dayoff) => {
-                            this.$store.commit('formRequest/setDayoff', re_dayoff)
-                            
-                            result_configday.then((re_config) => {
-                                this.$store.commit('formRequest/setConfigDay', re_config[0])
-                                this.$store.commit('formRequest/setloader', false)
-                                this.$store.commit('formRequest/setStatusLoadData', false)
+                            result_dayoff.then((re_dayoff) => {
+                                this.$store.commit('formRequest/setDayoff', re_dayoff)
+                                
+                                result_configday.then((re_config) => {
+                                    this.$store.commit('formRequest/setConfigDay', re_config[0])
+                                    this.$store.commit('formRequest/setloader', false)
+                                    this.$store.commit('formRequest/setStatusLoadData', false)
+                                })
                             })
                         })
                     })
@@ -136,38 +141,6 @@ export default {
             popupLoader: state => state.popup.popup_loader,
         })
     },
-    /*asyncData(context) {
-        
-        context.store.commit('formRequest/setloader', true)
-        let user = JSON.parse(localStorage.getItem('userprofile'))
-        let result_check_holiday = provider.checkSpecialholiday(user.userId)
-
-        result_check_holiday.then((re_holiday) => {
-
-            let result_user = provider.getUserFormRequest(user.userId)
-            let result_weekend = provider.getAllWeekendCompany()
-            let result_dayoff = provider.getAllDayoffCompany()
-            let result_configday = provider.getConfigDay()
-
-            result_user.then((re_user) => {
-                context.store.commit('formRequest/setUserdayleft', re_user[0])
-
-                result_weekend.then((re_weekend) => {
-                    context.store.commit('formRequest/setWeekend', re_weekend)
-
-                    result_dayoff.then((re_dayoff) => {
-                        context.store.commit('formRequest/setDayoff', re_dayoff)
-                        
-                        result_configday.then((re_config) => {
-                            context.store.commit('formRequest/setConfigDay', re_config[0])
-                            context.store.commit('formRequest/setloader', false)
-                        })
-                    })
-                })
-            })
-        })
-        return {status:true}
-    }*/
 }
 </script>
 

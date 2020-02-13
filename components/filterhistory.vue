@@ -48,6 +48,7 @@ export default {
             font-size: 18px;
             color: black;
             margin: 0px 15px;
+            font-family: roboto;
             }
             
             input {
@@ -65,6 +66,7 @@ export default {
             font-size: 18px;
             color: black;
             margin: 0px 15px;
+            font-family: roboto;
             }
             input {
                 border-radius: 5px;

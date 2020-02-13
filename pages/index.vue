@@ -175,5 +175,6 @@ export default {
   background: #FFFFFF;
   box-sizing: border-box;
   border-radius: 10px;
+  font-family: roboto;
 }
 </style>

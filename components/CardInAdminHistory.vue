@@ -77,6 +77,7 @@ export default {
                 font-weight: 500;
                 padding: 10px 0;
                 color: black;
+                font-family: roboto;
             }
         }
     }
@@ -124,6 +125,7 @@ export default {
                 font-weight: 500;
                 padding: 10px 0;
                 color: #0f4c81;
+                font-family: roboto;
             }
         }
     }

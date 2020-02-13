@@ -6,7 +6,8 @@ export const state = {
     configDay: null,
     userdayleft: null,
     week_end: null,
-    day_off: null
+    day_off: null,
+    date_check: null
 }
 
 export const mutations = {
@@ -28,6 +29,9 @@ export const mutations = {
     setDayoff (state, payload) {
         state.day_off = payload
     },
+    setCheckdate (state, payload) {
+        state.date_check = payload
+    }
 }
 
 export const actions = {
@@ -80,6 +84,40 @@ export const getters = {
         })
 
         return list_day_off
+    },
+
+    getDayCheckByid (state) {
+        let list_check_date = []
+
+        state.day_off.forEach(r => {
+            if(r.status === 'One day'){
+                let opj_check_date = {
+                    startdate: r.startdate,
+                    enddate: r.startdate,
+                    description: r.description
+                }
+                list_check_date.push(opj_check_date)
+            }else{
+                let array_start = r.startdate.split('-')
+                let array_end = r.enddate.split('-')
+                let start = moment([Number(array_start[0]), (Number(array_start[1])-1), Number(array_start[2])]);
+                let end = moment([Number(array_end[0]), (Number(array_end[1])-1), Number(array_end[2])]);
+                let between = end.diff(start, 'days') + 1
+
+                for(let i = 0 ; i < between ; i++){
+                    let d = new Date(r.startdate)
+                    let d2 = d.setDate(d.getDate() + i)
+                    let opj_check_date = {
+                        startdate: moment(d2).format('YYYY-M-D'),
+                        enddate: moment(d2).format('YYYY-M-D'),
+                        description: r.description
+                    }
+                    list_check_date.push(opj_check_date)
+                }
+            }
+        })
+
+        return list_check_date
     }
 }
 
