@@ -259,6 +259,18 @@ class Provider extends HttpRequest {
         })
     }
 
+    //OK
+    //Query Leave For Report
+    async getLeaveReport() {
+        return await this.get('/allLeaveForReport').then(request => {
+            return request.data
+        }).catch((err)=>{
+            dataReturn.text = 'Connection error'
+            return dataReturn
+        })
+    }
+
+    //OK
     //Check Day By Id For Calendar
     async checkDaybyid(userId) {
         let model = {userid : ''+userId}
