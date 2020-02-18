@@ -55,7 +55,6 @@ export default {
     }
   },
   computed: {
-
     ...mapState({
         listNameUser: state => state.leaveHistory.listAllUser
     })

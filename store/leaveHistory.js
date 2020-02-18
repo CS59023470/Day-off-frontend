@@ -1,7 +1,8 @@
 export const state = {
     history_search: [],
     listAllUser: [],
-    userId_select: ''
+    userId_select: '',
+    listDepartment: []
 }
 
 export const mutations = {
@@ -13,7 +14,10 @@ export const mutations = {
     },
     setUserIdBySelect (state,payload) {
         state.userId_select = payload
-    }
+    },
+    setDepartment (state,payload) {
+        state.listDepartment = payload
+    },
 }
 
 export const actions = {

@@ -3,7 +3,9 @@
         <!-- <div class="layout_filter_data">
 
         </div> -->
-        <headerCompanyReport/>
+        <headerCompanyReport
+            @dataFilter="startFilter"
+        />
         <div class="title-header">
             <div class="print">
                 <button>
@@ -42,7 +44,9 @@
             <div class="table_content_report" :max-height="`${heightContent - 120}`">
                 
                 <div class="title_date">
-                    <div class="title_position">Position</div>
+                    <div class="content_position">
+                        <div class="title_position">Position</div>
+                    </div>
                     <div 
                         class="group_title_year"
                         v-for="(year, index_year) in titleDateShow" :key="index_year"
@@ -130,26 +134,26 @@ export default {
                 {
                     userId: 'AD5555',
                     nameUser: 'Natcha',
-                    position:'frontend',
+                    department:'frontend',
                     listLeave: []
 
                 },
                 {
                     userId: 'SA9000',
                     nameUser: 'บัญชาการ สุวรรณกาศ',
-                    position:'fullstack',
+                    department:'fullstack',
                     listLeave: []
                 },
                 {
                     userId: 'AM0001',
                     nameUser: 'กัญญารัตน์ กันทะวงค์',
-                    position:'frontend',
+                    department:'frontend',
                     listLeave: []
                 },
                 {
                     userId: 'AD500',
                     nameUser: 'Yongwai',
-                    position:'frontend',
+                    department:'frontend',
                     listLeave: []
                 },
             ],
@@ -157,14 +161,31 @@ export default {
     },
     mounted(){
         this.heightContent = document.getElementById("history_report_wrapper").offsetHeight
-        this.queryLeaveReport()
         this.createDataDateSearch()
     },
     methods: {
         moment,
+        startFilter(model){
+            this.dateSearch.startDate= model.startdate
+            this.dateSearch.endDate= model.enddate
+            this.createDataDateSearch()
+        },
+        getstartDate(startdate){
+            this.dateSearch.startDate = startdate
+            console.log(this.dateSearch.startDate)
+        },
+        getEndDate(enddate) {
+            this.dateSearch.endDate = enddate
+            console.log(this.dateSearch.startDate)
+        },
+        searchName(){
+        },
+
+
         queryLeaveReport(){
-            let result = this.api.getLeaveReport()
+            let result = this.api.getLeaveReport(this.listUserShow)
             result.then(re => {
+                console.log("re =>",re)
                     this.$store.commit('report/setLeaveReport', re)
             })
         },
@@ -341,7 +362,7 @@ export default {
                 stringReturn = day
             }
             return stringReturn
-        }
+        },
     },
     computed: {
         ...mapState({
@@ -505,20 +526,29 @@ html {
             //max-height: 500px;
             overflow-x: auto;
             overflow-y: hidden;
+            width: 100%;
 
             .title_date{
                 margin-left: 250px;
                 height: auto;
-               
             }
-            .title_position{
-                 width: 200px;
-                 display: flex;
-                 justify-content: center;
-                 align-items: center;
-                 background-color: #4C86B8;
-                 color: #fff;
+            .content_position{
+                width: 15%;
+                background-color: blueviolet;
+                min-width: 250px;
+                height: 80px;
+                 .title_position{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 80px;
+                    background-color: #4C86B8;
+                    color: #fff;
+                    border-left: 1px solid black;
+                }
             }
+           
             .test_box{
                 width: fit-content;
                 max-height: 100%;
@@ -535,7 +565,7 @@ html {
                     padding: 3px;
                 }
                 .data_position{
-                    min-width: 200px;
+                    min-width: 250px;
                     height: 40px;
                     border: 1px solid black;
                     padding: 3px;
