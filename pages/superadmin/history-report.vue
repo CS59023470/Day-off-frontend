@@ -1,12 +1,11 @@
 <template>
     <div id="history_report_wrapper" class="history_report_wrapper">
-        <!-- <div class="layout_filter_data">
-
-        </div> -->
-        <headerCompanyReport
-            @dataFilter="startFilter"
-        />
-        <div class="title-header">
+        <div id="layout_filter_data" class="layout_filter_data">
+            <HeaderCompanyReport
+                @dataFilter="startFilter"
+            />
+        </div>
+        <div id="title_header" class="title-header">
             <div class="print">
                 <button>
                     <i class="material-icons">print</i>
@@ -14,88 +13,160 @@
                 </button>
             </div>
             <div class="personal">
-                <div class="color-personal"></div>
+                <div class="color-personal" :style="`background-color: ${keyColor.color_personal_leave}`"></div>
                 <div class="text">Personal Leave</div>
             </div>
             <div class="sick">
-                <div class="color-sick"></div>
+                <div class="color-sick" :style="`background-color: ${keyColor.color_sick_leave}`"></div>
                 <div class="text">Sick Leave</div>
             </div>
             <div class="vacation">
-                <div class="color-vaction"></div>
+                <div class="color-vaction" :style="`background-color: ${keyColor.color_vacation_leave}`"></div>
                 <div class="text">Vacation Leave</div>
             </div>
-        </div>
-        <div id="layout_content_report" class="layout_content_report"> 
-            <div class="layout_content_user">
-                <div class="title_name_user content_center">
-                    Name
-                </div>
-                <!-- <div class="list_name_user">
-                    <div 
-                        class="text_name centent_right" 
-                        v-for="(user, index) in getDataLeaveUserToReport" :key="index"
-                    >
-                        {{user.nameUser}}
-                    </div>
-                </div> -->
+            <div class="switch_scroll">
+                <button type="button" @click="setScroll">เปลี่ยนแนวเลื่อน</button>
             </div>
-            
-            <div class="table_content_report" :max-height="`${heightContent - 120}`">
-                
-                <div class="title_date">
-                    <div class="content_position">
-                        <div class="title_position">Position</div>
-                    </div>
-                    <div 
-                        class="group_title_year"
-                        v-for="(year, index_year) in titleDateShow" :key="index_year"
-                    >
-                        <!-- <div class="text_year content_center">{{year.year}}</div> -->
-                        <div class="layout_title_month">
-                            <div 
-                                class="group_title_month"
-                                v-for="(month, index_month) in year.listMonth" :key="index_month"
-                            >
-                                <div class="text_month content_center">{{month.nameMonth}} {{year.year}}</div>
-                                <div class="layout_title_day">
-                                    <div
-                                        class="group_title_day"
-                                        v-for="(day, index_day) in month.listDay" :key="index_day"
-                                    >
-                                        <div class="text_day content_center">{{day}}</div>
+        </div>
+        <div id="layout_content_report" class="layout_content_report" :style="`height: ${heightTable}px;`">
+            <div v-if="loadding" style="height: 100%; width: 100%;">
+                <LoadingPage/>
+            </div>
+            <div v-if="!loadding && statusScroll === 0" id="table_1" class="table_1">
+                <div class="table_title">
+                    <div class="title_name content_center">Name</div>
+                    <div class="title_position content_center">Position</div>
+                    <div class="title_date">
+                        <div 
+                            class="group_title_year"
+                            v-for="(year, index_year) in titleDateShow" :key="index_year"
+                        >
+                            <div class="layout_title_month">
+                                <div 
+                                    class="group_title_month"
+                                    v-for="(month, index_month) in year.listMonth" :key="index_month"
+                                >
+                                    <div class="text_month content_center">{{month.nameMonth}} {{year.year}}</div>
+                                    <div class="layout_title_day">
+                                        <div
+                                            class="group_title_day"
+                                            v-for="(day, index_day) in month.listDay" :key="index_day"
+                                        >
+                                            <div class="text_day content_center">{{day}}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="test_box">
-                <div
-                    class="data_leave_user"
-                    v-for="(user, index_user) in getDataLeaveUserToReport" :key="index_user"
+                <div 
+                    id="content_report"
+                    class="content_report"
+                    :style="`overflow-y: scroll; height: ${heightContentTable}px;`"
+                    :scrollY="positionScrollTop"
                 >
-              
-                    <div class="data_name_user">{{user.name}}</div>  
-                    <div class="data_position">{{user.position}}</div>
                     <div
-                        class="box_detail_leave content_center"
-                        v-for="(leave, index_leave) in user.listLeave" :key="index_leave"
+                        class="data_leave_user"
+                        v-for="(user, index_user) in getDataLeaveUserToReport" :key="index_user"
                     >
-                        <div class="box_day_detail">
-                            <div 
-                                class="box-morning"
-                                v-bind:class="{ leaveActive: leave.statusMorning === true }"
-                            ></div>
-                            <div 
-                                class="box-afternoon"
-                                v-bind:class="{ leaveActive: leave.statusAfternoon === true }"
-                            ></div>
+                
+                        <div class="data_name_user">{{user.name}}</div>  
+                        <div class="data_position">{{user.position}}</div>
+                        <div
+                            class="box_detail_leave content_center"
+                            v-for="(leave, index_leave) in user.listLeave" :key="index_leave"
+                        >
+                            <div class="box_day_detail">
+                                <div 
+                                    v-if="leave.statusMorning"
+                                    class="box-morning" 
+                                    :style="`background-color: ${leave.style}`"
+                                ></div>
+                                <div v-else class="box-morning"></div>
+                                <div 
+                                    v-if="leave.statusAfternoon" 
+                                    class="box-afternoon" 
+                                    :style="`background-color: ${leave.style}`"
+                                ></div>
+                                <div v-else class="box-afternoon"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
+            <!--<div id="table_2" class="table_2">
+                <div class="box_left">
+                    <div class="table_title">
+                        <div class="title_name content_center">Name</div>
+                        <div class="title_position content_center">Position</div>
+                    </div>
+                    <div>
+                        <div
+                        class="data_leave_user"
+                        v-for="(user, index_user) in getDataLeaveUserToReport" :key="index_user"
+                    >
+                
+                        <div class="data_name_user">{{user.name}}</div>  
+                        <div class="data_position">{{user.position}}</div>
+                    </div>
+                </div>
+                <div class="box_right">
+
+                </div>
+                <div class="table_title">
+                    <div class="title_name content_center">Name</div>
+                    <div class="title_position content_center">Position</div>
+                    <div class="title_date">
+                        <div 
+                            class="group_title_year"
+                            v-for="(year, index_year) in titleDateShow" :key="index_year"
+                        >
+                            <div class="layout_title_month">
+                                <div 
+                                    class="group_title_month"
+                                    v-for="(month, index_month) in year.listMonth" :key="index_month"
+                                >
+                                    <div class="text_month content_center">{{month.nameMonth}} {{year.year}}</div>
+                                    <div class="layout_title_day">
+                                        <div
+                                            class="group_title_day"
+                                            v-for="(day, index_day) in month.listDay" :key="index_day"
+                                        >
+                                            <div class="text_day content_center">{{day}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <!-- <div class="content_report" :style="`overflow-y: scroll; height: ${heightContentTable}px;`">
+                    <div
+                        class="data_leave_user"
+                        v-for="(user, index_user) in getDataLeaveUserToReport" :key="index_user"
+                    >
+                
+                        <div class="data_name_user">{{user.name}}</div>  
+                        <div class="data_position">{{user.position}}</div>
+                        <div
+                            class="box_detail_leave content_center"
+                            v-for="(leave, index_leave) in user.listLeave" :key="index_leave"
+                        >
+                            <div class="box_day_detail">
+                                <div 
+                                    class="box-morning"
+                                    v-bind:class="{ leaveActive: leave.statusMorning === true }"
+                                ></div>
+                                <div 
+                                    class="box-afternoon"
+                                    v-bind:class="{ leaveActive: leave.statusAfternoon === true }"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -103,15 +174,22 @@
 import moment from "moment"
 import { mapState } from 'vuex'
 import Provider from '../../service/provider'
-import headerCompanyReport from '../../components/headerCompanyReport'
+import HeaderCompanyReport from '../../components/HeaderCompanyReport'
+import LoadingPage from "../../components/LoadingPage"
 const provider = new Provider()
 export default {
     components:{
-        headerCompanyReport
+        HeaderCompanyReport,
+        LoadingPage
     },
     data(){
         return{
-            heightContent: 0,
+            loadding: true,
+            heightTable: 0,
+            heightContentTable: 0,
+            statusScroll: 0,
+            positionScrollTop: 0,
+            positionScrollLeft: 0,
             api: provider,
             list_total_day: [],
             nameDepartment: [],
@@ -147,15 +225,39 @@ export default {
         }
     },
     mounted(){
+        this.getHeightPage()
         this.allnameuser();
         this.createNowMonth()
-        this.heightContent = document.getElementById("history_report_wrapper").offsetHeight
         this.createDataDateSearch()
         this.queryLeaveReport()
-        console.log('555555 =>',this.listNameUser)
     },
     methods: {
         moment,
+        setScroll(){
+            /*positionScrollTop: 0,
+            positionScrollLeft: 0,*/
+            let test = 50
+            if(this.statusScroll === 0){
+                this.positionScrollTop = document.getElementById('content_report').scrollTop
+                //console.log("positionScrollTop = ",this.positionScrollTop)
+                this.statusScroll = 1
+            }else{
+                this.statusScroll = 0
+                let scrollTop = this.positionScrollTop
+                setTimeout(
+                    function(){
+                        document.getElementById('content_report').scrollTop = scrollTop
+                        this.loadding = true
+                    }, 100, scrollTop,);
+            }            
+        },
+        getHeightPage() {
+            let heightPage = document.getElementById("history_report_wrapper").offsetHeight
+            let heightFilter =  document.getElementById("layout_filter_data").offsetHeight
+            let heightContext = document.getElementById("title_header").offsetHeight
+            this.heightTable = heightPage - (heightFilter + heightContext)
+            this.heightContentTable = heightPage - (heightFilter + heightContext + 80 + 10)
+        },
         allnameuser(){
             let result = this.api.getqueryUsers()
             let listDepartment = new Set();
@@ -192,8 +294,8 @@ export default {
                 endDate: moment(endDate).format("YYYY-MM-DD"),
             }
             // this.searchAuto()
-            },
-            getDaysInMonth(month, year) {
+        },
+        getDaysInMonth(month, year) {
             let date = new Date(year, month, 1)
             let days = []
             while (date.getMonth() === month) {
@@ -212,24 +314,11 @@ export default {
             console.log('datasearch =>', this.dateSearch)
             this.createDataDateSearch()
         },
-        getstartDate(startdate){
-            this.dateSearch.startDate = startdate
-            console.log(this.dateSearch.startDate)
-        },
-        getEndDate(enddate) {
-            this.dateSearch.endDate = enddate
-            console.log(this.dateSearch.startDate)
-        },
-        searchName(){
-        },
-
-
         queryLeaveReport(){
             let result = this.api.getLeaveReport(this.listUserShow)
             result.then(re => {
-                console.log('asdasdsdads =>',re)
                 this.$store.commit('report/setLeaveReport', re)
-
+                this.loadding = false
             })
         },
         clearTitle(){
@@ -406,10 +495,21 @@ export default {
             }
             return stringReturn
         },
+        createTyprToStyle(type){
+            let style = ''
+            switch(type){
+                case 'Personal Leave' : style = this.keyColor.color_personal_leave+'' ; break;
+                case 'Sick Leave' : style = this.keyColor.color_sick_leave+'' ; break;
+                case 'Vacation Leave' : style = this.keyColor.color_vacation_leave+'' ; break;
+                default: break;
+            }
+            return style
+        }
     },
     computed: {
         ...mapState({
             allLeave: state => state.report.list_leave,
+            keyColor: state => state.calendar.keyColorCalendar
         }),
         getDataLeaveUserToReport(){
             this.listUserShow.forEach(user => {
@@ -428,6 +528,8 @@ export default {
                         if(leave_user.length > 0){
                             let model = {
                                 date: day_select,
+                                type: leave_user[0].type,
+                                style: this.createTyprToStyle(leave_user[0].type),
                                 statusMorning: leave_user[0].statusMorning,
                                 statusAfternoon: leave_user[0].statusAfternoon
                             }
@@ -435,6 +537,8 @@ export default {
                         }else{
                             let model = {
                                 date: day_select,
+                                type: null,
+                                style: '',
                                 statusMorning: false,
                                 statusAfternoon: false
                             }
@@ -445,6 +549,8 @@ export default {
                     this.list_total_day.forEach(day_select => {
                         let model = {
                                 date: day_select,
+                                type: null,
+                                style: '',
                                 statusMorning: false,
                                 statusAfternoon: false
                             }
@@ -467,14 +573,13 @@ html {
     overflow: hidden;
     padding: 10px;
 
-    // .layout_filter_data{
-    //     width: 100%;
-    //     height: 20%;
-    //     background-color: antiquewhite;
-    // }
+    .layout_filter_data{
+        width: 100%;
+        height: fit-content;
+        background-color: #fff;
+    }
     .title-header{
         width: 100%;
-        padding-bottom: 10px;
         display: flex;
         align-items: center;
         .print{
@@ -495,10 +600,8 @@ html {
             padding: 10px;
             display: flex;
             .color-personal{
-                border: 1px solid #4C86B8;
                 width: 20px;
                 height: 20px;
-                background-color: #4C86B8;
             }
             .text{
                 padding-left: 5px;
@@ -508,10 +611,8 @@ html {
             padding: 10px;
             display: flex;
             .color-sick {
-                border: 1px solid #B84C4C;
                 width: 20px;
                 height: 20px;
-                background-color: #B84C4C;
             }
             .text{
                 padding-left: 5px;
@@ -522,13 +623,18 @@ html {
             padding: 10px;
             display: flex;
             .color-vaction{
-                border: 1px solid #F97111;
                 width: 20px;
                 height: 20px;
-                background-color: #F97111;
             }
             .text{
                 padding-left: 5px;
+            }
+        }
+        .switch_scroll{
+            padding: 10px;
+            button{
+                width: 100%;
+                height: 100%;
             }
         }
     }
@@ -537,106 +643,62 @@ html {
         width: 100%;
         height: 100%;
         display: flex;
-        .layout_content_user{
-            width: 15%;
-            background-color: blueviolet;
-            min-width: 250px;
-            height: 80px;
-            position: absolute;
-            top: 0px;
-            left: 0px;
 
-            .title_name_user{
-                width: 100%;
+        .table_1{
+            .table_title{
+                display: flex;
                 height: 80px;
-                background-color: #4C86B8;
-                border-right: 1px solid black;
-                color: #fff;
-            }
-
-            .list_name_user{
-                width: 100%;
-                background-color: deepskyblue;
-
-                .text_name{
-                    width: 100%;
-                    height: 40px;
-                    padding: 0px 10px
-                }
-            }
-        }
-        .table_content_report{
-            //height: fit-content;
-            //max-height: 500px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            width: 100%;
-
-            .title_date{
-                margin-left: 250px;
-                height: auto;
-            }
-            .content_position{
-                width: 15%;
-                background-color: blueviolet;
-                min-width: 250px;
-                height: 80px;
-                 .title_position{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
-                    height: 80px;
+                .title_name, .title_position{
+                    width: 250px;
+                    height: 100%;
                     background-color: #4C86B8;
                     color: #fff;
                     border-left: 1px solid black;
                 }
             }
-           
-            .test_box{
+            .content_report{
                 width: fit-content;
-                max-height: 100%;
-                overflow-x: hidden;
-                overflow-y: auto;
-            .data_leave_user{
-                height: 40px;
-                display: flex;
-
-                .data_name_user{
-                    min-width: 250px;
+                min-height: 100px;
+                .data_leave_user{
                     height: 40px;
-                    border: 1px solid black;
-                    padding: 3px;
-                }
-                .data_position{
-                    min-width: 250px;
-                    height: 40px;
-                    border: 1px solid black;
-                    padding: 3px;
+                    display: flex;
+                    background-color: #FFFFFF;
                     
-                }
-                
-                .box_detail_leave{
-                    height: 40px;
-                    min-width: 40px;
-                    border: 1px solid black;
-
-                    .box_day_detail{
-                        width: 100%;
-                        height: 100%;
-                        display: flex;
-
-                        .box-morning{
-                            width: 50%;
-                        }
-                        .box-afternoon{
-                            width: 50%;
-                            
-                        }
+                    .data_name_user{
+                        min-width: 250px;
+                        height: 40px;
+                        border: 1px solid black;
+                        padding: 3px;
+                    }
+                    .data_position{
+                        min-width: 250px;
+                        height: 40px;
+                        border: 1px solid black;
+                        padding: 3px;
                         
                     }
+                    
+                    .box_detail_leave{
+                        height: 40px;
+                        min-width: 40px;
+                        border: 1px solid black;
+
+                        .box_day_detail{
+                            width: 100%;
+                            height: 60%;
+                            display: flex;
+
+                            .box-morning{
+                                width: 50%;
+                            }
+                            .box-afternoon{
+                                width: 50%;
+                                
+                            }
+                            
+                        }
+                    }
                 }
-            }
             }
         }
     }
@@ -660,11 +722,6 @@ html {
     background-color:#FFFFFF;
     color: black;
     font-weight: 600;
-}
-
-.leaveActive{
-    background-color: #2196F3;
-    opacity: 0.5;
 }
 
 /* width */

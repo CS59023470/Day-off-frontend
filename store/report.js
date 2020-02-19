@@ -1,38 +1,5 @@
 export const state = {
-    list_leave : [
-        {
-          userId: "AD5555",
-          nameUser: "Natcha",
-          listLeave: [
-            {
-              date: "2020-02-01",
-              statusMorning: false,
-              statusAfternoon: true
-            }
-          ]
-        },
-        {
-          userId: "AD7777",
-          nameUser: "UserTest",
-          listLeave: [
-            {
-              date: "2020-02-07",
-              statusMorning: false,
-              statusAfternoon: true
-            },
-            {
-              date: "2020-02-15",
-              statusMorning: true,
-              statusAfternoon: true
-            },
-            {
-              date: "2020-01-25",
-              statusMorning: true,
-              statusAfternoon: true
-            }
-          ]
-        }
-    ]
+    list_leave : []
 }
 
 export const mutations = {    

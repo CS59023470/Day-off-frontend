@@ -3,9 +3,9 @@
         <div class="selectDate">
             <div class="text">Absent Since</div>
             <div class="box_SelectDate">
-                <input type="date" v-model="startdate" :max="enddate" v-on:change="inputStartDate()" class="unstyled"/>
+                <input type="date" v-model="startdate" :max="enddate" class="unstyled"/>
                 <div class="text">To</div>
-                <input type="date" v-model="enddate" :min="startdate" v-on:change="inputEndDate()" class="unstyled">
+                <input type="date" v-model="enddate" :min="startdate" class="unstyled">
             </div>
         </div>
         <div class="line"></div>
@@ -114,24 +114,8 @@ export default {
         this.positionselect = 0
         this.returnDataTypeSelect()
         this.returnDataPositionSelect()
-       
-        // this.typeDepartment()
     },
   methods: {
-    // typeDepartment() {
-    //     let listDepartment = new Set();
-    //     this.listNameUser.map(each => {
-    //         let array = each.department
-    //         listDepartment.add(array)
-            
-    //     }),console.log('98465312 =>',listDepartment)
-    // },
-    inputStartDate() {
-      //this.$emit("startdate", this.startdate);
-    },
-    inputEndDate() {
-      //this.$emit("enddate", this.enddate);
-    },
     input() {
         let model = {
             startdate: this.startdate,
@@ -208,7 +192,7 @@ export default {
     .page{
         width: 100%;
         display: flex;
-        padding: 2%;
+        padding: 2% 2% 0.5% 2%;
         height: 200px;
         .selectDate {
             width: fit-content;

@@ -2,13 +2,13 @@ export const state = {
     manuSuperAdmin: [
         { text: 'Home' , path: 'home' , icon: 'house' , status: false},
         { text: 'Leave Request Form' , path: 'formRequest' , icon: 'send', status: false},
-        { text: 'Company Leave History' , path: 'history-report' , icon: 'search',status: false},
+        { text: 'History Report' , path: 'history-report' , icon: 'search',status: false},
         { text: 'My Leave History' , path: 'history' , icon: 'history',status: false},
     ],
     manuAdmin: [
         { text: 'Home' , path: 'home' , icon: 'house' , status: false},
         { text: 'Leave Request Form' , path: 'formRequest' , icon: 'send', status: false},
-        { text: 'Company Leave History' , path: 'history-report' , icon: 'search',status: false},
+        { text: 'History Report' , path: 'history-report' , icon: 'search',status: false},
         { text: 'My Leave History' , path: 'history' , icon: 'history',status: false},
     ],
     manuEmployee: [
