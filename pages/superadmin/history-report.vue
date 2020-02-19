@@ -118,7 +118,11 @@ export default {
             name_month: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'Auguest', 'September', 'October', 'November', 'December'],
             dateSearch: {
                 startDate: '',
-                endDate: ''
+                endDate: '',
+                name: '',
+                department: '',
+                typeposition: '',
+                typeleave: ''
             },
             titleDateShow: [
                 {
@@ -201,6 +205,11 @@ export default {
         startFilter(model){
             this.dateSearch.startDate= model.startdate
             this.dateSearch.endDate= model.enddate
+            this.dateSearch.name= model.name
+            this.dateSearch.department= model.department
+            this.dateSearch.typeposition= model.typeposition
+            this.dateSearch.typeleave= model.typeleave
+            console.log('datasearch =>', this.dateSearch)
             this.createDataDateSearch()
         },
         getstartDate(startdate){

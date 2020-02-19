@@ -19,7 +19,7 @@
                 <datalist id="nameUser">
                     <option v-for="(name , idx) in listNameUser" :key="idx">{{name.name}}</option>
                 </datalist>
-                <input type="text" v-model="name" placeholder="Search Department" list="department" v-if="typesearch === 'Department'">
+                <input type="text" v-model="department" placeholder="Search Department" list="department" v-if="typesearch === 'Department'">
                 <datalist id="department">
                     <option v-for="(name , idx) in listNameDepartment" :key="idx">{{name}}</option>
                 </datalist>
@@ -91,20 +91,21 @@ export default {
       startdate: "",
       enddate: "",
       name: "",
+      department: "",
       typesearch: "Name",
+      nameleave: "",
+      nameposition: "",
       menuSelect: null,
       positionselect: null,
-      department: [],
         listBtn: [
             { text: 'Personal Leave', class: 'personal_leave_btn', value: 'personal_leave'},
             { text: 'Sick Leave', class: 'sick_leave_btn', value: 'sick_leave'},
             { text: 'Vacation Leave', class: 'vacation_leave_btn', value: 'vacation_leave'}
         ],
-      positionselect: null,
         listPosition: [
-            { text: 'Back-End', class: 'personal_leave_btn', value: 'personal_leave'},
-            { text: 'Front-End', class: 'sick_leave_btn', value: 'sick_leave'},
-            { text: 'UX/UI Designer', class: 'vacation_leave_btn', value: 'vacation_leave'}
+            { text: 'Back-End', class: 'personal_leave_btn', value: 'Back_End'},
+            { text: 'Front-End', class: 'sick_leave_btn', value: 'Front_Ende'},
+            { text: 'UX/UI Designer', class: 'vacation_leave_btn', value: 'UX/UI_Designer'}
         ],
     };
   },
@@ -134,10 +135,15 @@ export default {
     input() {
         let model = {
             startdate: this.startdate,
-            enddate: this.enddate
+            enddate: this.enddate,
+            name: this.name,
+            department: this.department,
+            typeposition: this.nameposition,
+            typeleave: this.nameleave
         }
         this.$emit('dataFilter', model);
     },
+
     selectType(type){
         switch(type){
             case 'personal_leave':
@@ -154,17 +160,18 @@ export default {
         this.returnDataTypeSelect()
     },
     returnDataTypeSelect(){
+        this.nameleave = this.listBtn[this.menuSelect].value
         this.$emit('returnTypeLeave',this.listBtn[this.menuSelect].value)
     },
     selectPosition(type){
         switch(type){
-            case 'personal_leave':
+            case 'Back_End':
                 this.positionselect = 0;
                 break;
-            case 'sick_leave':
+            case 'Front_Ende':
                 this.positionselect = 1;
                 break;
-            case 'vacation_leave':
+            case 'UX/UI_Designer':
                 this.positionselect = 2
                 break;
             default: break;
@@ -172,6 +179,7 @@ export default {
         this.returnDataPositionSelect()
     },
     returnDataPositionSelect(){
+        this.nameposition = this.listPosition[this.positionselect].value
         this.$emit('returnPosition',this.listPosition[this.positionselect].value)
     }
   },
