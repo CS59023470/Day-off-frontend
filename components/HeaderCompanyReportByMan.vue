@@ -471,7 +471,7 @@ export default {
                 display: flex;
                 .multiple_data{
                     height: 100%;
-                    width: 40%;
+                    width: 55%;
                     background-color: white;
                     padding: 5px 20px;
                     display: flex;
@@ -483,7 +483,7 @@ export default {
                         display: flex;
                         .dropdown_type{
                             height: 100%;
-                            width: 30%;
+                            width: 25%;
                             .dropdown{
                                 width: 100%;
                                 height: 100%;
@@ -567,7 +567,7 @@ export default {
                         display: flex;
                         .text_position{
                             height: 100%;
-                            width: 30%;
+                            width: 25%;
                             background-color: #D6D6D6;
                             border-radius: 10px 0px 0px 10px;
                             display: flex;
@@ -615,7 +615,7 @@ export default {
                         .text_type_leave{
                             padding: 10px;
                             height: 100%;
-                            width: 30%;
+                            width: 25%;
                             background-color: #fff;
                             border: 1px solid black;
                             border-right: none;
