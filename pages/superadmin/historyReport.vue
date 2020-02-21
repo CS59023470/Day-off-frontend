@@ -6,12 +6,12 @@
             />
         </div>
         <div id="title_header" class="title-header">
-            <div class="print">
+            <!-- <div class="print">
                 <button>
                     <i class="material-icons">print</i>
                     <div class="text-print">Print Report</div> 
                 </button>
-            </div>
+            </div> -->
             <div class="personal">
                 <div class="color-personal" :style="`background-color: ${keyColor.color_personal_leave}`"></div>
                 <div class="text">Personal Leave</div>
