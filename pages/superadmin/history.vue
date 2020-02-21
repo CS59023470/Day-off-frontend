@@ -131,7 +131,6 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit('menu/setStatusSelectByLoadURL',{mainPath : 'superadmin',subPath : 'history'})
     this.queryMyLeave();
   },
 

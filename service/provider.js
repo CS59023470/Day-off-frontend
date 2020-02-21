@@ -149,17 +149,6 @@ class Provider extends HttpRequest {
         })
     }
 
-    //queryUsers
-    async getqueryUsers() {
-        return await this.get('/queryUsers').then(request => {
-            // console.log("YES => ",request.data);
-            return request.data
-        }).catch((err)=>{
-            //console.log("No => ",err);
-            return null
-        })
-    }
-
     //historyall
     async historyall(data) {
         return await this.create('/historyall',data).then(request => {
@@ -266,7 +255,7 @@ class Provider extends HttpRequest {
             return request.data
         }).catch((err)=>{
             dataReturn.text = 'Connection error'
-            return dataReturn
+            return 'Connection error'
         })
     }
 
@@ -280,6 +269,16 @@ class Provider extends HttpRequest {
         }).catch((err)=>{
             //console.log("ERROR => ",err)
             return null
+        })
+    }
+
+    //OK
+    //Query Leave For Report
+    async getFilterReport() {
+        return await this.get('/getDataFilterReport').then(request => {
+            return request.data
+        }).catch((err)=>{
+            return false
         })
     }
 }

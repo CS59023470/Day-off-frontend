@@ -99,7 +99,7 @@ export default {
     },
 
     allnameuser(){
-      let result = this.api.getqueryUsers()
+      let result = this.api.getAllUser()
       result.then(re => {
           this.$store.commit('leaveHistory/setSearchListName', re)
       })
