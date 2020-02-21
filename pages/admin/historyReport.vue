@@ -691,7 +691,7 @@ html {
 
                                 .box_day_detail{
                                     width: 100%;
-                                    height: 60%;
+                                    height: 100%;
                                     display: flex;
 
                                     .box-morning{
