@@ -252,7 +252,7 @@ export default {
       if (data_DB.type === "Sick Leave") {
         model.admin_approve = "System";
       } else {
-        model.admin_approve = data_DB.admin_approve.name;
+        model.admin_approve = data_DB.adminapprove.name;
       }
       this.propsToPopup = model;
       this.$store.commit("popup/showPopupDetail");

@@ -90,6 +90,7 @@ export default {
             })
         },
         showPopupDetailCalendar(data){
+            console.log(data)
             this.propsToPopup = this.createModelToPopupDetail('calendar',data)
             this.$store.commit('popup/showPopupDetail')
         },
@@ -133,7 +134,7 @@ export default {
                 if(data.data_Leave.type === 'Sick Leave'){
                     model.admin_approve = 'System'
                 }else{
-                    model.admin_approve = data.data_Leave.admin_approve.name
+                    model.admin_approve = data.data_Leave.adminapprove.name
                 }
                 return model
             }

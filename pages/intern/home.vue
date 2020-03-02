@@ -91,7 +91,7 @@ export default {
                 if(data.data_Leave.type === 'Sick Leave'){
                     model.admin_approve = 'System'
                 }else{
-                    model.admin_approve = data.data_Leave.admin_approve.name
+                    model.admin_approve = data.data_Leave.adminapprove.name
                 }
                 return model
             }
