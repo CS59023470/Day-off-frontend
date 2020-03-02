@@ -31,11 +31,11 @@
             <div v-if="dataForm.type !== 'none' && dataForm.type !== 'SL'" class="content_center">
                 <div v-if="day_left_show > 0">
                     <label class="day-stack">You have  {{day_left_show}} days left</label>
-                    <label class="special-scatk">You have  {{user_day_left.specialholiday}} compensation days</label>
+                    <label class="special-scatk">You have  {{user_day_left.compensationday}} compensation days</label>
                 </div>
                 <div v-else>
                     <label class="day-stack-out">You don't have day enough to leave</label>
-                    <label class="special-scatk">You have  {{user_day_left.specialholiday}} compensation days</label>
+                    <label class="special-scatk">You have  {{user_day_left.compensationday}} compensation days</label>
                 </div>
             </div>
         </div>
@@ -289,9 +289,9 @@ export default {
             this.clearAllDataForm()
             if(type !== 'none'){
                 switch(type){
-                    case 'PL': this.day_left_show = this.user_day_left.personaldayleft; break;
-                    case 'SL': this.day_left_show = this.user_day_left.sickdayleft; break;
-                    case 'VL': this.day_left_show = this.user_day_left.vacationdayleft; break;
+                    case 'PL': this.day_left_show = this.user_day_left.businessday; break;
+                    case 'SL': this.day_left_show = this.user_day_left.sickday; break;
+                    case 'VL': this.day_left_show = this.user_day_left.vacationday; break;
                 }
                 if(type === 'SL'){
                     if(this.day_left_show > 0 && this.day_left_show < 1){
@@ -302,7 +302,7 @@ export default {
                     }
                     this.checkNowDateHoliday()
                 }else{
-                    let sum_day_left = this.day_left_show + this.user_day_left.specialholiday
+                    let sum_day_left = this.day_left_show + this.user_day_left.compensationday
                     if(sum_day_left > 0 && sum_day_left < 1){
                         this.enabledRadio_0()
                     }else if(sum_day_left >= 1){
@@ -535,7 +535,7 @@ export default {
             if(this.dataForm.type === 'SL'){
                 total_day = this.day_left_show
             }else{
-                total_day = this.day_left_show + this.user_day_left.specialholiday
+                total_day = this.day_left_show + this.user_day_left.compensationday
             }
 
             if(total_day % 1 !== 0){
@@ -659,7 +659,7 @@ export default {
         // ----- Create Dropdown Time  ------------------------------------------------------------------------------------------------------->
         createDropdownTimeStart(){
             this.list_time_start = []
-            let sum_day_left = this.day_left_show + this.user_day_left.specialholiday
+            let sum_day_left = this.day_left_show + this.user_day_left.compensationday
             if(this.dataForm.typeday === '0'){
                 // 1 day
                 if(this.dataForm.type === 'SL'){
@@ -789,7 +789,7 @@ export default {
             this.dataForm.starttime = this.list_time_start[0].value
         },
         createDropdownTimeEnd(){
-            let sum_day_left = this.day_left_show + this.user_day_left.specialholiday
+            let sum_day_left = this.day_left_show + this.user_day_left.compensationday
             this.list_time_end = []
             if(this.day_left_show === 1){
                 this.list_time.forEach(time => {
@@ -1142,12 +1142,12 @@ export default {
                     this.dataForm.enddate = moment(this.picker.date.end).format('YYYY-MM-DD')
                 }
                 
-                if(this.dataForm.type !== 'SL' && this.user_day_left.specialholiday > 0){
+                if(this.dataForm.type !== 'SL' && this.user_day_left.compensationday > 0){
                     this.dataForm.statusHoliday = true
-                    if(this.dataForm.totalDay <= this.user_day_left.specialholiday){
+                    if(this.dataForm.totalDay <= this.user_day_left.compensationday){
                         this.dataForm.amountHoliday = this.dataForm.totalDay
                     }else{
-                        this.dataForm.amountHoliday = this.user_day_left.specialholiday
+                        this.dataForm.amountHoliday = this.user_day_left.compensationday
                     }
                 }
 

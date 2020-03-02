@@ -13,7 +13,6 @@ export const state = {
 export const mutations = {
     setStatusLoadData (state, payload) {
         state.statusLoadData = payload
-        console.log("statusloaddata => ",payload)
     },
     setloader (state, payload) {
         state.loading = payload
@@ -22,13 +21,7 @@ export const mutations = {
         state.configDay = payload
     },
     setUserdayleft (state, payload) {
-        let model = {
-            personaldayleft : payload.businessday,
-            sickdayleft : payload.sickday,
-            vacationdayleft : payload.vacationday,
-            specialholiday : payload.compensationday
-        }
-        state.userdayleft = model
+        state.userdayleft = payload
     },
     setWeekend (state, payload) {
         state.week_end = payload
